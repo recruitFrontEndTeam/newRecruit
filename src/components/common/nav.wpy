@@ -1,14 +1,13 @@
 <style scoped lang="less" rel="stylesheet/less">
     @import "../../styles/common.less";
     .m-nav{
-        width: 110rpx;
-        margin: 44rpx;
+        width: 120rpx;
+        margin: 36rpx;
         font-size: 28rpx;
         text-align: center;
         .m-icon-nav{
             width: 100rpx;
             height: 100rpx;
-
         }
     }
 </style>

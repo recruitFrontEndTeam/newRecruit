@@ -41,15 +41,6 @@
       flex-flow: row;
       align-items: center;
       width: 100%;
-      .m-nav{
-        width: 110rpx;
-        margin: 44rpx;
-        font-size: 28rpx;
-        .m-icon-nav{
-          width: 100rpx;
-          height: 100rpx;
-        }
-      }
     }
     .m-title-box{
       width: 100%;

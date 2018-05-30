@@ -1,0 +1,76 @@
+<style scoped lang="less" rel="stylesheet/less">
+    @import "../../styles/common.less";
+    .m-one-bole{
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        justify-content: space-between;
+        height: 94rpx;
+        border-bottom: 1px solid #E6E6E6;
+        &:last-child{
+            border-bottom: none;
+        }
+        .m-left{
+            font-size: 24rpx;
+            color: #5D677D;
+            display: flex;
+            flex-flow: row;
+            align-items: center;
+            .m-num{
+                font-size: 28rpx;
+                color: #000;
+                width: 54rpx;
+                text-align: center;
+            }
+        }
+        .m-right{
+            padding-right: 30rpx;
+            .m-price{
+                color: #F96969 ;
+                font-size: 28rpx;
+            }
+        }
+    }
+</style>
+
+<template>
+    <view class="m-one-bole">
+        <view class="m-left">
+            <p class="m-num" wx:if="{{index > 0}}">{{index+1}}</p>
+            <image style="width: 54rpx;height: 54rpx;" src="../../images/icon_jp.png" wx:if="{{index == 0}}"/>
+            <image style="width: 60rpx;height: 60rpx;margin: 0 20rpx" src="../../images/{{list.src}}.png"/>
+            <p>{{list.name}}</p>
+        </view>
+        <view class="m-right">
+            <p class="m-price">{{list.price}}</p>
+        </view>
+    </view>
+</template>
+<script >
+    import wepy from 'wepy';
+    import tip from '../../utils/tip';
+    import api from '../../api/api';
+    export default class Ranking extends wepy.page{
+        props = {
+            list: {
+                type: Object,
+                default: null
+            },
+            index:Number
+        }
+        data = {
+
+        }
+        onLoad(){
+
+        }
+        methods = {
+            bindTap(list){
+                wx.navigateTo({
+                    url: list.url
+                })
+            }
+        }
+
+    }
+</script>

@@ -1,11 +1,90 @@
 <style scoped lang="less" rel="stylesheet/less">
     @import "../../styles/common";
+    .m-bole{
 
+        width: 100%;
+        overflow: hidden ;
+        .m-back{
+            height: 20rpx;
+            background-color: #f9f9f9;
+            width: 100%;
+        }
+        .m-top{
+            width: 100%;
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            /*margin-top: 20rpx;*/
+            padding: 20rpx 0;
+            .m-introduce{
+             font-size: 24rpx;
+                color: #9A9CA9;
+                margin:  30rpx 0;
+            }
+            .m-btn{
+                background-color: @common-color ;
+                color: #fff;
+                width: 250rpx;
+                height: 70rpx;
+                line-height: 70rpx;
+                font-size: 28rpx;
+                border-radius: 6px;
+                text-align: center;
+            }
+        }
+        .m-ranking-list{
+            width: 100%;
+            background-color: #fff;
+            .m-ranking-box{
+                width: 644rpx;
+                margin-left: 53rpx;
+                margin-top: 54rpx;
+                .m-title{
+                    background-color: @common-color;
+                    border-top-right-radius: 6px;
+                    border-top-left-radius: 6px;
+                    color: #fff;
+                    padding:  14rpx 0 14rpx 45rpx;
+                    font-size: 28rpx;
+                }
+                .m-ranking-info{
+                    border: 1px solid #E6E6E6;
+                    border-bottom-right-radius: 6px;
+                    border-bottom-left-radius: 6px;
+                    border-top: none;
+                    padding-left: 48rpx;
+                    padding-right: 42rpx;
+
+                }
+            }
+
+
+        }
+    }
 
 </style>
 <template>
     <view class="m-bole">
+        <view class="m-back"></view>
+        <view class="m-top">
+            <image class="m-image" style="width: 442rpx;height: 442rpx;" src="../../images/pic_blph.png"/>
+            <p class="m-introduce">推荐好友入职可领取会员费哦</p>
+            <view class="m-btn">立即推荐</view>
+        </view>
+        <view class="m-ranking-list">
+            <view class="m-ranking-box">
+                <view class="m-title">伯乐排行榜</view>
+                <view class="m-ranking-info">
+                    <repeat for="{{rank_list}}" key="index" index="index" item="item">
+                        <ranking :list.sync="item" :index.sync="index" ></ranking>
+                    </repeat>
 
+                </view>
+            </view>
+
+        </view>
     </view>
 </template>
 
@@ -13,38 +92,45 @@
     import wepy from 'wepy';
     import api from '../../api/api';
     import tip from '../../utils/tip';
-
+    import ranking from '../../components/common/ranking'
 
 
     export default class Bole extends wepy.page {
         config = {
-            navigationBarTitleText: '伯乐排行'
+            navigationBarTitleText: '伯乐排行',
+            navigationBarBackgroundColor: '#fff',
+            navigationBarTextStyle: 'black',
+            backgroundTextStyle:"dark"
         }
         components = {
-
+            ranking:ranking
         }
         data = {
-            nav_list:[
+            rank_list:[
                 {
                     name:'技能培训',
                     src:'icon_jnpx',
+                    price:'6000元',
                     url:''
                 },
                 {
-                    name:'热门招聘',
-                    src:'icon_rmzp',
+                    name:'技能培训',
+                    src:'icon_jnpx',
+                    price:'4000元',
                     url:''
                 },
                 {
-                    name:'伯乐排行',
-                    src:'icon_blph',
+                    name:'技能培训',
+                    src:'icon_jnpx',
+                    price:'3000元',
                     url:''
                 },
                 {
-                    name:'圈子',
-                    src:'icon_qz',
+                    name:'技能培训',
+                    src:'icon_jnpx',
+                    price:'2000元',
                     url:''
-                }
+                },
             ]
         }
 
