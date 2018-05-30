@@ -1,0 +1,57 @@
+<style scoped lang="less" rel="stylesheet/less">
+    @import "../../styles/common";
+
+
+</style>
+<template>
+    <view class="m-bole">
+
+    </view>
+</template>
+
+<script >
+    import wepy from 'wepy';
+    import api from '../../api/api';
+    import tip from '../../utils/tip';
+
+
+
+    export default class Bole extends wepy.page {
+        config = {
+            navigationBarTitleText: '伯乐排行'
+        }
+        components = {
+
+        }
+        data = {
+            nav_list:[
+                {
+                    name:'技能培训',
+                    src:'icon_jnpx',
+                    url:''
+                },
+                {
+                    name:'热门招聘',
+                    src:'icon_rmzp',
+                    url:''
+                },
+                {
+                    name:'伯乐排行',
+                    src:'icon_blph',
+                    url:''
+                },
+                {
+                    name:'圈子',
+                    src:'icon_qz',
+                    url:''
+                }
+            ]
+        }
+
+        onLoad(){
+
+        }
+        methods = {
+        }
+    }
+</script>

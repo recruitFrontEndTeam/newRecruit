@@ -31,10 +31,12 @@ page{
     config = {
       pages: [
         'pages/index/index',
+        'pages/index/bole',
         'pages/personal/login',
         'pages/personal/register',
         'pages/personal/index',
         'pages/work/index'
+
       ],
       window: {
         backgroundTextStyle: 'light',

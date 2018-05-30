@@ -296,12 +296,12 @@
         {
           name:'热门招聘',
           src:'icon_rmzp',
-          url:''
+          url:'/pages/index/bole'
         },
         {
           name:'伯乐排行',
           src:'icon_blph',
-          url:''
+          url:'/pages/index/bole'
         },
         {
           name:'圈子',

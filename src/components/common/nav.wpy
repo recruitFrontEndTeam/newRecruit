@@ -14,7 +14,7 @@
 </style>
 
 <template>
-    <view class="m-nav">
+    <view class="m-nav" @tap = "bindTap({{list}})">
         <image class="m-icon-nav" src="../../images/{{list.src}}.png"/>
         <p>{{list.name}}</p>
     </view>
@@ -37,7 +37,11 @@
 
         }
         methods = {
-
+            bindTap(list){
+                wx.navigateTo({
+                    url: list.url
+                })
+            }
         }
 
     }
