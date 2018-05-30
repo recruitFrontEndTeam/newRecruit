@@ -1,0 +1,59 @@
+<style scoped lang="less" rel="stylesheet/less">
+    @import "../../styles/common.less";
+    .cash-item{
+        height: 104rpx;
+        background: #fff;
+        padding: 10rpx 20rpx;
+        .top{
+            .flex-row(space-between);
+            .top-left{
+                color: #5d677d;
+                font-size: 28rpx;
+            }
+            .top-right{
+                color: #5d677d;
+                font-size: 24rpx;
+            }
+        }
+        .bottom{
+            color: #F96969;
+            font-size: 32rpx;
+            text-align: right;
+            margin-top: 10px;
+        }
+    }
+</style>
+
+<template>
+    <view class="cash-item">
+        <view class="top">
+            <view class="top-left">红包收入</view>
+            <view class="top-right">{{item.time}}</view>
+        </view>
+        <view class="bottom">{{item.count}}</view>
+    </view>
+</template>
+<script >
+    import wepy from 'wepy';
+    import tip from '../../utils/tip';
+    import api from '../../api/api';
+    export default class CashRecord extends wepy.page{
+        props = {
+            item: {
+                type: Object,
+                default: null
+            },
+            index:Number
+        }
+        data = {
+
+        }
+        onLoad(){
+
+        }
+        methods = {
+            
+        }
+
+    }
+</script>

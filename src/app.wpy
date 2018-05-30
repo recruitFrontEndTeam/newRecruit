@@ -37,6 +37,7 @@ page{
         'pages/personal/login',
         'pages/personal/register',
         'pages/personal/profile/index',
+        'pages/personal/wallet/index',
         'pages/personal/index',
         'pages/work/index',
         'pages/work/workDetails',
