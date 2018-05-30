@@ -1,0 +1,44 @@
+<style scoped lang="less" rel="stylesheet/less">
+    @import "../../styles/common.less";
+    .m-nav{
+        width: 110rpx;
+        margin: 44rpx;
+        font-size: 28rpx;
+        text-align: center;
+        .m-icon-nav{
+            width: 100rpx;
+            height: 100rpx;
+
+        }
+    }
+</style>
+
+<template>
+    <view class="m-nav">
+        <image class="m-icon-nav" src="../../images/{{list.src}}.png"/>
+        <p>{{list.name}}</p>
+    </view>
+</template>
+<script >
+    import wepy from 'wepy';
+    import tip from '../../utils/tip';
+    import api from '../../api/api';
+    export default class Nav extends wepy.page{
+        props = {
+            list: {
+                type: Object,
+                default: null
+            },
+        }
+        data = {
+
+        }
+        onLoad(){
+
+        }
+        methods = {
+
+        }
+
+    }
+</script>
