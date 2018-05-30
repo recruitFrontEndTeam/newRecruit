@@ -34,6 +34,7 @@ page{
         'pages/index/bole',
         'pages/personal/login',
         'pages/personal/register',
+        'pages/personal/profile/index',
         'pages/personal/index',
         'pages/work/index'
 

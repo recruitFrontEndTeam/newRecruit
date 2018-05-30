@@ -65,7 +65,7 @@
         </view>
         <view class="function-content">
             <view class="function-one">
-                <view class="function">
+                <view class="function" @tap = "goUrl('personal/profile/index')">
                     <image class="icon" src="../../images/icon_grzl.png" />
                     <view class="name">个人资料</view>
                 </view>
@@ -137,7 +137,11 @@
 
         }
         methods = {
-
+            goUrl(url){
+                wx.navigateTo({
+                    url: '/pages/'+url
+                })
+            }
         }
 
     }

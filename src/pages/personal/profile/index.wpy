@@ -1,0 +1,33 @@
+<style scoped lang="less" rel="stylesheet/less">
+    @import "../../../styles/common.less";
+    .profile-container{
+        
+    }
+</style>
+
+<template>
+    <view class="profile-container">
+        
+    </view>
+</template>
+<script >
+    import wepy from 'wepy';
+    import tip from '../../../utils/tip';
+    import api from '../../../api/api';
+    export default class personalIndex extends wepy.page{
+        config = {
+            navigationBarTitleText: '完善信息'
+        }
+        data = {
+
+        }
+
+        onLoad(){
+
+        }
+        methods = {
+
+        }
+
+    }
+</script>
