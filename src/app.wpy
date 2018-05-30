@@ -30,10 +30,11 @@ page{
   export default class extends wepy.app {
     config = {
       pages: [
+        'pages/personal/index',
         'pages/index/index',
         'pages/personal/login',
         'pages/personal/register',
-        'pages/personal/index',
+        
         'pages/work/index'
       ],
       window: {

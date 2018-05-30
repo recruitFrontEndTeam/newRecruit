@@ -1,11 +1,73 @@
 <style scoped lang="less" rel="stylesheet/less">
     @import "../../styles/common.less";
-
+    .personal-container{
+        background: @score-grey;
+        .avatar-content{
+            height: 330rpx;
+            background: @common-color;
+            .content{
+                width: 160rpx;
+                margin: 0 auto;
+                padding-top: 56rpx;
+                .avatar{
+                    border: 4rpx solid #fff;
+                    width: 156rpx;
+                    height: 156rpx;
+                    border-radius:50%;
+                }
+                .name{
+                    width: 100%;
+                    text-align: center;
+                    color: #fff;
+                    font-size: 36rpx;
+                }
+            }
+        }
+        .function-contnet{
+            .function-one{
+                background: #fff;
+                height: 210rpx;
+                margin-top: 10rpx;
+                .flex-row(space-between);
+                .function{
+                    width:238rpx;
+                    .icon{
+                        width: 80rpx;
+                        height: 80rpx;
+                    }
+                }
+            }
+        }
+    }
 </style>
 
 <template>
-    <view class="container">
-        <text>哈哈哈</text>
+    <view class="personal-container">
+        <view class="avatar-content">
+            <view class="content">
+                <image class="avatar" src="http://120.76.230.93:8063/Upload/2017/1123/20171123115952981_img.png" />
+                <view class="name">Pine</view>
+            </view>
+        </view>
+        <view class="function-contnet">
+            <view class="function-one">
+                <view class="function">
+                    <image class="icon" src="../../images/icon_grzl.png" />
+                    <view class="name">个人资料</view>
+                </view>
+                <view class="function">
+                    <image class="icon" src="../../images/icon_grqb.png" />
+                    <view class="name">我的钱包</view>
+                </view>
+                <view class="function">
+                    <image class="icon" src="../../images/icon_wdtd.png" />
+                    <view class="name">我的团队</view>
+                </view>
+            </view>
+            <view class="function-one">
+
+            </view>
+        </view>
     </view>
 </template>
 <script >
