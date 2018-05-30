@@ -3,12 +3,14 @@
     .personal-container{
         background: @score-grey;
         .avatar-content{
-            height: 330rpx;
+            height: 300rpx;
+            position: fixed;
+            width: 100%;
             background: @common-color;
             .content{
                 width: 160rpx;
                 margin: 0 auto;
-                padding-top: 56rpx;
+                padding-top: 41rpx;
                 .avatar{
                     border: 4rpx solid #fff;
                     width: 156rpx;
@@ -23,17 +25,29 @@
                 }
             }
         }
-        .function-contnet{
+        .function-content{
+            padding-top: 310rpx;
             .function-one{
                 background: #fff;
-                height: 210rpx;
-                margin-top: 10rpx;
+                height: 190rpx;
+                margin-bottom: 10rpx;
                 .flex-row(space-between);
                 .function{
                     width:238rpx;
                     .icon{
+                        display: block;
+                        margin: 0 auto;
                         width: 80rpx;
                         height: 80rpx;
+                        &.icon-xz{
+                            height: 50rpx;
+                            width: 84rpx;
+                        }
+                    }
+                    .name{
+                        color: #5d677d;
+                        font-size: 28rpx;
+                        text-align: center;
                     }
                 }
             }
@@ -49,7 +63,7 @@
                 <view class="name">Pine</view>
             </view>
         </view>
-        <view class="function-contnet">
+        <view class="function-content">
             <view class="function-one">
                 <view class="function">
                     <image class="icon" src="../../images/icon_grzl.png" />
@@ -65,7 +79,44 @@
                 </view>
             </view>
             <view class="function-one">
-
+                <view class="function">
+                    <image class="icon" src="../../images/icon_sqjl.png" />
+                    <view class="name">申请记录</view>
+                </view>
+                <view class="function">
+                    <image class="icon" src="../../images/icon_jnts.png" />
+                    <view class="name">技能提升</view>
+                </view>
+                <view class="function">
+                    <image class="icon" src="../../images/icon_pxxq.png" />
+                    <view class="name">培训需求</view>
+                </view>
+            </view>
+            <view class="function-one">
+                <view class="function">
+                    <image class="icon icon-xz" src="../../images/icon_xzcx.png" />
+                    <view class="name">薪资查询</view>
+                </view>
+                <view class="function">
+                    <image class="icon" src="../../images/icon_gzyz.png" />
+                    <view class="name">工资预支</view>
+                </view>
+                <view class="function">
+                    <image class="icon" src="../../images/icon_tsjy.png" />
+                    <view class="name">投诉建议</view>
+                </view>
+            </view>
+            <view class="function-one">
+                <view class="function">
+                    <image class="icon" src="../../images/icon_ewm.png" />
+                    <view class="name">我的二维码</view>
+                </view>
+                <view class="function">
+                    
+                </view>
+                <view class="function">
+                    
+                </view>
             </view>
         </view>
     </view>
