@@ -1,0 +1,47 @@
+<style scoped lang="less" rel="stylesheet/less">
+  @import "../../styles/common";
+  .m-index{
+    width: 100%;
+    background-color: #f8f8f8;
+    height: 100%;
+  }
+
+</style>
+<template>
+  <view class="m-index">
+
+  </view>
+</template>
+
+<script >
+  import wepy from 'wepy';
+  import api from '../../api/api';
+  import tip from '../../utils/tip'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '首页'
+    }
+
+    data = {
+
+    }
+    async getProductList() {
+      let that = this;
+      tip.loading();
+        let res = await api.getProductAll()
+        if(res.data.status == '200'){
+            that.commodity = res.data.data;
+            that.$apply()
+            tip.loaded()
+        }else{
+            tip.error(res.data.message)
+        }
+    }
+    onLoad(){
+
+    }
+    methods = {
+    }
+  }
+</script>
