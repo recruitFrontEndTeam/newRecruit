@@ -38,6 +38,7 @@ page{
         'pages/personal/register',
         'pages/personal/profile/index',
         'pages/personal/wallet/index',
+        'pages/personal/wallet/cash',
         'pages/personal/index',
         'pages/work/index',
         'pages/work/workDetails',

@@ -93,7 +93,7 @@
                     <view class="name">账户余额（元）</view>
                 </view>
             </view>
-            <view class="cash-view">
+            <view class="cash-view" @tap="goUrl">
                 <view class="left">
                     <image class="icon-wallet" src="../../../images/icon_tx_1.png" />
                     <text>提现</text>
@@ -167,7 +167,11 @@
 
         }
         methods = {
-            
+            goUrl(){
+                wx.navigateTo({
+                    url: '/pages/personal/wallet/cash'
+                })
+            }
         }
 
     }

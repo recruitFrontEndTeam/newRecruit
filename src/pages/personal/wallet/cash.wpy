@@ -1,0 +1,123 @@
+<style scoped lang="less" rel="stylesheet/less">
+    @import "../../../styles/common.less";
+    .cash-container{
+        background: @score-grey;
+        padding-top: 20rpx;
+        .conent{
+            background: #fff;
+            .title{
+                font-size: 28rpx;
+                color: #2d2f46;
+                text-align: center;
+                height: 150rpx;
+                line-height: 150rpx;
+            }
+            .form-view{
+                padding: 0 70rpx;
+                .form-item{
+                    .flex-row(space-between);
+                    .icon-tx{
+                        font-size: 96rpx;
+                        color: #2D2F46;
+                    }
+                    input{
+                        width: 380rpx
+                    }
+                    .cash-more{
+                        font-size: 28rpx;
+                        color: #f96969;
+                    }
+                }
+            }
+            .can-count{
+                margin-top: 40rpx;
+                font-size: 24rpx;
+                color: #2D2F46;
+            }
+            .btn-area{
+                margin-top: 120rpx;
+                .confirm-btn{
+                    width: 440rpx;
+                    border: 0;
+                    height: 80rpx;
+                    line-height: 80rpx;
+                    background: #4C80F5;
+                    border-radius: 40rpx;
+                    font-size: 28rpx;
+                    color: #fff;
+                }
+            }
+            .record{
+                display: block;
+                text-align: center;
+                margin-top: 30rpx;
+                .icon{
+                    display: inline-block;
+                    vertical-align: middle;
+                    height: 30rpx;
+                    width: 24rpx;
+                }
+                .text{
+                    display: inline-block;
+                    vertical-align: middle;
+                    font-size: 24rpx;
+                    margin-left: 10rpx;
+                    color: #6698FF;
+                }
+            }
+        }
+    }
+</style>
+
+<template>
+    <view class="cash-container">
+        <view class="conent">
+            <view class="title">请输入提现金额</view>
+            <view class="form-view">
+                <form bindsubmit="formSubmit">
+                    <view class="form-item">
+                        <view class="section__title">
+                            <text class="icon-tx">¥</text>
+                        </view>
+                        <input name="count" placeholder="最低可提现金额10元" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
+                        <view class="cash-more">全部提现</view>
+                    </view>
+                    <view class="can-count">可提现金额¥ 800</view>
+                    <view class="btn-area">
+                        <button class="confirm-btn" formType="submit">下一步</button>
+                    </view>
+            </form>
+            <view class="record">
+                <image class="icon" src="../../../images/icon_tx.png" />
+                <text class="text">提现记录</text>
+            </view>
+            </view>
+        </view>
+    </view>
+</template>
+<script >
+    import wepy from 'wepy';
+    import tip from '../../../utils/tip';
+    import api from '../../../api/api';
+    export default class Cash extends wepy.page{
+        config = {
+            navigationBarTitleText: '提现申请'
+        }
+        data = {
+            
+        }
+        components = {
+            
+        }
+
+        onLoad(){
+
+        }
+        methods = {
+            formSubmit: function(e) {
+                console.log('form发生了submit事件，携带数据为：', e.detail.value)
+            },
+        }
+
+    }
+</script>

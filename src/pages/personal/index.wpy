@@ -69,7 +69,7 @@
                     <image class="icon" src="../../images/icon_grzl.png" />
                     <view class="name">个人资料</view>
                 </view>
-                <view class="function">
+                <view class="function" @tap = "goUrl('personal/wallet/index')">
                     <image class="icon" src="../../images/icon_grqb.png" />
                     <view class="name">我的钱包</view>
                 </view>
