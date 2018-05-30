@@ -13,13 +13,7 @@
     import wepy from 'wepy';
     import tip from '../../utils/tip';
     import api from '../../api/api';
-    export default class workIndex extends wepy.page{
-        config = {
-            navigationBarTitleText: '工作',
-            navigationBarBackgroundColor: '#fff',
-            navigationBarTextStyle: 'black',
-            backgroundTextStyle:"dark"
-        }
+    export default class SkillDetails extends wepy.page{
         data = {
 
         }

@@ -1,0 +1,25 @@
+<template>
+    <view class="container">
+
+    </view>
+</template>
+<script>
+    import wepy from 'wepy';
+    export default class Search extends wepy.page{
+        props = {
+
+        }
+        data = {
+
+        }
+        onLoad(){
+
+        }
+        methods = {
+
+        }
+
+    }
+</script>
+<style scoped lang="less" rel="stylesheet/less">
+</style>

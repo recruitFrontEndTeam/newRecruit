@@ -269,7 +269,7 @@
   import info from '../../components/common/info';
   import nav from '../../components/common/nav'
 
-  export default class Index extends wepy.page {
+  export default class IndexIndex extends wepy.page {
     config = {
       navigationBarTitleText: '首页'
     }
@@ -282,12 +282,12 @@
         {
           name:'技能培训',
           src:'icon_jnpx',
-          url:''
+          url:'/pages/skill/index'
         },
         {
           name:'热门招聘',
           src:'icon_rmzp',
-          url:'/pages/index/bole'
+          url:'/pages/work/index'
         },
         {
           name:'伯乐排行',

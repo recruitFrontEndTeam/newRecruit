@@ -32,12 +32,16 @@ page{
       pages: [
         'pages/index/index',
         'pages/index/bole',
+        'pages/index/search',
+        'pages/index/location',
         'pages/personal/login',
         'pages/personal/register',
         'pages/personal/profile/index',
         'pages/personal/index',
-        'pages/work/index'
-
+        'pages/work/index',
+        'pages/work/workDetails',
+        'pages/skill/index',
+        'pages/skill/skillDetails'
       ],
       window: {
         backgroundTextStyle: 'light',
