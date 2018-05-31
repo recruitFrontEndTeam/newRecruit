@@ -39,11 +39,12 @@ page{
         'pages/personal/profile/index',
         'pages/personal/wallet/index',
         'pages/personal/wallet/cash',
+        'pages/personal/wallet/cashSuccess',
         'pages/personal/index',
         'pages/work/index',
         'pages/work/workDetails',
-        'pages/skill/index',
-        'pages/skill/skillDetails'
+        // 'pages/skill/index',
+        // 'pages/skill/skillDetails'
       ],
       window: {
         backgroundTextStyle: 'light',

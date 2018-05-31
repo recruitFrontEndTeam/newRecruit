@@ -1,0 +1,77 @@
+<style scoped lang="less" rel="stylesheet/less">
+    @import "../../../styles/common.less";
+    .cash-success-container{
+        background: @score-grey;
+        padding-top: 20rpx;
+        .conent{
+            background: #fff;
+            .title{
+                padding: 50rpx 0;
+                .success-pic{
+                    display: block;
+                    width: 200rpx;
+                    height: 268rpx;
+                    margin: 0rpx auto;
+                }
+                .success-text{
+                    font-size: 28rpx;
+                    color: #9A9CA9;
+                    text-align: center;
+                    margin-top: 44rpx;
+                }
+            }
+            .btn-area{
+                .confirm-btn{
+                    width: 440rpx;
+                    border: 0;
+                    height: 80rpx;
+                    line-height: 80rpx;
+                    background: #4C80F5;
+                    border-radius: 40rpx;
+                    font-size: 28rpx;
+                    color: #fff;
+                }
+            }
+        }
+    }
+</style>
+
+<template>
+    <view class="cash-success-container">
+        <view class="conent">
+            <view class="title">
+                <image class="success-pic" src="../../../images/Pic_sqjl.png" />
+                <view class="success-text">提现申请已提交，请等待人工审核</view>
+            </view>
+            <view class="btn-area">
+                <button class="confirm-btn" formType="submit">确认</button>
+            </view>
+        </view>
+    </view>
+</template>
+<script >
+    import wepy from 'wepy';
+    import tip from '../../../utils/tip';
+    import api from '../../../api/api';
+    export default class Cash extends wepy.page{
+        config = {
+            navigationBarTitleText: '提现申请'
+        }
+        data = {
+            
+        }
+        components = {
+            
+        }
+
+        onLoad(){
+
+        }
+        methods = {
+            formSubmit: function(e) {
+                console.log('form发生了submit事件，携带数据为：', e.detail.value)
+            },
+        }
+
+    }
+</script>
