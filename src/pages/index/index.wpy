@@ -145,7 +145,7 @@
 <template>
   <view class="m-index">
     <view class="m-top">
-      <view class="m-location-box">
+      <view class="m-location-box" @tap="locationTap">
         <image class="m-icon-loc" style="width:32rpx; height:46rpx;margin: 0 22rpx;" src="../../images/icon_dw.png"/>
         <view>杭州</view>
       </view>
@@ -302,6 +302,11 @@
       inputTap(){
         wx.navigateTo({
           url: '/pages/index/search'
+        })
+      },
+      locationTap(){
+        wx.navigateTo({
+          url: '/pages/index/location'
         })
       }
     }

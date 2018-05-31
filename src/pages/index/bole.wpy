@@ -1,7 +1,6 @@
 <style scoped lang="less" rel="stylesheet/less">
     @import "../../styles/common";
     .m-bole{
-
         width: 100%;
         overflow: hidden ;
         .m-back{
@@ -53,20 +52,16 @@
                     border-top: none;
                     padding-left: 48rpx;
                     padding-right: 42rpx;
-
                 }
             }
-
-
         }
     }
-
 </style>
 <template>
     <view class="m-bole">
         <view class="m-back"></view>
         <view class="m-top">
-            <image class="m-image" style="width: 442rpx;height: 442rpx;" src="../../images/pic_blph.png"/>
+            <image class="m-image" style="width: 442rpx;height: 342rpx;" src="../../images/pic_blph.png"/>
             <p class="m-introduce">推荐好友入职可领取会员费哦</p>
             <view class="m-btn">立即推荐</view>
         </view>
@@ -77,10 +72,8 @@
                     <repeat for="{{rank_list}}" key="index" index="index" item="item">
                         <ranking :list.sync="item" :index.sync="index" ></ranking>
                     </repeat>
-
                 </view>
             </view>
-
         </view>
     </view>
 </template>
@@ -90,8 +83,6 @@
     import api from '../../api/api';
     import tip from '../../utils/tip';
     import ranking from '../../components/common/ranking'
-
-
     export default class Bole extends wepy.page {
         config = {
             navigationBarTitleText: '伯乐排行',

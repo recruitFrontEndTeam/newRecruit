@@ -1,11 +1,21 @@
+<style scoped lang="less" rel="stylesheet/less">
+    @import "../../styles/common.less";
+
+</style>
 <template>
-    <view class="container">
+    <view class="m-skillDetails">
 
     </view>
 </template>
 <script>
     import wepy from 'wepy';
     export default class SkillDetails extends wepy.page{
+        config = {
+            navigationBarTitleText: '工作',
+            navigationBarBackgroundColor: '#fff',
+            navigationBarTextStyle: 'black',
+//            backgroundTextStyle:"dark"
+        }
         props = {
 
         }
@@ -21,5 +31,3 @@
 
     }
 </script>
-<style scoped lang="less" rel="stylesheet/less">
-</style>

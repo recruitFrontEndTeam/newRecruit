@@ -1,11 +1,85 @@
-<template>
-    <view class="container">
+<style scoped lang="less" rel="stylesheet/less">
+    @import "../../styles/common.less";
+    .m-location{
+        background-color: #f9f9f9;
+        min-height: 100%;
+        .m-back{
+            height: 20rpx;
+            background-color: #f9f9f9;
+            width: 100%;
+        }
+        .m-loc-box{
+            padding: 20rpx 30rpx;
+            background-color: #fff;
+            margin-bottom: 20rpx;
+            .m-title{
+                font-size: 24rpx;
+            }
+            .m-city-box{
+                .flex-row(flex-start);
+                flex-wrap: wrap;
+                width: 690rpx;
+                .m-city{
+                    width: 206rpx;
+                    height: 44rpx;
+                    line-height: 44rpx;
+                    font-size: 24rpx;
+                    border: 1px solid #E3E7F0;
+                    color: #95A2B5;
+                    margin: 10rpx 20rpx 10rpx 0;
+                    text-align: center;
+                    &.m-active{
+                        color: @common-color;
+                        border-color: @common-color;
+                    }
+                }
 
+            }
+        }
+    }
+</style>
+<template>
+    <view class="m-location">
+        <view class="m-back"></view>
+        <view class="m-loc-box">
+            <p class="m-title">定位城市</p>
+            <view class="m-city-box">
+                <view class="m-city m-active">杭州</view>
+            </view>
+        </view>
+        <view class="m-loc-box">
+            <p class="m-title">在招城市</p>
+            <view class="m-city-box">
+                <view class="m-city m-active">杭州</view>
+                <view class="m-city">杭州</view>
+                <view class="m-city">杭州</view>
+                <view class="m-city">杭州</view>
+                <view class="m-city">杭州</view>
+                <view class="m-city">杭州</view>
+            </view>
+        </view>
+        <view class="m-loc-box">
+            <p class="m-title">在招省份</p>
+            <view class="m-city-box">
+                <view class="m-city m-active">杭州</view>
+                <view class="m-city">杭州</view>
+                <view class="m-city">杭州</view>
+                <view class="m-city">杭州</view>
+                <view class="m-city">杭州</view>
+                <view class="m-city">杭州</view>
+            </view>
+        </view>
     </view>
 </template>
 <script>
     import wepy from 'wepy';
     export default class Location extends wepy.page{
+        config = {
+            navigationBarTitleText: '筛选城市',
+            navigationBarBackgroundColor: '#fff',
+            navigationBarTextStyle: 'black',
+//            backgroundTextStyle:"dark"
+        }
         props = {
 
         }
@@ -21,5 +95,3 @@
 
     }
 </script>
-<style scoped lang="less" rel="stylesheet/less">
-</style>
