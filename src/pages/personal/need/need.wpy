@@ -1,0 +1,81 @@
+<style scoped lang="less" rel="stylesheet/less">
+    @import "../../../styles/common.less";
+    .train-need-container{
+        background: @score-grey;
+        height: 100%;
+        width: 100%;
+        .form-view{
+            padding-top: 20rpx;
+            .form-item{
+                .flex-row(flex-start);
+                align-items: flex-start;
+                background: #fff;
+                padding: 40rpx;
+                .label{
+                    display: inline-block;
+                    width: 160rpx;
+                    text-align: center;
+                    font-size: 28rpx;
+                    color: @main-font-color;
+                }
+                .text-area{
+                    padding: 10rpx;
+                }
+            }
+        }
+        .btn-area{
+            margin-top: 120rpx;
+            .confirm-btn{
+                width: 440rpx;
+                border: 0;
+                height: 80rpx;
+                line-height: 80rpx;
+                background: #4C80F5;
+                border-radius: 40rpx;
+                font-size: 28rpx;
+                color: #fff;
+            }
+        }
+    }
+</style>
+
+<template>
+    <view class="train-need-container">
+        <view class="form-view">
+            <form bindsubmit="formSubmit">
+                <view class="form-item">
+                    <view class="label">培训需求</view>
+                    <textarea class="text-area" name="count" placeholder="请输入你的培训需求" placeholder-style="color: #bebebe;font-size: 24rpx;" />
+                </view>
+                <view class="btn-area">
+                    <button class="confirm-btn" formType="submit">提交</button>
+                </view>
+            </form>
+        </view>
+    </view>
+</template>
+<script >
+    import wepy from 'wepy';
+    import tip from '../../../utils/tip';
+    import api from '../../../api/api';
+    export default class Need extends wepy.page{
+        config = {
+            navigationBarTitleText: '培训需求'
+        }
+        data = {
+
+        }
+
+        onLoad(){
+
+        }
+        methods = {
+            goUrl(url){
+                wx.navigateTo({
+                    url: '/pages/'+url
+                })
+            }
+        }
+
+    }
+</script>

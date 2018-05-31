@@ -1,0 +1,104 @@
+<style scoped lang="less" rel="stylesheet/less">
+    @import "../../../styles/common.less";
+    .fund-detail-container{
+        .tab-main{
+            .flex-row(space-between);
+            border-bottom: 2rpx solid #eee;
+            .tab-view{
+                width: 33.3%;
+                height: 80rpx;
+                line-height: 80rpx;
+                cursor: pointer;
+                .tab-icon{
+                    display: block;
+                    width: 120rpx;
+                    margin: 0 auto;
+                    text-align: center;
+                    height: 78rpx;
+                    line-height: 78rpx;
+                    font-size: 28rpx;
+                    color: @main-font-color;
+                    border-bottom: 4rpx solid transparent
+                }
+                &.active{
+                    .tab-icon{
+                        color:@tab-active-color;
+                        border-bottom-color: @tab-active-color;
+                    }
+                }
+             }
+             
+         }
+    }
+</style>
+
+<template>
+    <view class="fund-detail-container">
+        <view class="tab-main">
+            <view class="tab-view" :class="{'active': index == 0}" @tap="tab(0)"><text class="tab-icon">全部</text></view>
+            <view class="tab-view" :class="{'active': index == 1}" @tap="tab(1)"><text class="tab-icon">新进款项</text></view>
+            <view class="tab-view" :class="{'active': index == 2}" @tap="tab(2)"><text class="tab-icon">待进款项</text></view>
+        </view>
+        <view class="tab-content" wx:if="{{index==0}}">
+            <repeat for="{{list0}}" key="index" index="index" item="item">
+                <CashRecord :item="item"></CashRecord>
+            </repeat>
+        </view>
+        <view class="tab-content" wx:if="{{index==1}}">
+            <repeat for="{{list1}}" key="index" index="index" item="item">
+                <CashRecord :item="item"></CashRecord>
+            </repeat>
+        </view>
+        <view class="tab-content" wx:if="{{index==2}}">
+            <repeat for="{{list2}}" key="index" index="index" item="item">
+                <CashRecord :item="item"></CashRecord>
+            </repeat>
+        </view>
+    </view>
+</template>
+<script >
+    import wepy from 'wepy';
+    import tip from '../../../utils/tip';
+    import api from '../../../api/api';
+    import CashRecord from '../../../components/wallet/cashRecord';
+    export default class FundDetail extends wepy.page{
+        config = {
+            navigationBarTitleText: '资金明细'
+        }
+        data = {
+            index: 0,
+            list0: [
+                {
+                    time: '2018-05-30 11:30:30',
+                    count: '+8.80'
+                }
+            ],
+            list1: [
+                {
+                    time: '2018-05-30 11:30:30',
+                    count: '+6.60'
+                }
+            ],
+            list2: [
+                {
+                    time: '2018-05-30 11:30:30',
+                    count: '+9.90'
+                }
+            ]
+        }
+
+        components = {
+            CashRecord: CashRecord
+        }
+
+        onLoad(){
+
+        }
+        methods = {
+            tab(index){
+                this.index = index;
+            }
+        }
+
+    }
+</script>

@@ -73,21 +73,21 @@
                     <image class="icon" src="../../images/icon_grqb.png" />
                     <view class="name">我的钱包</view>
                 </view>
-                <view class="function">
+                <view class="function" @tap = "goUrl('personal/team/myTeam')">
                     <image class="icon" src="../../images/icon_wdtd.png" />
                     <view class="name">我的团队</view>
                 </view>
             </view>
-            <view class="function-one">
-                <view class="function">
+            <view class="function-one" >
+                <view class="function" @tap = "goUrl('personal/application/applicationRecord')">
                     <image class="icon" src="../../images/icon_sqjl.png" />
                     <view class="name">申请记录</view>
                 </view>
-                <view class="function">
+                <view class="function" @tap = "goUrl('work/index')">
                     <image class="icon" src="../../images/icon_jnts.png" />
                     <view class="name">技能提升</view>
                 </view>
-                <view class="function">
+                <view class="function" @tap = "goUrl('personal/need/need')">
                     <image class="icon" src="../../images/icon_pxxq.png" />
                     <view class="name">培训需求</view>
                 </view>

@@ -89,7 +89,7 @@
             </form>
             <view class="record">
                 <image class="icon" src="../../../images/icon_tx.png" />
-                <text class="text">提现记录</text>
+                <text class="text" @tap="goUrl">提现记录</text>
             </view>
             </view>
         </view>
@@ -120,6 +120,11 @@
                     url: '/pages/personal/wallet/cashSuccess'
                 })
             },
+            goUrl(){
+                wx.navigateTo({
+                    url: '/pages/personal/wallet/cashRecord'
+                })
+            }
         }
 
     }

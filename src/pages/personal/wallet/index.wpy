@@ -93,7 +93,7 @@
                     <view class="name">账户余额（元）</view>
                 </view>
             </view>
-            <view class="cash-view" @tap="goUrl">
+            <view class="cash-view" @tap="goUrl('cash')">
                 <view class="left">
                     <image class="icon-wallet" src="../../../images/icon_tx_1.png" />
                     <text>提现</text>
@@ -102,7 +102,7 @@
                     <image class="icon-arrow-right" src="../../../images/icon_arrow_right.png" />
                 </view>
             </view>
-            <view class="more-view">
+            <view class="more-view" @tap="goUrl('fundDetail')">
                 <view class="left">
                     <text>资金明细</text>
                 </view>
@@ -167,9 +167,9 @@
 
         }
         methods = {
-            goUrl(){
+            goUrl(url){
                 wx.navigateTo({
-                    url: '/pages/personal/wallet/cash'
+                    url: '/pages/personal/wallet/'+url
                 })
             }
         }
