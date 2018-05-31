@@ -29,8 +29,8 @@
                     margin: 10rpx 20rpx 10rpx 0;
                     text-align: center;
                     &.m-active{
-                        color: @common-color;
-                        border-color: @common-color;
+                        color: #6698FE;
+                        border-color: #6698FE;
                     }
                 }
 

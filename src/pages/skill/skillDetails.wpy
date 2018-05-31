@@ -1,17 +1,103 @@
 <style scoped lang="less" rel="stylesheet/less">
     @import "../../styles/common.less";
-
+    .m-skillDetails{
+        .m-skill-info{
+            padding: 30rpx;
+            background-color: #fff;
+            border-top: 1px solid #E6E6E6;
+            .m-tr{
+                line-height: 65rpx;
+                font-size: 28rpx;
+                color: #5A647A;
+                &.m-title{
+                    font-size: 32rpx;
+                }
+                &.m-tr-two{
+                    .flex-row(space-between);
+                    font-size: 24rpx;
+                    color: #868E9E;
+                }
+            }
+        }
+        .m-back{
+            height: 20rpx;
+            background-color: #f9f9f9;
+            width: 100%;
+        }
+        .m-skill-detail{
+            padding: 20rpx 30rpx;
+            /*margin-bottom: 110rpx;*/
+            .m-title{
+                padding-left: 30rpx;
+                border-left: 5px solid #6698FF;
+                font-size: 32rpx;
+            }
+            .m-info{
+                padding: 20rpx 5rpx;
+                font-size: 28rpx;
+                color: #5A647A;
+                line-height: 52rpx;
+            }
+        }
+        .foot{
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            padding: 20rpx 30rpx;
+            border-top: 1px solid #E6E6E6;
+            background-color: #fff;
+            .m-btn{
+                width: 690rpx;
+                height: 80rpx;
+                line-height: 80rpx;
+                font-size: 28rpx;
+                background-color: #4C80F5;
+                color: #fff;
+                text-align: center;
+                &.m-active{
+                    background-color: #CDD7EC ;
+                }
+            }
+        }
+    }
 </style>
 <template>
     <view class="m-skillDetails">
-
+        <view class="m-skill-info">
+            <view class="m-tr m-title">技能提升</view>
+            <view class="m-tr">培训时间：周一至周六</view>
+            <view class="m-tr">培训地点：北部软件园创意园B5栋2楼</view>
+            <view class="m-tr m-tr-two">
+                <p class="m-left">更新时间：2018-05-16 10:10:54</p>
+                <p class="m-right">已报名：143人</p>
+            </view>
+        </view>
+        <view class="m-back"></view>
+        <view class="m-skill-detail">
+            <p class="m-title">培训详情</p>
+            <view class="m-info">
+                <view>(1）驾驶技术：驾驶装置的认识和运用技巧，驾驶前
+                    的准备工作，驾驶姿势，目标选择，点火，平度起步，
+                    卜杜起步，换挡与行进，倒库，转向，载货上下坡的
+                    操作等。</view>
+                <view>
+                    （2）操作技巧：叉车工作装置的认识和运用方法，货物
+                    装运安全知识，货物的叉取，起升，降落，堆码和搬运
+                    作业等。
+                </view>
+                <image src="../../images/icon_ewm.png" style="width: 690rpx;height: 334rpx;"/>
+            </view>
+        </view>
+        <view class="foot">
+            <view class="m-btn m-active">立即报名</view>
+        </view>
     </view>
 </template>
 <script>
     import wepy from 'wepy';
     export default class SkillDetails extends wepy.page{
         config = {
-            navigationBarTitleText: '工作',
+            navigationBarTitleText: '培训详情',
             navigationBarBackgroundColor: '#fff',
             navigationBarTextStyle: 'black',
 //            backgroundTextStyle:"dark"
