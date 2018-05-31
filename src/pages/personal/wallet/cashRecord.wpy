@@ -1,0 +1,79 @@
+<style scoped lang="less" rel="stylesheet/less">
+    @import "../../../styles/common.less";
+    .cash-record-container{
+        background: @score-grey;
+        padding-top: 20rpx;
+        .conent{
+            background: #fff;
+            
+        }
+    }
+</style>
+
+<template>
+    <view class="cash-record-container">
+        <view class="conent">
+            <repeat for="{{list}}" key="index" index="index" item="item">
+                <CashRecord :item="item" />
+            </repeat>
+        </view>
+    </view>
+</template>
+<script >
+    import wepy from 'wepy';
+    import tip from '../../../utils/tip';
+    import api from '../../../api/api';
+    import CashRecord from '../../../components/wallet/cashRecord';
+    export default class CashRecordContent extends wepy.page{
+        config = {
+            navigationBarTitleText: '提现记录'
+        }
+        data = {
+            list: [
+                {
+                    time: '2018-05-30 11:30:30',
+                    count: '+8.80'
+                },
+                {
+                    time: '2018-05-30 11:30:30',
+                    count: '+8.80'
+                },
+                {
+                    time: '2018-05-30 11:30:30',
+                    count: '+8.80'
+                },
+                {
+                    time: '2018-05-30 11:30:30',
+                    count: '+8.80'
+                },{
+                    time: '2018-05-30 11:30:30',
+                    count: '+8.80'
+                }
+                ,{
+                    time: '2018-05-30 11:30:30',
+                    count: '+8.80'
+                },
+                {
+                    time: '2018-05-30 11:30:30',
+                    count: '+8.80'
+                }
+            ]
+        }
+        components = {
+            CashRecord: CashRecord
+        }
+
+        onLoad(){
+
+        }
+        methods = {
+            formSubmit: function(e) {
+                console.log('form发生了submit事件，携带数据为：', e.detail.value)
+                wx.navigateTo({
+                    url: '/pages/personal/wallet/cashSuccess'
+                })
+            },
+        }
+
+    }
+</script>

@@ -40,6 +40,7 @@ page{
         'pages/personal/wallet/index',
         'pages/personal/wallet/cash',
         'pages/personal/wallet/cashSuccess',
+        'pages/personal/wallet/cashRecord',
         'pages/personal/index',
         'pages/work/index',
         'pages/work/workDetails',

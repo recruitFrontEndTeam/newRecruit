@@ -53,7 +53,7 @@
     import wepy from 'wepy';
     import tip from '../../../utils/tip';
     import api from '../../../api/api';
-    export default class Cash extends wepy.page{
+    export default class CashSuccess extends wepy.page{
         config = {
             navigationBarTitleText: '提现申请'
         }
