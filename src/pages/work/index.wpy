@@ -1,12 +1,53 @@
 <style scoped lang="less" rel="stylesheet/less">
     @import "../../styles/common.less";
-
+    .m-workIndex{
+        .m-nav{
+            width: 100%;
+            .flex-row(space-around);
+            height: 60rpx;
+            padding: 10rpx 0;
+            .m-one-nav{
+                .flex-row(center);
+                width: 33.3%;
+                border-left: 0.5px solid #E6E6E6;
+                font-size: 28rpx;
+                &:first-child{
+                    border: none;
+                }
+                .m-icon-arrow-down{
+                    width: 24rpx;
+                    height: 14rpx;
+                    margin-left: 20rpx;
+                }
+            }
+        }
+        .m-back{
+            height: 20rpx;
+            background-color: #f9f9f9;
+            width: 100%;
+        }
+    }
 
 </style>
 
 <template>
-    <view class="container">
-
+    <view class="m-workIndex">
+        <view class="m-nav">
+            <view class="m-one-nav">
+                <view>地区</view>
+                <image class="m-icon-arrow-down" src="../../images/icon_arrow_down2.png" />
+            </view>
+            <view class="m-one-nav">
+                <view>职位</view>
+                <image class="m-icon-arrow-down" src="../../images/icon_arrow_down2.png" />
+            </view>
+            <view class="m-one-nav">
+                <view>排序</view>
+                <!--<image class="m-icon-arrow-down" src="../../images/icon_arrow_down2.png" />-->
+                <image class="m-icon-arrow-down" src="../../images/icon_arrow_up.png" />
+            </view>
+        </view>
+        <view class="m-back"></view>
     </view>
 </template>
 <script >
