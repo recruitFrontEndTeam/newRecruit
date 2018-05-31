@@ -149,7 +149,7 @@
         <image class="m-icon-loc" style="width:32rpx; height:46rpx;margin: 0 22rpx;" src="../../images/icon_dw.png"/>
         <view>杭州</view>
       </view>
-      <view class="m-search-box">
+      <view class="m-search-box" @tap="inputTap">
         <image class="m-icon-search" style="width: 30rpx;height:30rpx;margin: 0 20rpx;" src="../../images/icon_search.png" />
         <input type="text" placeholder="搜索公司/职位" />
       </view>
@@ -297,6 +297,11 @@
       detailTap(){
         wx.navigateTo({
           url: '/pages/work/workDetails'
+        })
+      },
+      inputTap(){
+        wx.navigateTo({
+          url: '/pages/index/search'
         })
       }
     }

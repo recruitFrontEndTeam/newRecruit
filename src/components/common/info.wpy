@@ -2,6 +2,7 @@
     @import "../../styles/common.less";
     .m-info-box{
         width: 100%;
+        background-color: #fff;
         .flex-row(center);
         padding: 20rpx 0;
         border-bottom: 0.6px solid #eee;

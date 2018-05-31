@@ -1,11 +1,51 @@
-<template>
-    <view class="container">
+<style scoped lang="less" rel="stylesheet/less">
+    @import "../../styles/common";
+    .m-search{
+        background-color: #F9F9F9;
+        min-height: 100%;
+        .m-search-top{
+            padding: 20rpx 0;
+            .flex-row(space-around);
+            .m-search-box{
+                width: 600rpx;
+                height: 72rpx;
+                .flex-row(flex-start);
+                border-radius: 20px;
+                background-color: #fff;
+                color: #D4DCED;
+                font-size: 24rpx;
+            }
+        }
 
+    }
+</style>
+<template>
+    <view class="m-search">
+        <view class="m-search-top">
+            <view class="m-search-box">
+                <image class="m-icon-search" style="width: 30rpx;height:30rpx;margin: 0 20rpx;" src="../../images/icon_search.png" />
+                <input type="text" placeholder="搜索公司/职位" />
+            </view>
+            <view>取消</view>
+        </view>
+        <info></info>
     </view>
 </template>
 <script>
     import wepy from 'wepy';
+    import api from '../../api/api';
+    import tip from '../../utils/tip';
+    import info from '../../components/common/info';
     export default class Search extends wepy.page{
+        config = {
+            navigationBarTitleText: '搜索',
+            navigationBarBackgroundColor: '#fff',
+            navigationBarTextStyle: 'black',
+//            backgroundTextStyle:"dark"
+        }
+        components = {
+            info: info
+        }
         props = {
 
         }
@@ -21,5 +61,3 @@
 
     }
 </script>
-<style scoped lang="less" rel="stylesheet/less">
-</style>
