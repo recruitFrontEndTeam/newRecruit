@@ -9,16 +9,12 @@
       height: 140rpx;
       background-color: @common-color;
       color: #fff;
-      display: flex;
-      flex-flow: row;
-      align-items: center;
+      .flex-row(flex-start);
       font-size: 32rpx;
       .m-location-box{
         width: 168rpx;
         height: 72rpx;
-        display: flex;
-        flex-flow: row ;
-        align-items: center;
+        .flex-row(flex-start);
         color: #fff;
         background-color: #4272E7 ;
         margin: 0 24rpx;
@@ -27,9 +23,7 @@
       .m-search-box{
         width: 500rpx;
         height: 72rpx;
-        display: flex;
-        flex-flow: row ;
-        align-items: center;
+        .flex-row(flex-start);
         border-radius: 20px;
         background-color: #fff;
         color: #D4DCED;
@@ -37,17 +31,12 @@
       }
     }
     .m-nav-menu{
-      display: flex;
-      flex-flow: row;
-      align-items: center;
+      .flex-row(flex-start);
       width: 100%;
     }
     .m-title-box{
       width: 100%;
-      display: flex;
-      flex-flow: row;
-      align-items: center;
-      justify-content: center;
+      .flex-row(center);
       margin: 30rpx 0 ;
       .m-title{
         font-size: 32rpx;
@@ -64,10 +53,7 @@
       width: 690rpx;
       .m-info-box{
         width: 100%;
-        display: flex;
-        flex-flow: row;
-        align-items: center;
-        justify-content: center;
+        .flex-row(center);
         padding: 20rpx 0;
         border-bottom: 0.6px solid #eee;
         &:last-child{
@@ -81,12 +67,9 @@
         .m-info-right{
           width: 550rpx;
           .m-info-tr1{
-            display: flex;
-            flex-flow: row;
-            align-items: center;
-            justify-content: space-between;
+            .flex-row(space-between);
             .m-info-td1{
-              width: 388rpx;
+              width: 378rpx;
               display: flex;
               flex-flow: row;
               align-items: center;
@@ -113,10 +96,7 @@
             }
           }
           .m-info-tr2{
-            display: flex;
-            flex-flow: row;
-            align-items: center;
-            justify-content: space-between;
+            .flex-row(space-between);
             .m-name{
               font-size: 24rpx;
               color: #5B5B5B;
@@ -127,10 +107,7 @@
             }
           }
           .m-info-tr3{
-            display: flex;
-            flex-flow: row;
-            align-items: center;
-            justify-content: space-between;
+            .flex-row(space-between);
             .m-name{
               font-size: 24rpx;
               color: #868E9E;
@@ -188,7 +165,7 @@
       <view class="m-line"></view>
     </view>
     <view class="m-index-content">
-      <view class="m-info-box">
+      <view class="m-info-box" @tap="detailTap">
         <image class="m-info-img" src="../../images/pic_blph.png"/>
         <view class="m-info-right">
           <view class="m-info-tr1">
@@ -297,7 +274,7 @@
         {
           name:'圈子',
           src:'icon_qz',
-          url:''
+          url:'/pages/work/index'
         }
       ]
     }
@@ -317,6 +294,11 @@
 
     }
     methods = {
+      detailTap(){
+        wx.navigateTo({
+          url: '/pages/work/workDetails'
+        })
+      }
     }
   }
 </script>

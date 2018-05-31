@@ -11,10 +11,7 @@
         }
         .m-top{
             width: 100%;
-            display: flex;
-            flex-flow: column;
-            align-items: center;
-            justify-content: center;
+            .flex-col(center);
             background-color: #fff;
             /*margin-top: 20rpx;*/
             padding: 20rpx 0;

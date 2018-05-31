@@ -1,16 +1,416 @@
-<template>
-    <view class="container">
+<style scoped lang="less" rel="stylesheet/less">
+    @import "../../styles/common";
+    .m-workDetails{
+        width: 100%;
+        overflow: hidden;
+        background-color: #F5F5F5 ;
+        .m-post-main{
+            width: 100%;
+            background-color: #fff;
+            padding: 30rpx;
+            margin-bottom: 20rpx;
+            .m-tr1{
+                width: 690rpx;
+                .flex-row(space-between);
+                .m-left{
+                    font-size: 24rpx;
+                    color: #5A647A;
+                    .m-title{
+                        font-size: 32rpx;
+                        margin-right: 10rpx;
+                    }
+                }
+            }
+            .m-tr2{
+                font-size: 24rpx;
+                color: #5B5B5B;
+                line-height: 60rpx;
+            }
+            .m-tr3{
+                width: 690rpx;
+                .flex-row(flex-start);
+                .m-tab{
+                    padding: 10rpx;
+                    border: 1px solid #E4E4E4;
+                    border-radius: 4px;
+                    color: #868E9E;
+                    font-size: 24rpx;
+                    margin-right: 28rpx;
+                }
+            }
+            .m-tr4{
+                width: 690rpx;
+                .flex-row(space-between);
+                color: #868E9E;
+                font-size: 24rpx;
+                line-height: 60rpx;
+            }
+        }
+        .m-reward{
+            padding: 30rpx 30rpx 0 30rpx ;
+            background-color: #fff;
+        }
+        .m-nav-box{
+            width: 750rpx;
+            background-color: #fff;
+            margin: 20rpx 0;
+            .flex-row(space-around);
+            .m-nav{
+                font-size: 24rpx;
+                padding: 34rpx 10rpx;
+                color: #5B5B5B;
+                &.m-select{
+                    color: @common-color;
+                    border-bottom: 2px solid @common-color;
+                }
+            }
+        }
+        .m-title{
+            font-size: 32rpx;
+            color: #5A647A;
+        }
 
+        .m-table{
+            display: table;
+            width: 690rpx;
+            margin-top: 30rpx;
+            color: #5B5B5B ;
+            border-spacing: 0;
+            border-collapse: collapse;
+            tr{
+                &:nth-child(2){
+                    td{
+                        border-top: none;
+                        border-bottom: none;
+                    }
+                }
+                td{
+                    display: table-cell;
+                    border-spacing: 0;
+                    border: 1px solid #DBDBDB;
+                    text-align: center;
+                    height: 100rpx;
+                    line-height: 100rpx;
+                    width: 136rpx;
+                    &:first-child{
+                        width: 60rpx;
+                    }
+                    &:last-child{
+                        width: 474rpx;
+                    }
+                }
+            }
+        }
+        .m-box{
+            margin-top: 20rpx;
+            background-color: #fff;
+            padding-bottom: 20rpx;
+        }
+        .m-company-intro{
+            padding: 30rpx;
+            background-color: #fff;
+            .m-title{
+                font-size: 32rpx;
+                color: #5A647A;
+            }
+            .m-company-info{
+                padding: 30rpx 0;
+                border-top: 1px solid  #DBDBDB;
+                margin-top: 20rpx;
+                font-size: 24rpx;
+            }
+            .m-add{
+                .flex-row(flex-start);
+                font-size: 24rpx;
+                border-bottom: 1px solid #DBDBDB ;
+                border-top: 1px solid #DBDBDB ;
+                .m-title{
+                    font-size: 32rpx;
+                    border-right: 1px solid #DBDBDB;
+                    margin-right: 30rpx;
+                    padding: 30rpx  14rpx 30rpx 0 ;
+                }
+            }
+        }
+        .m-contract{
+            padding-bottom: 0;
+        }
+        .m-back{
+            height: 20rpx;
+            background-color: #f9f9f9;
+            width: 100%;
+            margin-bottom: 110rpx;
+        }
+        .m-foot{
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 20rpx 20rpx 10rpx 20rpx;
+            .flex-row(flex-start);
+            background-color: #fff;
+            .m-link{
+                font-size: 24rpx;
+                color: @common-color;
+                margin: 0 20rpx;
+                p{
+                    margin-top: 10rpx;
+                }
+
+            }
+            .m-btn{
+                width: 440rpx;
+                height: 80rpx;
+                line-height: 80rpx;
+                margin-right: 40rpx;
+                margin-left: 40rpx;
+                border-radius: 2px;
+                text-align: center;
+                font-size: 28rpx;
+                background-color: @common-color;
+                color: #fff;
+                &.m-active{
+                    background-color: #CDD7EC ;
+                    color: #ffffff;
+                }
+            }
+        }
+    }
+</style>
+<template>
+    <view class="m-workDetails">
+        <swiper indicator-dots="{{swiper.indicatorDots}}"
+                autoplay="{{swiper.autoplay}}" interval="{{swiper.interval}}" duration="{{swiper.duration}}" style="height:370rpx;width: 750rpx;">
+            <block wx:for="{{swiper.imgUrls}}" wx:key="{{swiper.imgUrls}}">
+                <swiper-item>
+                    <image src="{{item}}" class="slide-image" style="height:370rpx;width: 750rpx;"/>
+                </swiper-item>
+            </block>
+        </swiper>
+        <view class="m-post-main">
+            <view class="m-tr1">
+                <p class="m-left"><span class="m-title">普工</span>（招聘<span class="m-red">2</span>人）</p>
+                <p class="m-price m-red">¥3500-4500</p>
+            </view>
+            <view class="m-tr2">嘉兴闻泰集团</view>
+            <view class="m-tr3">
+                <p class="m-tab">18-45岁</p>
+                <p class="m-tab">18-45岁</p>
+                <p class="m-tab">18-45岁</p>
+            </view>
+            <view class="m-tr4">
+                <view class="m-left">嘉兴省 嘉兴市 平湖市</view>
+                <view class="m-right">更新时间：2018-05-16 10:10:54</view>
+            </view>
+        </view>
+        <view class="m-reward" style="padding-bottom: 20rpx;">
+            <p class="m-title">奖励领取条件</p>
+            <table width="100%" class="m-table">
+                <tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr>
+            </table>
+        </view>
+        <view class="m-nav-box">
+            <view class="m-nav m-select">工资说明</view>
+            <view class="m-nav">岗位说明</view>
+            <view class="m-nav">企业说明</view>
+        </view>
+        <view class="m-wages m-box">
+            <view class="m-reward">
+                <p class="m-title">薪资待遇</p>
+                <table width="100%" class="m-table">
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                    </tr>
+                </table>
+            </view>
+            <view class="m-reward">
+                <p class="m-title">食宿情况</p>
+                <table width="100%" class="m-table">
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                    </tr>
+                </table>
+            </view>
+        </view>
+       <view class="m-work m-box">
+           <view class="m-reward">
+               <p class="m-title">工作简介</p>
+               <table width="100%" class="m-table">
+                   <tr>
+                       <td>1</td>
+                       <td>2</td>
+                       <td>3</td>
+                   </tr>
+                   <tr>
+                       <td>1</td>
+                       <td>2</td>
+                       <td>3</td>
+                   </tr>
+                   <tr>
+                       <td>1</td>
+                       <td>2</td>
+                       <td>3</td>
+                   </tr>
+               </table>
+           </view>
+           <view class="m-reward">
+               <p class="m-title">招聘要求</p>
+               <table width="100%" class="m-table">
+                   <tr>
+                       <td>1</td>
+                       <td>2</td>
+                       <td>3</td>
+                   </tr>
+                   <tr>
+                       <td>1</td>
+                       <td>2</td>
+                       <td>3</td>
+                   </tr>
+                   <tr>
+                       <td>1</td>
+                       <td>2</td>
+                       <td>3</td>
+                   </tr>
+               </table>
+           </view>
+           <view class="m-reward">
+               <p class="m-title">其他信息</p>
+               <table width="100%" class="m-table">
+                   <tr>
+                       <td>1</td>
+                       <td>2</td>
+                       <td>3</td>
+                   </tr>
+                   <tr>
+                       <td>1</td>
+                       <td>2</td>
+                       <td>3</td>
+                   </tr>
+                   <tr>
+                       <td>1</td>
+                       <td>2</td>
+                       <td>3</td>
+                   </tr>
+               </table>
+           </view>
+       </view>
+
+        <view class="m-contract m-box">
+            <view class="m-reward">
+                <p class="m-title">合同介绍</p>
+                <table width="100%" class="m-table">
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                    </tr>
+                </table>
+            </view>
+            <view class="m-company-intro">
+                <p class="m-title">公司简介</p>
+                <view class="m-company-info">可胜科技（泰州）有限公司于2012年06月12日在泰州医药高新技
+                    术产业开发区市场监督管理局登记成立。法定代表人杨义文，公司经营范围包括研发、生产和加工铝、镁和锌等各式新型合金材料及制品等。</view>
+                <view class="m-add">
+                    <p class="m-title">企业地址</p>
+                    <p class="m-company-add">泰州市经济开发区祥泰路227号</p>
+                </view>
+            </view>
+        </view>
+        <view class="m-back"></view>
+        <foot class="m-foot">
+            <view class="m-link">
+                <view>
+                    <image src="../../images/icon_fx.png" style="width:40rpx;height:40rpx;"/>
+                </view>
+                <p>分享</p>
+            </view>
+            <!--<view class="m-link">-->
+                <!--<view>-->
+                    <!--<image src="../../images/icon_sc.png" style="width:40rpx;height:40rpx;"/>-->
+                <!--</view>-->
+                <!--<p>收藏</p>-->
+            <!--</view>-->
+            <view class="m-link">
+                <view>
+                    <image src="../../images/icon_sc_onselected.png" style="width:40rpx;height:40rpx;"/>
+                </view>
+                <p>收藏</p>
+            </view>
+            <view class="m-btn" >立即申请</view>
+        </foot>
     </view>
 </template>
 <script>
     import wepy from 'wepy';
     export default class WorkDetails extends wepy.page{
+        config = {
+            navigationBarTitleText: '职位详情',
+            navigationBarBackgroundColor: '#fff',
+            navigationBarTextStyle: 'black',
+//            backgroundTextStyle:"dark"
+        }
         props = {
 
         }
         data = {
-
+            swiper:{
+                imgUrls: [
+                    'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
+                    'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
+                    'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
+                ],
+                indicatorDots: true,
+                autoplay: true,
+                interval: 5000,
+                duration: 1000
+            }
         }
         onLoad(){
 
@@ -21,5 +421,3 @@
 
     }
 </script>
-<style scoped lang="less" rel="stylesheet/less">
-</style>

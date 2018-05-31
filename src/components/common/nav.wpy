@@ -37,7 +37,9 @@
         }
         methods = {
             bindTap(list){
-                wx.navigateTo({
+                list.name == '热门招聘' ? wx.switchTab({
+                    url: list.url,
+                }) : wx.navigateTo({
                     url: list.url
                 })
             }
