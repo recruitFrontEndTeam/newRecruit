@@ -93,7 +93,7 @@
                 </view>
             </view>
             <view class="function-one">
-                <view class="function">
+                <view class="function" @tap = "goUrl('personal/salary/salarySearch')">
                     <image class="icon icon-xz" src="../../images/icon_xzcx.png" />
                     <view class="name">薪资查询</view>
                 </view>

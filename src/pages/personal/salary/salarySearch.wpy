@@ -6,6 +6,8 @@
         width: 100%;
         padding-top: 20rpx;
         .form-view{
+            position: fixed;
+            width: 100%;
             .main{
                 padding-left: 40rpx;
                 background: #fff;
@@ -17,7 +19,7 @@
                 .section__title{
                     width: 230rpx;
                     font-size: 28rpx;
-                    color: #5d677d;
+                    color: @main-font-color;
                     margin-right: 10rpx;
                     text-align: left;
                 }
@@ -43,6 +45,53 @@
                     color: #fff;
                 }
             }
+        }
+        .search-result{
+            padding-top: 450rpx;
+            background: #fff;
+            .title{
+                .flex-row(space-between);
+                .title-item{
+                    width: 25%;
+                    font-size: 28rpx;
+                    color: @main-font-color;
+                    text-align: center;
+                    height: 100rpx;
+                    line-height: 100rpx;
+                }
+                border-bottom: 1rpx solid #e6e6e6;
+            }
+            .content{
+                .content-item{
+                    .flex-row(space-between);
+                    .col{
+                        width: 25%;
+                        font-size: 28rpx;
+                        height: 100rpx;
+                        line-height: 100rpx;
+                        color: @main-font-color;
+                        text-align: center;
+                        overflow:hidden;
+                        text-overflow:ellipsis;
+                        white-space:nowrap;
+                        .salary{
+                            color: #F96969;
+                        }
+                        &.action{
+                            font-size: 24rpx;
+                            color: @tab-active-color
+                        }
+                    }
+                    border-bottom: 1rpx solid #e6e6e6;
+                }
+                .look-more{
+                    font-size: 32rpx;
+                    color: @main-font-color;
+                    text-align: center;
+                    height: 100rpx;
+                    line-height: 100rpx;
+                }
+            }
         }       
     }
 </style>
@@ -66,6 +115,32 @@
                 </view>
             </form>
         </View>
+        <view class="search-result">
+            <view class="title">
+                <view class="title-item">月份</view>
+                <view class="title-item">所在公司</view>
+                <view class="title-item">薪资</view>
+                <view class="title-item">查看</view>
+            </view>
+            <view class="content">
+                <repeat for="{{list}}" key="index" index="index" item="item">
+                    <view class="content-item">
+                        <view class="col">{{item.time}}</view>
+                        <view class="col">{{item.compony}}</view>
+                        <view class="col">
+                            <text class="salary">{{item.salary}}</text>
+                            <text>元</text>
+                        </view>
+                        <view class="col action" @tap="goUrl()">
+                            查看详情
+                        </view>
+                    </view>
+                </repeat>
+                <view class="look-more">
+                    查看更多
+                </view>
+            </view>
+        </view>
     </view>
 </template>
 <script >
@@ -77,7 +152,23 @@
             navigationBarTitleText: '薪资查询'
         }
         data = {
-            
+            list:[
+                {
+                    time: '2018-05',
+                    compony: '浙江嘉善新思考',
+                    salary: '4500'
+                },
+                {
+                    time: '2018-05',
+                    compony: '浙江嘉善新思考',
+                    salary: '4500'
+                },
+                {
+                    time: '2018-05',
+                    compony: '浙江嘉善新思考',
+                    salary: '4500'
+                }
+            ]
         }
 
         onLoad(){
@@ -86,6 +177,11 @@
         methods = {
             formSubmit: function(e) {
                 console.log('form发生了submit事件，携带数据为：', e.detail.value)
+            },
+            goUrl(){
+                wx.navigateTo({
+                    url: '/pages/personal/salary/salaryDetail'
+                })
             }
         }
 

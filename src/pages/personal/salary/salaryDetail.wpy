@@ -1,0 +1,230 @@
+<style scoped lang="less" rel="stylesheet/less">
+    @import "../../../styles/common.less";
+    .salary-detail-container{
+        background: @score-grey;
+        height: 100%;
+        .top-fixed{
+            position: fixed;
+            width: 100%;
+        }
+        .avatar-content{
+            height: 220rpx;
+            width: 100%;
+            background: @common-color;
+            .content{
+                width: 100%;
+                margin: 0 auto;
+                padding-top: 41rpx;
+                .money{
+                    width: 100%;
+                    text-align: center;
+                    color: #fff;
+                    font-size: 24rpx;
+                    .tab{
+                        .icon-arrow{
+                            width: 20rpx;
+                            margin-left: 10rpx;
+                            height: 10rpx;
+                        }
+                    }
+                    
+                }
+                .name{
+                    width: 100%;
+                    text-align: center;
+                    color: #fff;
+                    font-size: 72rpx;
+                    margin-top: 10rpx;
+                }
+            }
+        }
+        
+        .detail-content{
+            padding-top: 240rpx;
+            .line{
+                padding-left: 40rpx;
+                background: #fff;
+                .pad{
+                    padding-right: 40rpx;
+                    border-bottom: 1rpx solid #e6e6e6;
+                    .flex-row(space-between);
+                    .key,.value{
+                        width: 50%;
+                        text-align: left;
+                        font-size: 28rpx;
+                        color: @main-font-color;
+                        height: 100rpx;
+                        line-height: 100rpx;
+                    }
+                    .value{
+                        text-align: right;
+                    }
+                }
+            }
+        }
+        .picker{
+            .btn{
+                position: absolute;
+                z-index: 100;
+                width: 100%;
+                .flex-row(space-between);
+                .text{
+                    width: 50%;
+                    text-align: center;
+                    font-size: 28rpx;
+                    color: @main-font-color;
+                    height: 100rpx;
+                    line-height: 100rpx;
+                }
+            }
+        }
+    }
+</style>
+
+<template>
+    <view class="salary-detail-container">
+        <view class="top-fixed">
+            <view class="avatar-content">
+                <view class="content">
+                    <view class="money">
+                        <view class="tab" @tap="showPicker()">
+                            <text>{{year}}年{{month}}月薪资</text>
+                            <image class="icon-arrow" src="../../../images/icon_arrow_down1.png">
+                        </view>
+
+                    </view>
+                    <view class="name">4427.00</view>
+                </view>
+            </view>
+            
+        </view>
+        <view class="detail-content">
+            <view class="line">
+                <view class="pad">
+                    <view class="key">姓名</view>
+                    <view class="value">章三</view>
+                </view>
+            </view>
+            <view class="line">
+                <view class="pad">
+                    <view class="key">工号</view>
+                    <view class="value">20180203</view>
+                </view>
+            </view>
+            <view class="line">
+                <view class="pad">
+                    <view class="key">部门/科室</view>
+                    <view class="value">车间</view>
+                </view>
+            </view>
+            <view class="line">
+                <view class="pad">
+                    <view class="key">入职日期</view>
+                    <view class="value">2018-01-01</view>
+                </view>
+            </view>
+            <view class="line">
+                <view class="pad">
+                    <view class="key">身份证号</view>
+                    <view class="value">33081923139183213</view>
+                </view>
+            </view>
+            <view class="line">
+                <view class="pad">
+                    <view class="key">应出勤工时</view>
+                    <view class="value">10</view>
+                </view>
+            </view>
+            <view class="line">
+                <view class="pad">
+                    <view class="key">出勤工时</view>
+                    <view class="value">12</view>
+                </view>
+            </view>
+            <view class="line">
+                <view class="pad">
+                    <view class="key">基本工时</view>
+                    <view class="value">10</view>
+                </view>
+            </view>
+            <view class="line">
+                <view class="pad">
+                    <view class="key">餐补次数</view>
+                    <view class="value">10</view>
+                </view>
+            </view>
+            <view class="line">
+                <view class="pad">
+                    <view class="key">夜补次数</view>
+                    <view class="value">12</view>
+                </view>
+            </view>
+        </view>
+        <picker-view wx:if="{{isShowPicker}}" class="picker" style="position: fixed;bottom:0;width: 100%; height: 300px;" indicator-style="height: 100rpx;line-height: 100rpx;" value="{{value}}" bindchange="bindChange">
+            <view class="btn">
+                <view class="text cancel" @tap="hidePicker()">取消</view>
+                <view class="text confirm" @tap="hidePicker()">确定</view>
+            </view>
+            <picker-view-column>
+                <repeat for="{{years}}" key="index" index="index">
+                    <view style="line-height: 100rpx;text-align:center;">{{item}}年</view>
+                </repeat>
+            </picker-view-column>
+            <picker-view-column>
+                <repeat for="{{months}}" key="index" index="index">
+                    <view  style="line-height: 100rpx;text-align:center;">{{item}}月</view>
+                </repeat>
+            </picker-view-column>
+        </picker-view>
+    </view>
+</template>
+<script >
+    import wepy from 'wepy';
+    import tip from '../../../utils/tip';
+    import api from '../../../api/api';
+    const date = new Date()
+    const years = []
+    const months = []
+    for (let i = date.getFullYear(); i > 1990 ; i--) {
+        years.push(i)
+    }
+
+    for (let i = 1 ; i <= 12; i++) {
+        months.push(i)
+    }
+    export default class wallet extends wepy.page{
+        config = {
+            navigationBarTitleText: '薪资明细'
+        }
+        data = {
+            list: {},
+            years: years,
+            year: date.getFullYear(),
+            months: months,
+            month: date.getMonth(),
+            value: [0,date.getMonth()-1],
+            isShowPicker: false
+        }
+        components = {
+            
+        }
+
+        onLoad(){
+
+        }
+        methods = {
+            showPicker(){
+                this.isShowPicker = true;
+            },
+            hidePicker(){
+                this.isShowPicker = false;
+            },
+            bindChange: function(e) {
+                const val = e.detail.value;
+                this.year = this.data.years[val[0]];
+                this.month = this.data.months[val[1]]
+            }
+        }
+
+    }
+</script>
