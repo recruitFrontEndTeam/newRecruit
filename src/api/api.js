@@ -2,7 +2,7 @@ import {
     wxRequest
 } from '../utils/wxRequest';
 
-const api2 = '';
+const api2 = 'https://min3.pinecc.cn/';
 
 //登录 注册
 

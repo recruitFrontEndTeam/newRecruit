@@ -6,25 +6,34 @@
             .flex-row(space-around);
             height: 60rpx;
             padding: 10rpx 0;
-            .m-one-nav{
-                .flex-row(center);
-                width: 33.3%;
-                border-left: 0.5px solid #E6E6E6;
-                font-size: 28rpx;
-                &:first-child{
-                    border: none;
-                }
-                .m-icon-arrow-down{
-                    width: 24rpx;
-                    height: 14rpx;
-                    margin-left: 20rpx;
-                }
-            }
+
         }
         .m-back{
             height: 20rpx;
             background-color: #f9f9f9;
             width: 100%;
+        }
+        .m-cover{
+            position: fixed;
+            overflow: hidden;
+            top: 80rpx;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            background-color: rgba(0,0,0,0.5);
+            .m-modal{
+                position: absolute;
+                top: 0;
+                width: 100%;
+                background-color: #fff;
+                border-top: 1px solid #E6E6E6;
+                .m-btn-box{
+                    .flex-row(flex-start);
+                    flex-wrap: wrap;
+                    padding: 20rpx 34rpx;
+                }
+            }
         }
     }
 
@@ -33,27 +42,37 @@
 <template>
     <view class="m-workIndex">
         <view class="m-nav">
-            <view class="m-one-nav">
-                <view>地区</view>
-                <image class="m-icon-arrow-down" src="../../images/icon_arrow_down2.png" />
-            </view>
-            <view class="m-one-nav">
-                <view>职位</view>
-                <image class="m-icon-arrow-down" src="../../images/icon_arrow_down2.png" />
-            </view>
-            <view class="m-one-nav">
-                <view>排序</view>
-                <!--<image class="m-icon-arrow-down" src="../../images/icon_arrow_down2.png" />-->
-                <image class="m-icon-arrow-down" src="../../images/icon_arrow_up.png" />
-            </view>
+            <repeat for="{{nav_list}}" key="index" index="index" item="item">
+                <nav :list.sync="item" :index.sync="index" @navTap.user="navTap"></nav>
+            </repeat>
         </view>
         <view class="m-back"></view>
+        <view class="m-work-content">
+            <!--<repeat for="{{work_list}}" key="index" index="index" item="item">-->
+                <info></info>
+            <info></info>
+            <info></info>
+            <!--</repeat>-->
+        </view>
+
+        <view class="m-cover" wx:if="{{now_nav != ''}}">
+            <view class="m-modal" >
+                <view class="m-btn-box">
+                    <repeat for="{{now_data}}" key="index" index="index" item="item" >
+                        <btn :info.sync="item" :index.sync="index" @btnTap.user="btnTap" ></btn>
+                    </repeat>
+                </view>
+            </view>
+        </view>
     </view>
 </template>
 <script >
     import wepy from 'wepy';
     import tip from '../../utils/tip';
     import api from '../../api/api';
+    import nav from '../../components/common/navigator';
+    import info from '../../components/common/info';
+    import btn from '../../components/common/button';
     export default class workIndex extends wepy.page{
         config = {
             navigationBarTitleText: '工作',
@@ -61,14 +80,120 @@
             navigationBarTextStyle: 'black',
 //            backgroundTextStyle:"dark"
         }
+        components = {
+            nav: nav,
+            info:info,
+            btn:btn
+        }
         data = {
-
+            nav_list:[
+                {
+                    name:'地区',
+                    up:false,
+                    data:'area_data'
+                },
+                {
+                    name:'职位',
+                    up:false,
+                    data:'job_data'
+                },
+                {
+                    name:'排序',
+                    up:false,
+                    data:'sort_data'
+                }
+            ],
+            data_list:{
+                area_data:[
+                    {
+                        "areano":330100,
+                        "area_name":"杭州市",
+                        click:true
+                    },
+                    {
+                        "areano":330200,
+                        "area_name":"宁波市",
+                        click:false
+                    },
+                    {
+                        "areano":330400,
+                        "area_name":"嘉兴市",
+                        click:false
+                    },
+                    {
+                        "areano":330500,
+                        "area_name":"湖州市",
+                        click:false
+                    }
+                ],
+                job_data:[
+                    {
+                        "areano":330200,
+                        "area_name":"宁波市",
+                        click:false
+                    },
+                    {
+                        "areano":330400,
+                        "area_name":"嘉兴市",
+                        click:false
+                    },
+                    {
+                        "areano":330500,
+                        "area_name":"湖州市",
+                        click:false
+                    }
+                ],
+                sort_data:[
+                    {
+                        "areano":330200,
+                        "area_name":"重庆市",
+                        click:false
+                    },
+                    {
+                        "areano":330400,
+                        "area_name":"嘉兴市",
+                        click:false
+                    },
+                    {
+                        "areano":330500,
+                        "area_name":"湖州市",
+                        click:false
+                    }
+                ]
+            },
+            work_lis:[{
+                name:''
+            }],
+            now_data:null,
+            now_nav:''
         }
         onLoad(){
 
         }
         methods = {
-
+            navTap(v){
+                if(this.nav_list[v].up == false){
+                    this.nav_list.map(function (item) {
+                        item.up = false;
+                    });
+                    this.now_nav = this.nav_list[v].data;
+                    this.now_data = this.data_list[this.nav_list[v].data];
+                }else{
+                    this.now_nav = '';
+//                    this.now_data = null;
+                }
+                this.nav_list[v].up = !this.nav_list[v].up;
+                this.$apply();
+            },
+            btnTap(v){
+                if(this.data_list[this.now_nav][v].click == false){
+                    this.data_list[this.now_nav].map(function (item) {
+                        item.click = false;
+                    })
+                }
+                this.data_list[this.now_nav][v].click = !this.data_list[this.now_nav][v].click;
+                this.$apply();
+            }
         }
 
     }

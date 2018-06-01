@@ -53,7 +53,7 @@
         .m-nav-box{
             width: 750rpx;
             background-color: #fff;
-            margin: 20rpx 0;
+            margin-top: 20rpx;
             .flex-row(space-around);
             .m-nav{
                 font-size: 24rpx;
@@ -118,6 +118,7 @@
                 border-top: 1px solid  #DBDBDB;
                 margin-top: 20rpx;
                 font-size: 24rpx;
+                line-height: 48rpx;
             }
             .m-add{
                 .flex-row(flex-start);
@@ -223,146 +224,148 @@
             </table>
         </view>
         <view class="m-nav-box">
-            <view class="m-nav m-select">工资说明</view>
-            <view class="m-nav">岗位说明</view>
-            <view class="m-nav">企业说明</view>
+            <view class="m-nav {{show_a == 'wages' ? 'm-select':''}}  " @tap="tap('wages')">工资说明</view>
+            <view class="m-nav {{show_a == 'work' ? 'm-select':''}} " @tap="tap('work')">岗位说明</view>
+            <view class="m-nav {{show_a == 'contract' ? 'm-select':''}} "  @tap="tap('contract')">企业说明</view>
         </view>
-        <view class="m-wages m-box">
-            <view class="m-reward">
-                <p class="m-title">薪资待遇</p>
-                <table width="100%" class="m-table">
-                    <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                    </tr>
-                </table>
-            </view>
-            <view class="m-reward">
-                <p class="m-title">食宿情况</p>
-                <table width="100%" class="m-table">
-                    <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                    </tr>
-                </table>
-            </view>
-        </view>
-       <view class="m-work m-box">
-           <view class="m-reward">
-               <p class="m-title">工作简介</p>
-               <table width="100%" class="m-table">
-                   <tr>
-                       <td>1</td>
-                       <td>2</td>
-                       <td>3</td>
-                   </tr>
-                   <tr>
-                       <td>1</td>
-                       <td>2</td>
-                       <td>3</td>
-                   </tr>
-                   <tr>
-                       <td>1</td>
-                       <td>2</td>
-                       <td>3</td>
-                   </tr>
-               </table>
-           </view>
-           <view class="m-reward">
-               <p class="m-title">招聘要求</p>
-               <table width="100%" class="m-table">
-                   <tr>
-                       <td>1</td>
-                       <td>2</td>
-                       <td>3</td>
-                   </tr>
-                   <tr>
-                       <td>1</td>
-                       <td>2</td>
-                       <td>3</td>
-                   </tr>
-                   <tr>
-                       <td>1</td>
-                       <td>2</td>
-                       <td>3</td>
-                   </tr>
-               </table>
-           </view>
-           <view class="m-reward">
-               <p class="m-title">其他信息</p>
-               <table width="100%" class="m-table">
-                   <tr>
-                       <td>1</td>
-                       <td>2</td>
-                       <td>3</td>
-                   </tr>
-                   <tr>
-                       <td>1</td>
-                       <td>2</td>
-                       <td>3</td>
-                   </tr>
-                   <tr>
-                       <td>1</td>
-                       <td>2</td>
-                       <td>3</td>
-                   </tr>
-               </table>
-           </view>
-       </view>
-
-        <view class="m-contract m-box">
-            <view class="m-reward">
-                <p class="m-title">合同介绍</p>
-                <table width="100%" class="m-table">
-                    <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                    </tr>
-                </table>
-            </view>
-            <view class="m-company-intro">
-                <p class="m-title">公司简介</p>
-                <view class="m-company-info">可胜科技（泰州）有限公司于2012年06月12日在泰州医药高新技
-                    术产业开发区市场监督管理局登记成立。法定代表人杨义文，公司经营范围包括研发、生产和加工铝、镁和锌等各式新型合金材料及制品等。</view>
-                <view class="m-add">
-                    <p class="m-title">企业地址</p>
-                    <p class="m-company-add">泰州市经济开发区祥泰路227号</p>
+        <scroll-view scroll-y  style="height: 1000rpx;" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+            <view id="wages" class="m-wages m-box" >
+                <view class="m-reward">
+                    <p class="m-title">薪资待遇</p>
+                    <table width="100%" class="m-table">
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                    </table>
+                </view>
+                <view class="m-reward">
+                    <p class="m-title">食宿情况</p>
+                    <table width="100%" class="m-table">
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                    </table>
                 </view>
             </view>
-        </view>
+            <view id="work" class="m-work m-box">
+                <view class="m-reward">
+                    <p class="m-title">工作简介</p>
+                    <table width="100%" class="m-table">
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                    </table>
+                </view>
+                <view class="m-reward">
+                    <p class="m-title">招聘要求</p>
+                    <table width="100%" class="m-table">
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                    </table>
+                </view>
+                <view class="m-reward">
+                    <p class="m-title">其他信息</p>
+                    <table width="100%" class="m-table">
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                    </table>
+                </view>
+            </view>
+            <view id="contract" class="m-contract m-box">
+                <view class="m-reward">
+                    <p class="m-title">合同介绍</p>
+                    <table width="100%" class="m-table">
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                    </table>
+                </view>
+                <view class="m-company-intro">
+                    <p class="m-title">公司简介</p>
+                    <view class="m-company-info">可胜科技（泰州）有限公司于2012年06月12日在泰州医药高新技
+                        术产业开发区市场监督管理局登记成立。法定代表人杨义文，公司经营范围包括研发、生产和加工铝、镁和锌等各式新型合金材料及制品等。</view>
+                    <view class="m-add">
+                        <p class="m-title">企业地址</p>
+                        <p class="m-company-add">泰州市经济开发区祥泰路227号</p>
+                    </view>
+                </view>
+            </view>
+        </scroll-view>
+
         <view class="m-back"></view>
         <foot class="m-foot">
             <view class="m-link">
@@ -410,13 +413,52 @@
                 autoplay: true,
                 interval: 5000,
                 duration: 1000
-            }
+            },
+            order:['wages','work','contract'],
+            show_a:'wages',
+            toView: 'wages',
+            scrollTop: 0
         }
         onLoad(){
-
         }
         methods = {
+            upper: function(e) {
+//                console.log(e)
+            },
+            lower: function(e) {
+//                console.log(e)
 
+            },
+            scroll: function(e) {
+                console.log(e)
+//                if(e.detail.scrollTop < 448){
+//                    this.show_a = 'wages';
+//                    this.$apply();
+//                }else if(e.detail.scrollTop < 1049 && e.detail.scrollTop >=448){
+//                    this.show_a = 'work';
+//                    this.$apply();
+//                }else{
+//                    this.show_a = 'contract';
+//                    this.$apply();
+//                }
+            },
+            tap: function(e) {
+                this.toView = e;
+                this.show_a = e;
+                for (var i = 0; i < this.order.length; ++i) {
+                    if (this.order[i] === this.toView) {
+                        this.setData({
+                            toView: this.order[i + 1]
+                        });
+                        break
+                    }
+                }
+            },
+            tapMove: function(e) {
+                this.setData({
+                    scrollTop: this.scrollTop - 10
+                })
+            }
         }
 
     }
