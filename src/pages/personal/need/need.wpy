@@ -19,7 +19,7 @@
                     color: @main-font-color;
                 }
                 .text-area{
-                    padding: 10rpx;
+                    padding: 5rpx;
                 }
             }
         }

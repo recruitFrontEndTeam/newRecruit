@@ -31,6 +31,7 @@ page{
   export default class extends wepy.app {
     config = {
       pages: [
+        'pages/personal/salary/salarySearch',
         'pages/index/index',
         'pages/index/bole',
         'pages/index/search',
@@ -46,6 +47,7 @@ page{
         'pages/personal/team/myTeam',
         'pages/personal/application/applicationRecord',
         'pages/personal/need/need',
+        
         'pages/personal/index',
         'pages/work/index',
         'pages/work/workDetails',

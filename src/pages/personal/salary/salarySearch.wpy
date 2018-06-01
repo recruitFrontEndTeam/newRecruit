@@ -1,0 +1,93 @@
+<style scoped lang="less" rel="stylesheet/less">
+    @import "../../../styles/common.less";
+    .salary-search-container{
+        background: @score-grey;
+        height: 100%;
+        width: 100%;
+        padding-top: 20rpx;
+        .form-view{
+            .main{
+                padding-left: 40rpx;
+                background: #fff;
+            }
+            .form-item{
+                .flex-row(flex-start);
+                height: 100rpx;
+                border-bottom: 1rpx solid #e6e6e6;
+                .section__title{
+                    width: 230rpx;
+                    font-size: 28rpx;
+                    color: #5d677d;
+                    margin-right: 10rpx;
+                    text-align: left;
+                }
+                .sex-text{
+                    color: #bebebe;
+                    font-size: 24rpx;
+                    margin-right: 15rpx;
+                }
+                .tel-view{
+                    border:0;
+                }
+            }
+            .btn-area{
+                margin-top: 120rpx;
+                .confirm-btn{
+                    width: 440rpx;
+                    border: 0;
+                    height: 80rpx;
+                    line-height: 80rpx;
+                    background: #4C80F5;
+                    border-radius: 40rpx;
+                    font-size: 28rpx;
+                    color: #fff;
+                }
+            }
+        }       
+    }
+</style>
+
+<template>
+    <view class="salary-search-container">
+        <view class="form-view">
+            <form bindsubmit="formSubmit" bindreset="formReset">
+                <view class="main">
+                    <view class="form-item name-view">
+                        <view class="section__title">公司名称（选填）</view>
+                        <input name="name" placeholder="请输入需要查询的公司名称" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
+                    </view>
+                    <view class="form-item tel-view">
+                        <view class="section__title">身份证号（必填）</view>
+                        <input name="tel" placeholder="请输入身份证号" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
+                    </view>
+                </view>
+                <view class="btn-area">
+                    <button class="confirm-btn" formType="submit">立即查询</button>
+                </view>
+            </form>
+        </View>
+    </view>
+</template>
+<script >
+    import wepy from 'wepy';
+    import tip from '../../../utils/tip';
+    import api from '../../../api/api';
+    export default class salarySearch extends wepy.page{
+        config = {
+            navigationBarTitleText: '薪资查询'
+        }
+        data = {
+            
+        }
+
+        onLoad(){
+
+        }
+        methods = {
+            formSubmit: function(e) {
+                console.log('form发生了submit事件，携带数据为：', e.detail.value)
+            }
+        }
+
+    }
+</script>

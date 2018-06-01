@@ -83,7 +83,7 @@
                     <image class="icon" src="../../images/icon_sqjl.png" />
                     <view class="name">申请记录</view>
                 </view>
-                <view class="function" @tap = "goUrl('work/index')">
+                <view class="function" @tap = "goWork()">
                     <image class="icon" src="../../images/icon_jnts.png" />
                     <view class="name">技能提升</view>
                 </view>
@@ -140,6 +140,11 @@
             goUrl(url){
                 wx.navigateTo({
                     url: '/pages/'+url
+                })
+            },
+            goWork(){
+                wx.switchTab({
+                    url: '/pages/work/index'
                 })
             }
         }
