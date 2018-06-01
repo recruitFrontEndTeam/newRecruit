@@ -91,7 +91,7 @@
 </style>
 
 <template>
-    <view class="m-info-box">
+    <view class="m-info-box" @tap="tap">
         <image class="m-info-img" src="../../images/pic_blph.png"/>
         <view class="m-info-right">
             <view class="m-info-tr1">
@@ -141,7 +141,9 @@
 
         }
         methods = {
-
+            tap(v){
+                this.$emit('infoTap',v);
+            }
         }
 
     }

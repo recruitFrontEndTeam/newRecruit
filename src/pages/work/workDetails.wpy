@@ -77,6 +77,7 @@
             color: #5B5B5B ;
             border-spacing: 0;
             border-collapse: collapse;
+            font-size: 24rpx;
             tr{
                 &:nth-child(even){
                     td{
@@ -89,8 +90,9 @@
                     border-spacing: 0;
                     border: 1px solid #DBDBDB;
                     text-align: center;
+                    vertical-align: middle;
                     height: 100rpx;
-                    line-height: 100rpx;
+                    line-height: 40rpx;
                     width: 136rpx;
                     &:first-child{
                         width: 60rpx;
@@ -208,25 +210,27 @@
             <table width="100%" class="m-table">
                 <tr>
                     <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
+                    <td>入职奖励</td>
+                    <td>通过链匠招聘小程序入职本公司，首
+                        月工作满30天，可领取入职奖励60元</td>
                 </tr>
                 <tr>
-                    <td>1</td>
                     <td>2</td>
-                    <td>3</td>
+                    <td>分享奖励</td>
+                    <td>通过分享，推荐他人入职本公司，可
+                        获取奖励300元</td>
                 </tr>
                 <tr>
-                    <td>1</td>
-                    <td>2</td>
                     <td>3</td>
+                    <td>其  他</td>
+                    <td></td>
                 </tr>
             </table>
         </view>
         <view class="m-nav-box">
-            <view class="m-nav {{show_a == 'wages' ? 'm-select':''}}  " @tap="tap('wages')">工资说明</view>
-            <view class="m-nav {{show_a == 'work' ? 'm-select':''}} " @tap="tap('work')">岗位说明</view>
-            <view class="m-nav {{show_a == 'contract' ? 'm-select':''}} "  @tap="tap('contract')">企业说明</view>
+            <view class="m-nav {{toView == 'wages' ? 'm-select':''}}  " @tap="tap('wages')">工资说明</view>
+            <view class="m-nav {{toView == 'work' ? 'm-select':''}} " @tap="tap('work')">岗位说明</view>
+            <view class="m-nav {{toView == 'contract' ? 'm-select':''}} "  @tap="tap('contract')">企业说明</view>
         </view>
         <scroll-view scroll-y  style="height: 1000rpx;" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
             <view id="wages" class="m-wages m-box" >
@@ -235,18 +239,33 @@
                     <table width="100%" class="m-table">
                         <tr>
                             <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
+                            <td>综合薪资</td>
+                            <td>3700-4500元</td>
                         </tr>
                         <tr>
-                            <td>1</td>
                             <td>2</td>
-                            <td>3</td>
+                            <td>底  薪</td>
+                            <td>2030元/月</td>
                         </tr>
                         <tr>
-                            <td>1</td>
-                            <td>2</td>
                             <td>3</td>
+                            <td>加  班</td>
+                            <td>按1950元计算，平时1.5倍，双休2倍，</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>补  贴</td>
+                            <td>1、夜班补贴260-300元/月；</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>发  薪  日</td>
+                            <td>每月5日（发26-25日）</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>其  他</td>
+                            <td></td>
                         </tr>
                     </table>
                 </view>
@@ -255,18 +274,22 @@
                     <table width="100%" class="m-table">
                         <tr>
                             <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
+                            <td>伙  食</td>
+                            <td>免费提供工作餐及加班餐，员工可自
+                                由选择餐点及菜色</td>
                         </tr>
                         <tr>
-                            <td>1</td>
                             <td>2</td>
-                            <td>3</td>
+                            <td>住  宿</td>
+                            <td>公司提供住宿，8人间，住宿费60元/
+                                月，房间有空调、卫生间、淋浴等设
+                                施；面试当天安排临时住宿（20元），
+                                次日体检</td>
                         </tr>
                         <tr>
-                            <td>1</td>
-                            <td>2</td>
                             <td>3</td>
+                            <td>其他</td>
+                            <td></td>
                         </tr>
                     </table>
                 </view>
@@ -277,18 +300,24 @@
                     <table width="100%" class="m-table">
                         <tr>
                             <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
+                            <td>岗位说明</td>
+                            <td>主要生产的是手机外壳、注塑模、冷冲</td>
                         </tr>
                         <tr>
-                            <td>1</td>
                             <td>2</td>
-                            <td>3</td>
+                            <td>工作时间</td>
+                            <td>两班倒，每周5天8小时工作制，假日
+                                及平时视生产任务安排加班</td>
                         </tr>
                         <tr>
-                            <td>1</td>
-                            <td>2</td>
                             <td>3</td>
+                            <td>工作环境</td>
+                            <td>站着工作、无流水线、不穿无尘服</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>其  他</td>
+                            <td>站着工作、无流水线、不穿无尘服</td>
                         </tr>
                     </table>
                 </view>
@@ -297,17 +326,17 @@
                     <table width="100%" class="m-table">
                         <tr>
                             <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
+                            <td>年  龄</td>
+                            <td>18-50</td>
                         </tr>
                         <tr>
-                            <td>1</td>
                             <td>2</td>
-                            <td>3</td>
+                            <td>学历</td>
+                            <td>初中及以上</td>
                         </tr>
                         <tr>
-                            <td>1</td>
-                            <td>2</td>
+                            <td>3</td>
+                            <td>其他</td>
                             <td>3</td>
                         </tr>
                     </table>
@@ -317,17 +346,18 @@
                     <table width="100%" class="m-table">
                         <tr>
                             <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
+                            <td>体检说明</td>
+                            <td>体检费75元自理</td>
                         </tr>
                         <tr>
-                            <td>1</td>
                             <td>2</td>
-                            <td>3</td>
+                            <td>个人材料</td>
+                            <td>1、身份证
+                                2、一寸照</td>
                         </tr>
                         <tr>
-                            <td>1</td>
-                            <td>2</td>
+                            <td>3</td>
+                            <td>其  他</td>
                             <td>3</td>
                         </tr>
                     </table>
@@ -339,17 +369,17 @@
                     <table width="100%" class="m-table">
                         <tr>
                             <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
+                            <td>合同说明</td>
+                            <td>与企业签订</td>
                         </tr>
                         <tr>
-                            <td>1</td>
                             <td>2</td>
-                            <td>3</td>
+                            <td>保险说明</td>
+                            <td>入职缴纳社保</td>
                         </tr>
                         <tr>
-                            <td>1</td>
-                            <td>2</td>
+                            <td>3</td>
+                            <td>其他说明</td>
                             <td>3</td>
                         </tr>
                     </table>
