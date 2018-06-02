@@ -48,11 +48,14 @@ page{
         'pages/personal/need/need',
         'pages/personal/salary/salarySearch',
         'pages/personal/salary/salaryDetail',
+        'pages/personal/salary/salaryAdvance',
+        'pages/personal/complaint/complaintAdvice',
+        'pages/personal/code/code',
         'pages/personal/index',
         'pages/work/index',
         'pages/work/workDetails',
-         'pages/skill/index',
-         'pages/skill/skillDetails'
+        'pages/skill/index',
+        'pages/skill/skillDetails'
       ],
       window: {
         backgroundTextStyle: 'light',

@@ -1,0 +1,138 @@
+<style scoped lang="less" rel="stylesheet/less">
+    @import "../../../styles/common.less";
+    .salary-search-container{
+        background: @score-grey;
+        height: 100%;
+        width: 100%;
+        padding-top: 20rpx;
+        .form-view{
+            width: 100%;
+            .main{
+                padding-left: 40rpx;
+                background: #fff;
+            }
+            .form-item{
+                .flex-row(flex-start);
+                height: 100rpx;
+                border-bottom: 1rpx solid #e6e6e6;
+                .section__title{
+                    width: 150rpx;
+                    font-size: 28rpx;
+                    color: @main-font-color;
+                    margin-right: 10rpx;
+                    text-align: left;
+                }
+                .sex-text{
+                    color: #bebebe;
+                    font-size: 24rpx;
+                    margin-right: 15rpx;
+                }
+                .tel-view{
+                    border:0;
+                }
+            }
+            .other{
+                .section__title{
+                    background:  @score-grey;
+                    font-size: 28rpx;
+                    color: @main-font-color;
+                    text-align: left;
+                    height: 80rpx;
+                    line-height: 80rpx;
+                    position: relative;
+                    width: 750rpx;
+                    padding-left: 40rpx;
+                    left: -40rpx;
+                }
+                .text-area{
+                    padding: 15rpx 0;
+                }
+            }
+            .btn-area{
+                padding-top: 60rpx;
+                background: @score-grey;
+                .confirm-btn{
+                    width: 440rpx;
+                    border: 0;
+                    height: 80rpx;
+                    line-height: 80rpx;
+                    background: #4C80F5;
+                    border-radius: 40rpx;
+                    font-size: 28rpx;
+                    color: #fff;
+                }
+                .service-tel{
+                    height: 100rpx;
+                    line-height: 100rpx;
+                    font-size: 24rpx;
+                    text-align: center;
+                    color: @main-font-color;
+                }
+            }
+        }
+            
+    }
+</style>
+
+<template>
+    <view class="salary-search-container">
+        <view class="form-view">
+            <form bindsubmit="formSubmit" bindreset="formReset">
+                <view class="main">
+                    <view class="form-item name-view">
+                        <view class="section__title">您的手机</view>
+                        <input name="tel" placeholder="请输入手机号" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
+                    </view>
+                    <view class="form-item tel-view">
+                        <view class="section__title">所在城市</view>
+                        <input name="city" placeholder="请选择城市" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
+                    </view>
+                    <view class="form-item">
+                        <view class="section__title">投诉单位</view>
+                        <input name="com" placeholder="请输入您投诉的单位" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
+                    </view>
+                    <view class="other">
+                        <view class="section__title">投诉内容</view>
+                        <textarea class="text-area" name="count" placeholder="请输入您要投诉的内容" placeholder-style="color: #bebebe;font-size: 24rpx;" />
+                    </view>
+                    <view class="other">
+                        <view class="section__title">其他</view>
+                        <textarea class="text-area" name="count" placeholder="请输入其他内容" placeholder-style="color: #bebebe;font-size: 24rpx;" />
+                    </view>
+                </view>
+                <view class="btn-area">
+                    <button class="confirm-btn" formType="submit">提交</button>
+                    <view class="service-tel">客服电话：0571-XXXXX</view>
+                </view>
+            </form>
+        </View>
+    </view>
+</template>
+<script >
+    import wepy from 'wepy';
+    import tip from '../../../utils/tip';
+    import api from '../../../api/api';
+    export default class complaintAdvice extends wepy.page{
+        config = {
+            navigationBarTitleText: '投诉建议'
+        }
+        data = {
+            
+        }
+
+        onLoad(){
+
+        }
+        methods = {
+            formSubmit: function(e) {
+                console.log('form发生了submit事件，携带数据为：', e.detail.value)
+            },
+            goUrl(){
+                wx.navigateTo({
+                    url: '/pages/personal/salary/salaryDetail'
+                })
+            }
+        }
+
+    }
+</script>

@@ -97,17 +97,17 @@
                     <image class="icon icon-xz" src="../../images/icon_xzcx.png" />
                     <view class="name">薪资查询</view>
                 </view>
-                <view class="function">
+                <view class="function" @tap = "goUrl('personal/salary/salaryAdvance')">
                     <image class="icon" src="../../images/icon_gzyz.png" />
                     <view class="name">工资预支</view>
                 </view>
-                <view class="function">
+                <view class="function" @tap = "goUrl('personal/complaint/complaintAdvice')">
                     <image class="icon" src="../../images/icon_tsjy.png" />
                     <view class="name">投诉建议</view>
                 </view>
             </view>
             <view class="function-one">
-                <view class="function">
+                <view class="function" @tap = "goUrl('personal/code/code')">
                     <image class="icon" src="../../images/icon_ewm.png" />
                     <view class="name">我的二维码</view>
                 </view>
