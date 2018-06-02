@@ -30,6 +30,10 @@
                 .tel-view{
                     border:0;
                 }
+                .picker{
+                    font-size: 28rpx;
+                    color: #000;
+                }
             }
             .other{
                 .section__title{
@@ -85,7 +89,11 @@
                     </view>
                     <view class="form-item tel-view">
                         <view class="section__title">所在城市</view>
-                        <input name="city" placeholder="请选择城市" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
+                        <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+                            <view class="picker">
+                                {{region[0]}}，{{region[1]}}，{{region[2]}}
+                            </view>
+                        </picker>
                     </view>
                     <view class="form-item">
                         <view class="section__title">投诉单位</view>
@@ -117,13 +125,18 @@
             navigationBarTitleText: '投诉建议'
         }
         data = {
-            
+            region: ['浙江省', '杭州市', '西湖区'],
+            customItem: '全部'
         }
 
         onLoad(){
 
         }
         methods = {
+            bindRegionChange: function (e) {
+                console.log('picker发送选择改变，携带值为', e.detail.value)
+                this.region = e.detail.value
+            },
             formSubmit: function(e) {
                 console.log('form发生了submit事件，携带数据为：', e.detail.value)
             },
