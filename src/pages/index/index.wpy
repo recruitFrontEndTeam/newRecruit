@@ -278,10 +278,13 @@
         }
       ]
     }
-    async getProductList() {
+    async getdisttrictList() {
       let that = this;
       tip.loading();
-        let res = await api.getProductAll()
+        let res = await api.blList({method:'POST',query:{
+                sess_key:'12212'
+            }})
+        console.log(res);
         if(res.data.status == '200'){
             that.commodity = res.data.data;
             that.$apply()
@@ -289,9 +292,27 @@
         }else{
             tip.error(res.data.message)
         }
+        // wx.request({
+        //     url:api.blList ,
+        //     method:'POST',
+        //     data:{
+        //         sess_key:'12212'
+        //     },
+        //     header:{
+        //         'content-type':'application/json',
+        //     },
+        //     success:function (res) {
+        //         tip.loaded()
+        //         // console.log(res,'aaa')
+        //         if(res.data.status == '200'){
+        //             that.list_data = res.data.data;
+        //             that.$apply()
+        //         }
+        //     }
+        // })
     }
     onLoad(){
-
+      this.getdisttrictList();
     }
     methods = {
       detailTap(){
