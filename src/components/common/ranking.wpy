@@ -38,11 +38,11 @@
         <view class="m-left">
             <p class="m-num" wx:if="{{index > 0}}">{{index+1}}</p>
             <image style="width: 54rpx;height: 54rpx;" src="../../images/icon_jp.png" wx:if="{{index == 0}}"/>
-            <image style="width: 60rpx;height: 60rpx;margin: 0 20rpx" src="../../images/{{list.src}}.png"/>
-            <p>{{list.name}}</p>
+            <image style="width: 60rpx;height: 60rpx;margin: 0 20rpx" src="{{list.avatar}}"/>
+            <p>{{list.username}}</p>
         </view>
         <view class="m-right">
-            <p class="m-price">{{list.price}}</p>
+            <p class="m-price">{{list.rec_cash}}</p>
         </view>
     </view>
 </template>

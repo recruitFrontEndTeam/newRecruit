@@ -1,0 +1,36 @@
+<template>
+    <view class="m-city {{item.click ? 'm-active':''}}">{{item.area_name}}</view>
+</template>
+<script>
+    import wepy from 'wepy';
+
+    export default class City extends wepy.page {
+        config = {
+            navigationBarTitleText: ''
+        }
+        props = {
+            item:{
+                type:Object,
+                default:null
+            }
+        }
+        data = {}
+        methods = {}
+    }
+</script>
+<style scoped lang="less" rel="stylesheet/less">
+    .m-city{
+        width: 206rpx;
+        height: 44rpx;
+        line-height: 44rpx;
+        font-size: 24rpx;
+        border: 1px solid #E3E7F0;
+        color: #95A2B5;
+        margin: 10rpx 20rpx 10rpx 0;
+        text-align: center;
+        &.m-active{
+            color: #6698FE;
+            border-color: #6698FE;
+        }
+    }
+</style>

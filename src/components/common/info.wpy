@@ -25,7 +25,7 @@
                     align-items: center;
                     .m-name{
                         font-size: 32rpx;
-                        margin-right: 10rpx;
+                        /*margin-right: 10rpx;*/
                     }
                     .m-tabs{
                         display: flex;
@@ -35,8 +35,8 @@
                             color: #fff;
                             background-color: #F96969;
                             border-radius: 3px;
-                            padding: 10rpx 8rpx;
-                            margin-left: 20rpx;
+                            padding: 10rpx 2rpx;
+                            margin-left: 10rpx;
                         }
                     }
                 }
@@ -92,18 +92,18 @@
 
 <template>
     <view class="m-info-box" @tap="tap">
-        <image class="m-info-img" src="../../images/pic_blph.png"/>
+        <image class="m-info-img" src="{{list.pic_env}}"/>
         <view class="m-info-right">
             <view class="m-info-tr1">
                 <view class="m-info-td1">
-                    <p class="m-name">普工</p>
+                    <p class="m-name">{{list.name}}</p>
                     <view class="m-tabs">
-                        <view class="m-tab">入职奖9000</view>
-                        <view class="m-tab">入职奖9000</view>
+                        <view class="m-tab">入职奖{{list.reward}}</view>
+                        <view class="m-tab">推荐奖{{list.reward_up}}</view>
                     </view>
                 </view>
                 <view class="m-info-td2">
-                    <p class="m-price">¥3500-4500</p>
+                    <p class="m-price">¥{{list.mini_salary}}-{{list.max_salary}}</p>
                 </view>
             </view>
             <view class="m-info-tr2">
@@ -113,12 +113,12 @@
             </view>
             <view class="m-info-tr3">
                 <view class="m-info-td1">
-                    <p class="m-name m-name-first">嘉兴</p>
-                    <p class="m-name">18-45岁</p>
-                    <p class="m-name">男女不限</p>
+                    <p class="m-name m-name-first">{{list.city_name}}</p>
+                    <p class="m-name">{{list.keyword1}}</p>
+                    <p class="m-name">{{list.keyword2}}</p>
                 </view>
                 <view class="m-info-td2">
-                    <p class="m-time">14:58发布</p>
+                    <p class="m-time">{{list.update_at}}</p>
                     <!--<p class="m-link">取消收藏</p>-->
                     <!--<view class="m-btn">面试</view>-->
                 </view>

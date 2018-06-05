@@ -119,11 +119,31 @@
                     price:'2000元',
                     url:''
                 },
-            ]
+            ],
         }
+        async getblList(sess_key) {
+            let that = this;
+            tip.loading();
+            let res = await api.blList({method:'POST',query:{
+                    sess_key: sess_key
+                }});
+            if(res.data.error_code == 0){
+                that.rank_list = res.data.bizobj.data;
+                that.$apply();
+                tip.loaded();
+            }else{
+                tip.error(res.data.error_msg);
 
+            }
+        }
         onLoad(){
-
+            var _this = this;
+            wx.getStorage({
+                key: 'sess_key',
+                success: function(res){
+                    _this.getblList(res.data);
+                }
+            });
         }
         methods = {
         }
