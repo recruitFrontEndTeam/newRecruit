@@ -132,13 +132,16 @@
     import api from '../../api/api';
     export default class Info extends wepy.page{
         props = {
-
+            list:{
+                type:Object,
+                default:null
+            }
         }
         data = {
 
         }
         onLoad(){
-
+            console.log(this.list);
         }
         methods = {
             tap(v){

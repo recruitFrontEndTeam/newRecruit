@@ -89,7 +89,7 @@ page{
     }
 
     globalData = {
-      userInfo: null,
+      sess_key: '122233',
 
     }
 
@@ -100,7 +100,8 @@ page{
     }
 
     onLaunch() {
-      this.testAsync()
+      this.testAsync();
+        wx.setStorage({key:'sess_key',data: 'value'})
     }
 
     sleep (s) {
@@ -118,12 +119,14 @@ page{
 
     getUserInfo(cb) {
       const that = this
-      if (this.globalData.userInfo) {
-        return this.globalData.userInfo
+      if (this.globalData.sess_key) {
+        return this.globalData.sess_key
       }
+
       wepy.getUserInfo({
         success (res) {
-          that.globalData.userInfo = res.userInfo
+          // that.globalData.sess_key = res.sess_key
+            that.globalData.sess_key = '122212';
           cb && cb(res.userInfo)
         }
       })
