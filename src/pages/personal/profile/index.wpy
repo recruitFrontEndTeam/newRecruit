@@ -115,11 +115,26 @@
             navigationBarTitleText: '完善信息'
         }
         data = {
-            date: '0'
+            date: '0',
+            userData: {}
         }
-
+        async getuserInfo() {
+            let that = this;
+            tip.loading();
+                let res = await api.userInfo({method:'POST',query:{
+                        sess_key:'12212'
+                    }})
+                console.log(res);
+                if(res.data.status == '200'){
+                    that.userData = res.data.data;
+                    that.$apply()
+                    tip.loaded()
+                }else{
+                    tip.error(res.data.message)
+                }
+        }
         onLoad(){
-
+            this.getuserInfo();
         }
         methods = {
             formSubmit: function(e) {
@@ -127,6 +142,22 @@
             },
             bindDateChange: function(e) {
                 this.date = e.detail.value
+            },
+            downTime(o, wait, timer) {
+                //验证码倒计时
+                let _this = this;
+                if (wait == 0) {
+                    o.removeAttr("disabled");
+                    o.val(translate("获取验证码"));
+                    wait = 60;
+                } else {
+                    o.attr("disabled", "disabled");
+                    o.val(translate("重新发送")+"(" + wait + ")");
+                    wait--;
+                    timer = setTimeout(function() {
+                    _this.downTime(o, wait, timer);
+                    }, 1000);
+                }
             },
         }
 

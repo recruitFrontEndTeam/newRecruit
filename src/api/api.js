@@ -11,8 +11,28 @@ const register = (params) => wxRequest(params, api2+'/goods/users/register');
 const disttrictList = (params) => wxRequest(params,api2 + 'api/Addr/disttrictList.html');
 const blList = (params) => wxRequest(params,api2 + 'api/User/blList.html');
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//个人中心
+const userInfo = (params) => wxRequest(params, api2+'api/User/userInfo.html');//个人资料
 //评价
 module.exports = {
-    register, login,disttrictList,blList
-
+    register, login,disttrictList,blList,
+    userInfo
 }
