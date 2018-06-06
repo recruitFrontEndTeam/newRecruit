@@ -31,7 +31,7 @@
             <p class="m-title">定位城市</p>
             <view class="m-city-box">
                 <repeat for="{{location_city}}" key="index" index="index" item="item">
-                    <city :item.sync="item"  ></city>
+                    <city :item.sync="item"  :select.sync="select_city"></city>
                 </repeat>
             </view>
         </view>
@@ -39,7 +39,7 @@
             <p class="m-title">在招城市</p>
             <view class="m-city-box">
                 <repeat for="{{recruit_citys}}" key="index" index="index" item="item">
-                    <city :item.sync="item"  ></city>
+                    <city :item.sync="item"  :select.sync="select_city"></city>
                 </repeat>
             </view>
         </view>
@@ -47,7 +47,7 @@
             <p class="m-title">在招省份</p>
             <view class="m-city-box">
                 <repeat for="{{recruit_pros}}" key="index" index="index" item="item">
-                    <city :item.sync="item"  ></city>
+                    <city :item.sync="item"  :select.sync="select_city" @cityChange.user="cityChange"></city>
                 </repeat>
             </view>
         </view>
@@ -58,6 +58,7 @@
     import api from '../../api/api';
     import tip from '../../utils/tip';
     import city from '../../components/common/city';
+    import onfire from 'onfire.js';
     export default class Location extends wepy.page{
         config = {
             navigationBarTitleText: '筛选城市',
@@ -71,7 +72,11 @@
         data = {
             location_city:[],
             recruit_citys:[],
-            recruit_pros:[]
+            recruit_pros:[],
+            select_city: {
+                "area_name": "杭州市",
+                "areano": 330100
+            },
         }
         async getLocation(sess_key,latitude,longitude) {
             let that = this;
@@ -82,18 +87,9 @@
                     longitude:longitude
                 }});
             if(res.data.error_code == 0){
-                that.location_city[0] = res.data.bizobj.data.location_city
-                that.location_city[0].click = true;
-
+                that.location_city[0] = res.data.bizobj.data.location_city;
                 that.recruit_citys = res.data.bizobj.data.recruit_citys;
-                for(var i = 0;i<that.recruit_citys.length;i++){
-                    that.recruit_citys[i].click = false;
-                }
-
                 that.recruit_pros = res.data.bizobj.data.recruit_pros;
-                for(var j = 0;j<that.recruit_pros.length;j++){
-                    that.recruit_pros[j].click = false;
-                }
                 that.$apply();
                 tip.loaded();
             }else{
@@ -109,10 +105,6 @@
                     wx.getLocation({
                         type: 'wgs84',
                         success: function(data) {
-                            // var latitude = data.latitude
-                            // var longitude = res.longitude
-                            // var speed = res.speed
-                            // var accuracy = res.accuracy
                            _this.getLocation(res,data.latitude,data.longitude)
                         }
                     })
@@ -120,9 +112,19 @@
             });
 
         }
+        onUnload(){
+            // var pages = getCurrentPages();
+            // var currPage = pages[pages.length - 1]; //当前页面
+            // var prevPage = pages[pages.length - 2]; //上一个页面 //直接调用上一个页面的setData()方法，把数据存到上一个页面中去
+            // prevPage.setData({ select_city: this.select_city })
+            onfire.fire('search', { inputVal: this.select_city });
+        }
 
         methods = {
-
+            cityChange(v){
+                this.select_city = v;
+                this.$apply();
+            }
         }
 
     }

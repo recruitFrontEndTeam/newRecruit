@@ -1,5 +1,5 @@
 <template>
-    <view class="m-city {{item.click ? 'm-active':''}}">{{item.area_name}}</view>
+    <view class="m-city {{item.areano == select.areano ? 'm-active':''}}" @tap="cityTap({{item}})">{{item.area_name}}</view>
 </template>
 <script>
     import wepy from 'wepy';
@@ -12,10 +12,18 @@
             item:{
                 type:Object,
                 default:null
+            },
+            select:{
+                type:Object,
+                default:null
             }
         }
         data = {}
-        methods = {}
+        methods = {
+            cityTap(item){
+                this.$emit('cityChange',item)
+            }
+        }
     }
 </script>
 <style scoped lang="less" rel="stylesheet/less">

@@ -165,9 +165,12 @@
       <view class="m-line"></view>
     </view>
     <view class="m-index-content">
-      <repeat for="{{work_list}}" key="index" index="index" item="item">
-        <info :list.sync="item" @infoTap.user="detailTap" ></info>
-      </repeat>
+      <scroll-view scroll-y='true' style="height:{{height}}rpx;" bindscrolltolower='lower'>
+        <repeat for="{{work_list}}" key="index" index="index" item="item">
+          <info :list.sync="item" @infoTap.user="detailTap" ></info>
+        </repeat>
+      </scroll-view>
+
     </view>
   </view>
 </template>
@@ -177,7 +180,8 @@
   import api from '../../api/api';
   import tip from '../../utils/tip';
   import info from '../../components/common/info';
-  import nav from '../../components/common/nav'
+  import nav from '../../components/common/nav';
+  import onfire from 'onfire.js';
 
   export default class IndexIndex extends wepy.page {
     config = {
@@ -188,6 +192,7 @@
       nav: nav
     }
     data = {
+        height:0,
       nav_list:[
         {
           name:'技能培训',
@@ -210,30 +215,78 @@
           url:'/pages/work/index'
         }
       ],
-      work_list:[]
+      work_list:[],
+        page_info:{cur_page:0, page_size: 5, total_items: 2, total_pages: 1},
+
+        select_city: {
+            "area_name": "杭州市",
+            "areano": 330100
+        },
     }
-    async getWorkList(sess_key) {
+    async getWorkList(sess_key,areano) {
       let that = this;
-      tip.loading();
+         tip.loading();
         let res = await api.workList({method:'POST',query:{
                 sess_key: sess_key,
-                is_rec:1
+                is_rec:1,
+                areano:areano || "",
+                page:Number(that.page_info.cur_page) +1 ,
+                page_size:that.page_info.page_size
             }});
         if(res.data.error_code == 0){
-            that.work_list = res.data.bizobj.data;
+            if(res.data.bizobj.page_info.cur_page != 1 && res.data.bizobj.page_info.cur_page <= res.data.bizobj.page_info.total_pages ){
+                that.work_list =that.work_list.concat(res.data.bizobj.data) ;
+            }else{
+                that.work_list = res.data.bizobj.data;
+            }
+            that.height = (that.work_list.length + 1) * 160;
+            that.page_info = res.data.bizobj.page_info;
             that.$apply();
             tip.loaded();
         }else{
             tip.error(res.data.error_msg);
-
         }
     }
-    onLoad(){
+      async getLocation(sess_key,latitude,longitude) {
+          let that = this;
+          tip.loading();
+          let res = await api.disttrictList({method:'POST',query:{
+                  sess_key: sess_key,
+                  latitude:latitude,
+                  longitude:longitude
+              }});
+          if(res.data.error_code == 0){
+              that.select_city = res.data.bizobj.data.location_city;
+              that.getWorkList(sess_key,that.select_city.areano);
+              that.$apply();
+              tip.loaded();
+          }else{
+              tip.error(res.data.error_msg);
+
+          }
+      }
+    onLoad(option){
        var _this = this;
+        onfire.on('search', function (args) {
+            _this.select_city =  args.inputVal ;
+           _this.$apply();
+            wx.getStorage({
+                key: 'sess_key',
+                success: function(res){
+                    _this.getWorkList(res.data,_this.select_city.areano);
+                }
+            });
+        });
         wx.getStorage({
             key: 'sess_key',
             success: function(res){
-                _this.getWorkList(res.data);
+                wx.getLocation({
+                    type: 'wgs84',
+                    success: function(data) {
+                        _this.getLocation(res.data,data.latitude,data.longitude)
+                    }
+                })
+                  // _this.getWorkList(res.data,_this.select_city.areano);
             }
         });
     }
@@ -252,7 +305,26 @@
         wx.navigateTo({
           url: '/pages/index/location'
         })
-      }
+      },
+        lower(){
+          var _this = this;
+          if(_this.page_info.cur_page == _this.page_info.total_pages){
+              console.log(1)
+              wx.showToast({ //如果全部加载完成了也弹一个框
+                  title: '我也是有底线的',
+                  icon: 'success',
+                  duration: 300
+              });
+          }else{
+              wx.getStorage({
+                  key: 'sess_key',
+                  success: function(res){
+                      _this.getWorkList(res.data,_this.select_city.areano);
+                  }
+              });
+          }
+
+        }
     }
   }
 </script>

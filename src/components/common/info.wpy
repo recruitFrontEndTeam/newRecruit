@@ -35,7 +35,7 @@
                             color: #fff;
                             background-color: #F96969;
                             border-radius: 3px;
-                            padding: 10rpx 2rpx;
+                            padding: 10rpx 8rpx;
                             margin-left: 10rpx;
                         }
                     }
