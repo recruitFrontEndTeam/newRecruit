@@ -7,7 +7,7 @@ const request = async(params = {}, url) => {
     url: url,
     method: params.method || 'GET',
     data: data,
-    header: { 'Content-Type': 'application/json' },
+    header:{ 'content-type':'application/json' },
   });
   tip.loaded();
   return res;

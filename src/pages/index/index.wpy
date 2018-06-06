@@ -165,76 +165,9 @@
       <view class="m-line"></view>
     </view>
     <view class="m-index-content">
-      <view class="m-info-box" @tap="detailTap">
-        <image class="m-info-img" src="../../images/pic_blph.png"/>
-        <view class="m-info-right">
-          <view class="m-info-tr1">
-            <view class="m-info-td1">
-              <p class="m-name">普工</p>
-              <view class="m-tabs">
-                <view class="m-tab">入职奖9000</view>
-                <view class="m-tab">入职奖9000</view>
-              </view>
-            </view>
-            <view class="m-info-td2">
-              <p class="m-price">¥3500-4500</p>
-            </view>
-          </view>
-          <view class="m-info-tr2">
-            <view class="m-info-td1">
-              <p class="m-name">嘉兴闻泰集团</p>
-            </view>
-          </view>
-          <view class="m-info-tr3">
-            <view class="m-info-td1">
-              <p class="m-name m-name-first">嘉兴</p>
-              <p class="m-name">18-45岁</p>
-              <p class="m-name">男女不限</p>
-            </view>
-            <view class="m-info-td2">
-              <p class="m-time">14:58发布</p>
-              <!--<p class="m-link">取消收藏</p>-->
-              <!--<view class="m-btn">面试</view>-->
-            </view>
-          </view>
-        </view>
-      </view>
-
-      <view class="m-info-box">
-        <image class="m-info-img" src="../../images/pic_blph.png"/>
-        <view class="m-info-right">
-          <view class="m-info-tr1">
-            <view class="m-info-td1">
-              <p class="m-name">普工</p>
-              <view class="m-tabs">
-                <view class="m-tab">入职奖9000</view>
-                <view class="m-tab">入职奖9000</view>
-              </view>
-            </view>
-            <view class="m-info-td2">
-              <p class="m-price">¥3500-4500</p>
-            </view>
-          </view>
-          <view class="m-info-tr2">
-            <view class="m-info-td1">
-              <p class="m-name">嘉兴闻泰集团</p>
-            </view>
-          </view>
-          <view class="m-info-tr3">
-            <view class="m-info-td1">
-              <p class="m-name m-name-first">嘉兴</p>
-              <p class="m-name">18-45岁</p>
-              <p class="m-name">男女不限</p>
-            </view>
-            <view class="m-info-td2">
-              <p class="m-time">14:58发布</p>
-              <!--<p class="m-link">取消收藏</p>-->
-              <!--<view class="m-btn">面试</view>-->
-            </view>
-          </view>
-        </view>
-      </view>
-      <info></info>
+      <repeat for="{{work_list}}" key="index" index="index" item="item">
+        <info :list.sync="item" @infoTap.user="detailTap" ></info>
+      </repeat>
     </view>
   </view>
 </template>
@@ -276,43 +209,33 @@
           src:'icon_qz',
           url:'/pages/work/index'
         }
-      ]
+      ],
+      work_list:[]
     }
-    async getdisttrictList() {
+    async getWorkList(sess_key) {
       let that = this;
       tip.loading();
-        let res = await api.blList({method:'POST',query:{
-                sess_key:'12212'
-            }})
-        console.log(res);
-        if(res.data.status == '200'){
-            that.commodity = res.data.data;
-            that.$apply()
-            tip.loaded()
+        let res = await api.workList({method:'POST',query:{
+                sess_key: sess_key,
+                is_rec:1
+            }});
+        if(res.data.error_code == 0){
+            that.work_list = res.data.bizobj.data;
+            that.$apply();
+            tip.loaded();
         }else{
-            tip.error(res.data.message)
+            tip.error(res.data.error_msg);
+
         }
-        // wx.request({
-        //     url:api.blList ,
-        //     method:'POST',
-        //     data:{
-        //         sess_key:'12212'
-        //     },
-        //     header:{
-        //         'content-type':'application/json',
-        //     },
-        //     success:function (res) {
-        //         tip.loaded()
-        //         // console.log(res,'aaa')
-        //         if(res.data.status == '200'){
-        //             that.list_data = res.data.data;
-        //             that.$apply()
-        //         }
-        //     }
-        // })
     }
     onLoad(){
-      this.getdisttrictList();
+       var _this = this;
+        wx.getStorage({
+            key: 'sess_key',
+            success: function(res){
+                _this.getWorkList(res.data);
+            }
+        });
     }
     methods = {
       detailTap(){
