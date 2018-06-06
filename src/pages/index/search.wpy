@@ -28,13 +28,16 @@
             </view>
             <view>取消</view>
         </view>
-        <info></info>
+        <repeat for="{{work_list}}" key="index" index="index" item="item">
+            <info :list.sync="item" @infoTap.user="detailTap" ></info>
+        </repeat>
     </view>
 </template>
 <script>
     import wepy from 'wepy';
     import api from '../../api/api';
     import tip from '../../utils/tip';
+    import onfire from 'onfire.js';
     import info from '../../components/common/info';
     export default class Search extends wepy.page{
         config = {
@@ -46,14 +49,14 @@
         components = {
             info: info
         }
-        props = {
-
-        }
         data = {
-
+            work_list:[]
         }
         onLoad(){
 
+        }
+        onUnload(){
+            onfire.fire('search', { inputVal: this.select_city });
         }
         methods = {
 

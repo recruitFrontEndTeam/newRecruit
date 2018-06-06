@@ -49,25 +49,7 @@
 </style>
 <template>
   <view class="container">
-    <view class="m-top">
-      <form bindsubmit="formSubmit">
-        <view class="m-section">
-          <image class="m-icon" src='/images/phone.png'></image>
-          <input class="m-phone" name="phone" type="number" bindinput="phoneInput" placeholder="手机号" maxlength="11" focus="true" />
-        </view>
-        <view class="m-section">
-          <image class="m-icon" src='/images/pass.png'></image>
-          <input class="m-code" name="code" type="number" placeholder="密码" />
-        </view>
-        <view class="m-btn_confirm">
-          <button class="m-button" formType="submit">登录</button>
-        </view>
-      </form>
-    </view>
-    <view class="m-others">
-      <button class="m-btn register" @tap="registerTap">注册</button>
-      <button class="m-btn authorize" @tap="authorizeTap">微信授权</button>
-    </view>
+ denglu
   </view>
 </template>
 <script >
@@ -81,38 +63,66 @@
     data = {
 
     }
-      async Login(phone, pass){
-          let that = this
-          let res = await api.login({query: {UStelphone: phone, USpassword: pass}, method: 'POST'})
-          console.log(res,'fuck?')
-//          console.log(res.data.token,'fuck?')
-          if(res.data.status == 200){
-//              tip.success("登录成功")
-//              wepy.setStorageSync('token', res.data.token)
-              wepy.setStorageSync('token', res.data.data.token)
-              let test =  wepy.getStorageSync('token')
-              console.log(test, '=.=')
-              wepy.navigateBack()
-              that.$apply()
-              console.log('============')
+      async getLogin(params){
+          let that = this;
+          console.log(params)
+          let res = await api.login(params)
+          if(res.data.error_code == 0){
+              wx.setStorage({
+                  'key':'sess_key',
+                  'data':res.data.bizobj.data.sess_key
+              })
           }else{
               tip.error(res.data.message)
           }
           }
+      onLoad(){
+        var that = this;
+          wx.login({
+              success:function(resLogin){
+                  var code = resLogin.code;
+                  // that.getLogin({method:'POST',query:{'code':code}});
+                  wx.getUserInfo({
+                      success:function(res){
+                          var loginData = {
+                              'code':code,
+                              'raw_data':res.rawData,
+                              'signature':res.signature,
+                              'encrypted_data':res.encryptedData,
+                              'iv':res.iv
+                          };
+                         that.getLogin({method:'POST',query:loginData});
+
+                          if(_res.data.error_code == 0){
+                              wx.setStorage({
+                                  'key':'sess_key',
+                                  'data':_res.data.bizobj.data.sess_key
+                              })
+                          }else{
+                          }
+                      },
+                      fail:function (res) {
+
+                      }
+                  })
+              }
+          });
+          wx.getSetting({
+              success:function(res) {
+                  console.log(res)
+                  if (res.authorize) {
+                      wx.authorize({
+                          scope: 'scope.record',
+                          success: function (data) {
+                              console.log(data)
+                          }
+                      })
+                  }
+              }
+          });
+    }
     methods = {
-        formSubmit(e){
-            let that = this;
-            let phone = e.detail.value.phone;
-            let pass = e.detail.value.code;
-            if(phone == '') tip.alert("请输入手机号")
-            if(pass == '') tip.alert("请输入密码")
-            that.Login(phone, pass)
-        },
-        registerTap(){
-          wx.navigateTo({
-            url: '/pages/register'
-          })
-        }
+
       }
   }
 </script>

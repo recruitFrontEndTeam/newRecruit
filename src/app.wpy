@@ -23,20 +23,18 @@ page{
   import 'wepy-async-function'
 
   import { setStore } from 'wepy-redux'
-  import configStore from './store'
 
-  const store = configStore()
-  setStore(store)
+
 
   export default class extends wepy.app {
     config = {
       pages: [
+
         'pages/index/index',
         'pages/index/bole',
         'pages/index/search',
         'pages/index/location',
-        'pages/personal/login',
-        'pages/personal/register',
+          'pages/personal/login',
         'pages/personal/profile/index',
         'pages/personal/wallet/index',
         'pages/personal/wallet/cash',

@@ -48,11 +48,9 @@
         </view>
         <view class="m-back"></view>
         <view class="m-work-content">
-            <!--<repeat for="{{work_list}}" key="index" index="index" item="item">-->
-                <info></info>
-            <info></info>
-            <info></info>
-            <!--</repeat>-->
+            <repeat for="{{work_list}}" key="index" index="index" item="item">
+                <info :list.sync="item" @infoTap.user="detailTap" ></info>
+            </repeat>
         </view>
 
         <view class="m-cover" wx:if="{{now_nav != ''}}">
@@ -193,7 +191,12 @@
                 }
                 this.data_list[this.now_nav][v].click = !this.data_list[this.now_nav][v].click;
                 this.$apply();
-            }
+            },
+            detailTap(){
+                wx.navigateTo({
+                    url: '/pages/work/workDetails'
+                })
+            },
         }
 
     }

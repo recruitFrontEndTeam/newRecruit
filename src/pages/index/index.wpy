@@ -147,7 +147,7 @@
     <view class="m-top">
       <view class="m-location-box" @tap="locationTap">
         <image class="m-icon-loc" style="width:32rpx; height:46rpx;margin: 0 22rpx;" src="../../images/icon_dw.png"/>
-        <view>杭州</view>
+        <view>{{select_city.area_name}}</view>
       </view>
       <view class="m-search-box" @tap="inputTap">
         <image class="m-icon-search" style="width: 30rpx;height:30rpx;margin: 0 20rpx;" src="../../images/icon_search.png" />
@@ -165,8 +165,8 @@
       <view class="m-line"></view>
     </view>
     <view class="m-index-content">
-      <scroll-view scroll-y='true' style="height:{{height}}rpx;" bindscrolltolower='lower'>
-        <repeat for="{{work_list}}" key="index" index="index" item="item">
+      <scroll-view scroll-y='true' style="height:{{height}}rpx;" bindscrolltolower='lower' wx:if="{{work_list.length >0}}">
+        <repeat for="{{work_list}}" key="index" index="index" item="item" >
           <info :list.sync="item" @infoTap.user="detailTap" ></info>
         </repeat>
       </scroll-view>
@@ -230,17 +230,23 @@
                 sess_key: sess_key,
                 is_rec:1,
                 areano:areano || "",
-                page:Number(that.page_info.cur_page) +1 ,
+                page:Number(that.page_info.cur_page) +1 || 1,
                 page_size:that.page_info.page_size
             }});
-        if(res.data.error_code == 0){
-            if(res.data.bizobj.page_info.cur_page != 1 && res.data.bizobj.page_info.cur_page <= res.data.bizobj.page_info.total_pages ){
-                that.work_list =that.work_list.concat(res.data.bizobj.data) ;
+        if(res.data.error_code == 0 ){
+            if(res.data.bizobj.data == null){
+                that.work_list = [];
+                that.page_info = {cur_page:0, page_size: 5, total_items: 2, total_pages: 1};
             }else{
-                that.work_list = res.data.bizobj.data;
+                if(res.data.bizobj.page_info.cur_page != 1 && res.data.bizobj.page_info.cur_page <= res.data.bizobj.page_info.total_pages ){
+                    that.work_list =that.work_list.concat(res.data.bizobj.data) ;
+                }else{
+                    that.work_list = res.data.bizobj.data;
+                }
+                that.height = (that.work_list.length + 1) * 160;
+                that.page_info = res.data.bizobj.page_info;
             }
-            that.height = (that.work_list.length + 1) * 160;
-            that.page_info = res.data.bizobj.page_info;
+
             that.$apply();
             tip.loaded();
         }else{
@@ -269,7 +275,6 @@
        var _this = this;
         onfire.on('search', function (args) {
             _this.select_city =  args.inputVal ;
-           _this.$apply();
             wx.getStorage({
                 key: 'sess_key',
                 success: function(res){
@@ -309,7 +314,6 @@
         lower(){
           var _this = this;
           if(_this.page_info.cur_page == _this.page_info.total_pages){
-              console.log(1)
               wx.showToast({ //如果全部加载完成了也弹一个框
                   title: '我也是有底线的',
                   icon: 'success',
