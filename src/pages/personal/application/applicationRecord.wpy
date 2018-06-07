@@ -76,11 +76,9 @@
             <view class="tab-view" :class="{'active': index == 1}" @tap="tab(1)"><text class="tab-icon">我收藏的</text></view>
         </view>
         <view class="tab-content" wx:if="{{index==0&&list0.length!==0}}">
-            <scroll-view scroll-y='true' style="height:{{height0}}rpx;" bindscrolltolower='lowerApply' wx:if="{{list0.length >0}}">
-                <repeat for="{{list0}}" key="index" index="index" item="item">
-                    <Info :list.sync="item" @infoTap.user="detailTap"></Info>
-                </repeat>
-            </scroll-view>
+            <repeat for="{{list0}}" key="index" index="index" item="item">
+                <Info :list.sync="item" @infoTap.user="detailTap"></Info>
+            </repeat>
         </view>
         <view class="no-tab-content" wx:if="{{index==0&&list0.length==0}}">
             <view class="img-view">
@@ -94,11 +92,9 @@
 
         
         <view class="tab-content" wx:if="{{index==1&&list1.length!==0}}">
-            <scroll-view scroll-y='true' style="height:{{height1}}rpx;" bindscrolltolower='lowerCollect' wx:if="{{list1.length >0}}">
-                <repeat for="{{list1}}" key="index" index="index" item="item">
-                    <Info :list.sync="item" @infoTap.user="detailTap"></Info>
-                </repeat>
-        </scroll-view>
+            <repeat for="{{list1}}" key="index" index="index" item="item">
+                <Info :list.sync="item" @infoTap.user="detailTap"></Info>
+            </repeat>
         </view>
         <view class="no-tab-content" wx:if="{{index==1&&list1.length==0}}">
             <view class="img-view">
@@ -118,15 +114,14 @@
     import Info from '../../../components/common/info';
     export default class applicationRecord extends wepy.page{
         config = {
-            navigationBarTitleText: '申请记录'
+            navigationBarTitleText: '申请记录',
+            enablePullDownRefresh:true
         }
         data = {
             index: 0,
             sess_key: '',
             list0: [],
             list1: [],
-            height0: 0,
-            height1: 0,
             page_info:{cur_page:0, page_size: 8, total_items: 2, total_pages: 1},
         }
         components = {
@@ -152,7 +147,6 @@
                         }else{
                             that.list0 = res.data.bizobj.data;
                         }
-                        that.height0 = (that.list0.length + 1) * 160;
                         that.page_info = res.data.bizobj.page_info;
                     }
                     that.$apply()
@@ -180,7 +174,6 @@
                         }else{
                             that.list1 = res.data.bizobj.data;
                         }
-                        that.height1 = (that.list1.length + 1) * 160;
                         that.page_info = res.data.bizobj.page_info;
                     }
                     that.$apply()
@@ -199,6 +192,31 @@
                 }
             });
         }
+        onPullDownRefresh(){
+          wx.stopPullDownRefresh(); 
+        }
+        onReachBottom(){
+            var _this = this;
+            if(_this.page_info.cur_page == _this.page_info.total_pages){
+                wx.showToast({ //如果全部加载完成了也弹一个框
+                    title: '我也是有底线的',
+                    icon: 'success',
+                    duration: 300
+                });
+            }else{
+                wx.getStorage({
+                    key: 'sess_key',
+                    success: function(res){
+                        if(this.index == 0){
+                            _this.getapplyWorkList(res.data);
+                        }else{
+                            _this.getcollectWorkList(res.data);
+                        }
+                        
+                    }
+                });
+            }
+        }
         methods = {
             tab(index){
                 if(index == 0){
@@ -216,40 +234,6 @@
                 wx.navigateTo({
                     url: '/pages/work/workDetails'
                 })
-            },
-            lowerApply(){
-                var _this = this;
-                if(_this.page_info.cur_page == _this.page_info.total_pages){
-                    wx.showToast({ //如果全部加载完成了也弹一个框
-                        title: '我也是有底线的',
-                        icon: 'success',
-                        duration: 300
-                    });
-                }else{
-                    wx.getStorage({
-                        key: 'sess_key',
-                        success: function(res){
-                            _this.getapplyWorkList(res.data);
-                        }
-                    });
-                }
-            },
-            lowerCollect(){
-                var _this = this;
-                if(_this.page_info.cur_page == _this.page_info.total_pages){
-                    wx.showToast({ //如果全部加载完成了也弹一个框
-                        title: '我也是有底线的',
-                        icon: 'success',
-                        duration: 300
-                    });
-                }else{
-                    wx.getStorage({
-                        key: 'sess_key',
-                        success: function(res){
-                            _this.getcollectWorkList(res.data);
-                        }
-                    });
-                }
             }
         }
     }
