@@ -92,11 +92,11 @@
                 <view class="main">
                     <view class="form-item name-view">
                         <view class="section__title">预支工资</view>
-                        <input name="name" placeholder="请输入预支工资" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
+                        <input name="amount" type="number" placeholder="请输入预支工资" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
                     </view>
                     <view class="form-item tel-view">
                         <view class="section__title">申请理由</view>
-                        <textarea class="text-area" name="count" placeholder="请输入申请理由" placeholder-style="color: #bebebe;font-size: 24rpx;" />
+                        <textarea class="text-area" name="reason" placeholder="请输入申请理由" placeholder-style="color: #bebebe;font-size: 24rpx;" />
                     </view>
                 </view>
                 <view class="btn-area">
@@ -124,15 +124,40 @@
             navigationBarTitleText: '工资预支'
         }
         data = {
-            isStaff: true
+            isStaff: true,
+            sess_key: ''
         }
-
+        async postadvance(data) {
+            let that = this;
+            let res = await api.advance({method:'POST',query:data})
+            if(res.data.error_code == '0'){
+                tip.success('提交成功，等待审核');
+            }else{
+                tip.error(res.data.msg);
+            }
+        }
         onLoad(){
-
+            var _this = this;
+            wx.getStorage({
+                key: 'sess_key',
+                success: function(res){
+                    _this.sess_key = res.data;
+                }
+            });
         }
         methods = {
             formSubmit: function(e) {
-                console.log('form发生了submit事件，携带数据为：', e.detail.value)
+                if(!e.detail.value.amount){
+                    tip.error('请输入金额');
+                    return;
+                }
+                if(!e.detail.value.reason){
+                    tip.error('请输入申请原因');
+                    return;
+                }
+                let json = e.detail.value;
+                json['sess_key'] = this.sess_key;
+                this.postadvance(json);
             },
             goUrl(){
                 wx.navigateTo({

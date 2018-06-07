@@ -45,7 +45,7 @@
             <form bindsubmit="formSubmit">
                 <view class="form-item">
                     <view class="label">培训需求</view>
-                    <textarea class="text-area" name="count" placeholder="请输入你的培训需求" placeholder-style="color: #bebebe;font-size: 24rpx;" />
+                    <textarea class="text-area" name="content" placeholder="请输入你的培训需求" placeholder-style="color: #bebebe;font-size: 24rpx;" />
                 </view>
                 <view class="btn-area">
                     <button class="confirm-btn" formType="submit">提交</button>
@@ -63,13 +63,36 @@
             navigationBarTitleText: '培训需求'
         }
         data = {
-
+            sess_key:''
         }
-
+        async postaddArainWill(data) {
+            let that = this;
+            let res = await api.addArainWill({method:'POST',query:data})
+            if(res.data.error_code == '0'){
+                tip.success('提交成功');
+            }else{
+                tip.error(res.data.msg);
+            }
+        }
         onLoad(){
-
+            var _this = this;
+            wx.getStorage({
+                key: 'sess_key',
+                success: function(res){
+                    _this.sess_key = res.data;
+                }
+            });
         }
         methods = {
+            formSubmit: function(e) {
+                if(!e.detail.value.content){
+                    tip.error('请输入培训需求');
+                    return;
+                }
+                let json = e.detail.value;
+                json['sess_key'] = this.sess_key;
+                this.postaddArainWill(json);
+            },
             goUrl(url){
                 wx.navigateTo({
                     url: '/pages/'+url

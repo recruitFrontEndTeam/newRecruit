@@ -92,11 +92,11 @@
                     </view>
                     <view class="form-item tel-view">
                         <view class="section__title">手机号</view>
-                        <input name="mobile" @blur="getTel" placeholder="请输入手机号" value="{{userData.mobile}}" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
+                        <input name="mobile" type="number" @blur="getTel" placeholder="请输入手机号" value="{{userData.mobile}}" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
                     </view>
                     <view class="form-item message-view">
                         <view class="section__title">短信验证码</view>
-                        <input class="code-input" name="sms_code" placeholder="请输入验证码" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
+                        <input class="code-input" type="number" name="sms_code" placeholder="请输入验证码" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
                         <view class="get-code-btn" @tap="getCode">{{html}}</view>
                     </view>
                 </view>

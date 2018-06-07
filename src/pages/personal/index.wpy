@@ -60,7 +60,7 @@
         <view class="avatar-content">
             <view class="content">
                 <image class="avatar" src="http://120.76.230.93:8063/Upload/2017/1123/20171123115952981_img.png" />
-                <view class="name">Pine</view>
+                <view class="name">{{userData.username}}</view>
             </view>
         </view>
         <view class="function-content">
@@ -130,11 +130,31 @@
             navigationBarTitleText: '我的'
         }
         data = {
-
+            userData: {}
         }
-
+        // 获取个人资料
+        async getuserInfo(sess_key) {
+            let that = this;
+            tip.loading();
+                let res = await api.userInfo({method:'POST', query:{
+                        sess_key:sess_key
+                    }})
+                if(res.data.error_code == '0'){
+                    that.userData = res.data.bizobj.data;
+                    that.$apply()
+                    tip.loaded()
+                }else{
+                    tip.error(res.data.message)
+                }
+        }
         onLoad(){
-
+            var _this = this;
+            wx.getStorage({
+                key: 'sess_key',
+                success: function(res){
+                    _this.getuserInfo(res.data);
+                }
+            });
         }
         methods = {
             goUrl(url){

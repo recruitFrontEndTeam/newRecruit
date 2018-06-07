@@ -69,14 +69,16 @@
             <view class="tab-view" :class="{'active': index == 1}" @tap="tab(1)"><text class="tab-icon">我收藏的</text></view>
         </view>
         <view class="tab-content" wx:if="{{index==0&&list0.length!==0}}">
-            <repeat for="{{list0}}" key="index" index="index" item="item">
-                <Info></Info>
-            </repeat>
+            <scroll-view scroll-y='true' style="height:{{height0}}rpx;" bindscrolltolower='lowerApply' wx:if="{{list0.length >0}}">
+                <repeat for="{{list0}}" key="index" index="index" item="item">
+                    <Info :list.sync="item" @infoTap.user="detailTap"></Info>
+                </repeat>
+            </scroll-view>
         </view>
         <view class="no-tab-content" wx:if="{{index==0&&list0.length==0}}">
             <view class="img-view">
                 <image class="img" src="../../../images/no-application.png" />
-                <view class="text">这里没有收藏过哦</view>
+                <view class="text">这里没有申请过哦</view>
             </view>
             <view class="btn-view">
                 <button class="btn">去看看职位</button>
@@ -85,9 +87,11 @@
 
         
         <view class="tab-content" wx:if="{{index==1&&list1.length!==0}}">
-            <repeat for="{{list1}}" key="index" index="index" item="item">
-                <Info></Info>
-            </repeat>
+            <scroll-view scroll-y='true' style="height:{{height1}}rpx;" bindscrolltolower='lowerCollect' wx:if="{{list1.length >0}}">
+                <repeat for="{{list1}}" key="index" index="index" item="item">
+                    <Info :list.sync="item" @infoTap.user="detailTap"></Info>
+                </repeat>
+        </scroll-view>
         </view>
         <view class="no-tab-content" wx:if="{{index==1&&list1.length==0}}">
             <view class="img-view">
@@ -111,44 +115,134 @@
         }
         data = {
             index: 0,
-            list0: [
-                {
-                    name: 'aaa',
-                    time: '2018-05-30',
-                },
-                {
-                    name: 'bbb',
-                    time: '2018-05-30'
-                }
-            ],
-            list1: [
-                // {
-                //     time: '2018-05-30',
-                //     money: '+6.60',
-                //     name: 'aaa',
-                //     address: '浙江嘉善'
-                // },
-                // {
-                //     time: '2018-05-30',
-                //     money: '+6.60',
-                //     name: 'bbb',
-                //     address: '浙江嘉善'
-                // }
-            ]
+            sess_key: '',
+            list0: [],
+            list1: [],
+            height0: 0,
+            height1: 0,
+            page_info:{cur_page:0, page_size: 5, total_items: 2, total_pages: 1},
         }
 
         components = {
             Info: Info
         }
-
+        // 获取申请记录
+        async getapplyWorkList(sess_key) {
+            let that = this;
+            tip.loading();
+                let res = await api.applyWorkList({method:'POST', query:{
+                        sess_key:sess_key,
+                        page:Number(that.page_info.cur_page) +1 || 1,
+                        page_size:that.page_info.page_size
+                    }})
+                if(res.data.error_code == '0'){
+                    if(res.data.bizobj.data == null){
+                        that.list0 = [];
+                        that.page_info = {cur_page:0, page_size: 5, total_items: 2, total_pages: 1};
+                    }else{
+                        if(res.data.bizobj.page_info.cur_page != 1 && res.data.bizobj.page_info.cur_page <= res.data.bizobj.page_info.total_pages ){
+                            that.list0 =that.list0.concat(res.data.bizobj.data) ;
+                        }else{
+                            that.list0 = res.data.bizobj.data;
+                        }
+                        that.height0 = (that.list0.length + 1) * 160;
+                        that.page_info = res.data.bizobj.page_info;
+                    }
+                    that.$apply()
+                    tip.loaded()
+                }else{
+                    tip.error(res.data.message)
+                }
+        }
+        // 获取收藏记录
+        async getcollectWorkList(sess_key) {
+            let that = this;
+            tip.loading();
+                let res = await api.collectWorkList({method:'POST', query:{
+                        sess_key:sess_key,
+                        page:Number(that.page_info.cur_page) +1 || 1,
+                        page_size:that.page_info.page_size
+                    }})
+                if(res.data.error_code == '0'){
+                    if(res.data.bizobj.data == null){
+                        that.list1 = [];
+                        that.page_info = {cur_page:0, page_size: 5, total_items: 2, total_pages: 1};
+                    }else{
+                        if(res.data.bizobj.page_info.cur_page != 1 && res.data.bizobj.page_info.cur_page <= res.data.bizobj.page_info.total_pages ){
+                            that.list1 =that.list1.concat(res.data.bizobj.data) ;
+                        }else{
+                            that.list1 = res.data.bizobj.data;
+                        }
+                        that.height1 = (that.list1.length + 1) * 160;
+                        that.page_info = res.data.bizobj.page_info;
+                    }
+                    that.$apply()
+                    tip.loaded()
+                }else{
+                    tip.error(res.data.message)
+                }
+        }
         onLoad(){
-
+            var _this = this;
+            wx.getStorage({
+                key: 'sess_key',
+                success: function(res){
+                    _this.sess_key = res.data;
+                    _this.getapplyWorkList(res.data);
+                }
+            });
         }
         methods = {
             tab(index){
+                if(index == 0){
+                    this.list0 = [];
+                    this.page_info = {cur_page:0, page_size: 5, total_items: 2, total_pages: 1};
+                    this.getapplyWorkList(this.sess_key);
+                }else{
+                    this.list1 = [];
+                    this.page_info = {cur_page:0, page_size: 5, total_items: 2, total_pages: 1};
+                    this.getcollectWorkList(this.sess_key);
+                }
                 this.index = index;
+            },
+            detailTap(){
+                wx.navigateTo({
+                    url: '/pages/work/workDetails'
+                })
+            },
+            lowerApply(){
+                var _this = this;
+                if(_this.page_info.cur_page == _this.page_info.total_pages){
+                    wx.showToast({ //如果全部加载完成了也弹一个框
+                        title: '我也是有底线的',
+                        icon: 'success',
+                        duration: 300
+                    });
+                }else{
+                    wx.getStorage({
+                        key: 'sess_key',
+                        success: function(res){
+                            _this.getapplyWorkList(res.data);
+                        }
+                    });
+                }
+            },
+            lowerCollect(){
+                var _this = this;
+                if(_this.page_info.cur_page == _this.page_info.total_pages){
+                    wx.showToast({ //如果全部加载完成了也弹一个框
+                        title: '我也是有底线的',
+                        icon: 'success',
+                        duration: 300
+                    });
+                }else{
+                    wx.getStorage({
+                        key: 'sess_key',
+                        success: function(res){
+                            _this.getcollectWorkList(res.data);
+                        }
+                    });
+                }
             }
         }
-
-    }
 </script>

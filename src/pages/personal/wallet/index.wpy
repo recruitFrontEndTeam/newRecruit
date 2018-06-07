@@ -89,7 +89,7 @@
         <view class="top-fixed">
             <view class="avatar-content">
                 <view class="content">
-                    <view class="money">8.80</view>
+                    <view class="money">{{userData.amount}}</view>
                     <view class="name">账户余额（元）</view>
                 </view>
             </view>
@@ -129,6 +129,8 @@
             navigationBarTitleText: '我的钱包'
         }
         data = {
+            userData: {},
+            sess_key:'',
             list: [
                 {
                     time: '2018-05-30 11:30:30',
@@ -162,9 +164,46 @@
         components = {
             CashRecord: CashRecord
         }
-
+        // 获取资金明细
+        async getCashdetail(sess_key) {
+            let that = this;
+            tip.loading();
+                let res = await api.Cashdetail({method:'POST', query:{
+                        sess_key:sess_key
+                    }})
+                if(res.data.error_code == '0'){
+                    that.list = res.data.bizobj.data;
+                    that.$apply()
+                    tip.loaded()
+                }else{
+                    tip.error(res.data.message)
+                }
+        }
+        // 获取个人资料
+        async getuserInfo(sess_key) {
+            let that = this;
+            tip.loading();
+                let res = await api.userInfo({method:'POST', query:{
+                        sess_key:sess_key
+                    }})
+                if(res.data.error_code == '0'){
+                    that.userData = res.data.bizobj.data;
+                    that.$apply()
+                    tip.loaded()
+                }else{
+                    tip.error(res.data.message)
+                }
+        }
         onLoad(){
-
+            var _this = this;
+            wx.getStorage({
+                key: 'sess_key',
+                success: function(res){
+                    _this.getuserInfo(res.data);
+                    _this.getCashdetail(res.data);
+                    _this.sess_key = res.data;
+                }
+            });
         }
         methods = {
             goUrl(url){

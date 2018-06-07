@@ -85,27 +85,27 @@
                 <view class="main">
                     <view class="form-item name-view">
                         <view class="section__title">您的手机</view>
-                        <input name="tel" placeholder="请输入手机号" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
+                        <input name="mobile" placeholder="请输入手机号" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
                     </view>
                     <view class="form-item tel-view">
                         <view class="section__title">所在城市</view>
-                        <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+                        <picker mode="region" bindchange="bindRegionChange" value="{{city}}" custom-item="{{customItem}}">
                             <view class="picker">
-                                {{region[0]}}，{{region[1]}}，{{region[2]}}
+                                {{city[0]}}，{{city[1]}}，{{city[2]}}
                             </view>
                         </picker>
                     </view>
                     <view class="form-item">
                         <view class="section__title">投诉单位</view>
-                        <input name="com" placeholder="请输入您投诉的单位" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
+                        <input name="company_name" placeholder="请输入您投诉的单位" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
                     </view>
                     <view class="other">
                         <view class="section__title">投诉内容</view>
-                        <textarea class="text-area" name="count" placeholder="请输入您要投诉的内容" placeholder-style="color: #bebebe;font-size: 24rpx;" />
+                        <textarea class="text-area" name="content" placeholder="请输入您要投诉的内容" placeholder-style="color: #bebebe;font-size: 24rpx;" />
                     </view>
                     <view class="other">
                         <view class="section__title">其他</view>
-                        <textarea class="text-area" name="count" placeholder="请输入其他内容" placeholder-style="color: #bebebe;font-size: 24rpx;" />
+                        <textarea class="text-area" name="other" placeholder="请输入其他内容" placeholder-style="color: #bebebe;font-size: 24rpx;" />
                     </view>
                 </view>
                 <view class="btn-area">
@@ -125,20 +125,50 @@
             navigationBarTitleText: '投诉建议'
         }
         data = {
-            region: ['浙江省', '杭州市', '西湖区'],
-            customItem: '全部'
+            city: ['浙江省', '杭州市', '西湖区'],
+            customItem: '全部',
+            sess_key:''
         }
-
+        async postcomplain(data) {
+            let that = this;
+            let res = await api.complain({method:'POST',query:data})
+            if(res.data.error_code == '0'){
+                tip.success('提交成功');
+            }else{
+                tip.error(res.data.msg);
+            }
+        }
         onLoad(){
-
+            var _this = this;
+            wx.getStorage({
+                key: 'sess_key',
+                success: function(res){
+                    _this.sess_key = res.data;
+                }
+            });
         }
         methods = {
             bindRegionChange: function (e) {
-                console.log('picker发送选择改变，携带值为', e.detail.value)
-                this.region = e.detail.value
+                this.city = e.detail.value
             },
             formSubmit: function(e) {
-                console.log('form发生了submit事件，携带数据为：', e.detail.value)
+                if(!e.detail.value.mobile){
+                    tip.error('请输入手机号');
+                    return;
+                }
+                if(!e.detail.value.company_name){
+                    tip.error('请输入投诉单位');
+                    return;
+                }
+                if(!e.detail.value.content){
+                    tip.error('请输入投诉内容');
+                    return;
+                }
+                let json = e.detail.value;
+                json['sess_key'] = this.sess_key;
+                json['city'] = this.city.join('').replace(/全部/g,'');
+                console.log(json)
+                this.postcomplain(json);
             },
             goUrl(){
                 wx.navigateTo({

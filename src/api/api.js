@@ -26,6 +26,7 @@ const addArainWill = (params) => wxRequest(params, api2 + 'api/Train/addArainWil
 const Cashdetail = (params) => wxRequest(params, api2 + 'api/Cash/detail.html');//资金明细
 const CashnewIn = (params) => wxRequest(params, api2 + 'api/Cash/newIn.html');//新进款项
 //投诉建议  我的二维码
+const complain = (params) => wxRequest(params, api2 + 'api/User/complain.html');//投诉建议
 
 const CashWillIn = (params) => wxRequest(params, api2 + 'api/Cash/WillIn.html');//带入款项
 const teamUserList = (params) => wxRequest(params, api2 + 'api/User/teamUserList.html');//我的团队
@@ -37,6 +38,6 @@ module.exports = {
   login,getUserInfo,workList,workTypeList,disttrictList,blList,workDetail,userInfo,
     updateUserInfo,sendProfileSms,advance,applyWork,applyWorkList,collectWorkList,trainList,
     trainDetail,addArainWill,Cashdetail,CashnewIn,CashWillIn,teamUserList,
-    UserTeamPrizeList,SalaryTeamPrizeList,salaryList
+    UserTeamPrizeList,SalaryTeamPrizeList,salaryList,complain
 
 }
