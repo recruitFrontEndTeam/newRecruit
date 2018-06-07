@@ -87,6 +87,7 @@
                 </view>
                 <image src="../../images/icon_ewm.png" style="width: 690rpx;height: 334rpx;"/>
             </view>
+
         </view>
         <view class="foot">
             <view class="m-btn m-active">立即报名</view>
@@ -105,7 +106,8 @@
 //            backgroundTextStyle:"dark"
         }
         data = {
-            all_data:{}
+            all_data:{},
+            nodes:'<p>q121e323e2e</p>'
         }
         async getSkillDetails(sess_key,id) {
             let that = this;
@@ -116,6 +118,7 @@
             }});
             if(res.data.error_code == 0 ){
                 that.all_data = res.data.bizobj.data;
+
                 that.$apply();
                 tip.loaded();
             }else{
