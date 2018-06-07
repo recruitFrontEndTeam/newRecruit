@@ -11,6 +11,7 @@ const getUserInfo = (params) => wxRequest(params,api2 + 'api/Login/getUserInfo.h
 const disttrictList = (params) => wxRequest(params,api2 + 'api/Addr/disttrictList.html');//筛选城市
 const blList = (params) => wxRequest(params,api2 + 'api/User/blList.html');//伯乐
 const workList = (params) => wxRequest(params, api2 + 'api/Work/workList.html');//职位列表
+const recWorkList = (params) => wxRequest(params, api2 + 'api/Work/recWorkList.html');//职位列表
 const workTypeList = (params) => wxRequest(params, api2 + 'api/Work/workTypeList.html');//职位分类列表
 const workDetail = (params) => wxRequest(params, api2 + 'api/Work/workDetail.html');//职位详情
 const userInfo = (params) => wxRequest(params, api2 + 'api/User/userInfo.html');//个人资料
@@ -38,6 +39,6 @@ module.exports = {
   login,getUserInfo,workList,workTypeList,disttrictList,blList,workDetail,userInfo,
     updateUserInfo,sendProfileSms,advance,applyWork,applyWorkList,collectWorkList,trainList,
     trainDetail,addArainWill,Cashdetail,CashnewIn,CashWillIn,teamUserList,
-    UserTeamPrizeList,SalaryTeamPrizeList,salaryList,complain
+    UserTeamPrizeList,SalaryTeamPrizeList,salaryList,complain,recWorkList
 
 }

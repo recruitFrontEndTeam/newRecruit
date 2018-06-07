@@ -104,32 +104,10 @@
     <view class="m-skillIndex">
         <view class="m-back"></view>
         <view class="m-skill-box">
-            <view class="m-info-box" @tap="skillTap">
-                <image class="m-info-img" src="../../images/pic_blph.png"/>
-                <view class="m-info-right">
-                    <view class="m-info-tr1">
-                        <view class="m-info-td1">
-                            <p class="m-name">普工</p>
-                        </view>
-                    </view>
-                    <view class="m-info-tr2">
-                        <view class="m-info-td1">
-                            <p class="m-name">嘉兴闻泰集团</p>
-                        </view>
-                    </view>
-                    <view class="m-info-tr3">
-                        <view class="m-info-td1">
-                            <p class="m-name">北部软件园创意园B5栋2楼</p>
-                        </view>
-                        <view class="m-info-td2">
-                            <p class="m-time">14:58发布</p>
-                            <!--<p class="m-link">取消收藏</p>-->
-                            <!--<view class="m-btn">面试</view>-->
-                        </view>
-                    </view>
-                </view>
-            </view>
-            <info></info>
+
+            <repeat for="{{skill_list}}" key="index" index="index" item="item" >
+                <info :list.sync="item" @infoTap.user="detailTap" ></info>
+            </repeat>
         </view>
 
     </view>
@@ -144,24 +122,83 @@
             navigationBarTitleText: '培训',
             navigationBarBackgroundColor: '#fff',
             navigationBarTextStyle: 'black',
-//            backgroundTextStyle:"dark"
+            enablePullDownRefresh:true
         }
         components = {
             info: info
         }
         data = {
-
+            page_info:{cur_page:0, page_size: 5, total_items: 2, total_pages: 1},
+            skill_list:[]
         }
-        onLoad(){
+        async getSkillList(sess_key) {
+            let that = this;
+            tip.loading();
+            let res = await api.trainList({method:'POST',query:{
+                sess_key: sess_key,
+                page:Number(that.page_info.cur_page) +1 || 1,
+                page_size:that.page_info.page_size
+            }});
+            if(res.data.error_code == 0 ){
+                if(res.data.bizobj.data == null){
+                    that.skill_list = [];
+                    that.page_info = {cur_page:0, page_size: 5, total_items: 2, total_pages: 1};
+                }else{
+                    console.log(res)
+                    if(res.data.bizobj.page_info.cur_page != 1 && res.data.bizobj.page_info.cur_page <= res.data.bizobj.page_info.total_pages ){
+                        console.log(that.skill_list)
+                        that.skill_list =that.skill_list.concat(res.data.bizobj.data) ;
+                    }else{
+                        that.skill_list = res.data.bizobj.data;
+                    }
+                    that.page_info = res.data.bizobj.page_info;
+                }
 
-        }
-        methods = {
-            skillTap(){
-                wx.navigateTo({
-                    url: '/pages/skill/skillDetails'
-                })
+                that.$apply();
+                tip.loaded();
+            }else{
+                tip.error(res.data.error_msg);
             }
         }
+        onLoad(){
+            var _this = this;
+            wx.getStorage({
+                key: 'sess_key',
+                success: function(res){
+                     _this.getSkillList(res.data);
+                }
+            });
+        }
+        onReachBottom(){
+            var _this = this;
 
+            if(_this.page_info.cur_page == _this.page_info.total_pages){
+                wx.showToast({ //如果全部加载完成了也弹一个框
+                    title: '我也是有底线的',
+                    icon: 'success',
+                    duration: 300
+                });
+            }else{
+                wx.getStorage({
+                    key: 'sess_key',
+                    success: function(res){
+                        _this.getSkillList(res.data,_this.page_info.cur_page);
+                    }
+                });
+            }
+        }
+        methods = {
+            detailTap(v){
+                console.log(v)
+                wx.getStorage({
+                    key: 'sess_key',
+                    success: function(res){
+                        wx.navigateTo({
+                            url: '/pages/skill/skillDetails?sess_key='+ res.data + '&id=' + v.id
+                        })
+                    }
+                });
+            }
+        }
     }
 </script>

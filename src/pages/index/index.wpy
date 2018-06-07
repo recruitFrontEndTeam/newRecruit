@@ -165,12 +165,9 @@
       <view class="m-line"></view>
     </view>
     <view class="m-index-content">
-      <scroll-view scroll-y='true' style="height:{{height}}rpx;" bindscrolltolower='lower' wx:if="{{work_list.length >0}}">
-        <repeat for="{{work_list}}" key="index" index="index" item="item" >
-          <info :list.sync="item" @infoTap.user="detailTap" ></info>
-        </repeat>
-      </scroll-view>
-
+      <repeat for="{{work_list}}" key="index" index="index" item="item" >
+        <info :list.sync="item" @infoTap.user="detailTap" ></info>
+      </repeat>
     </view>
   </view>
 </template>
@@ -185,7 +182,8 @@
 
   export default class IndexIndex extends wepy.page {
     config = {
-      navigationBarTitleText: '首页'
+      navigationBarTitleText: '首页',
+        enablePullDownRefresh:true
     }
     components = {
       info: info,
@@ -217,7 +215,6 @@
       ],
       work_list:[],
         page_info:{cur_page:0, page_size: 5, total_items: 2, total_pages: 1},
-
         select_city: {
             "area_name": "杭州市",
             "areano": 330100
@@ -253,24 +250,24 @@
             tip.error(res.data.error_msg);
         }
     }
-      async getLocation(sess_key,latitude,longitude) {
-          let that = this;
-          tip.loading();
-          let res = await api.disttrictList({method:'POST',query:{
-                  sess_key: sess_key,
-                  latitude:latitude,
-                  longitude:longitude
-              }});
-          if(res.data.error_code == 0){
-              that.select_city = res.data.bizobj.data.location_city;
-              that.getWorkList(sess_key,that.select_city.areano);
-              that.$apply();
-              tip.loaded();
-          }else{
-              tip.error(res.data.error_msg);
+    async getLocation(sess_key,latitude,longitude) {
+        let that = this;
+        tip.loading();
+        let res = await api.disttrictList({method:'POST',query:{
+                sess_key: sess_key,
+                latitude:latitude,
+                longitude:longitude
+            }});
+        if(res.data.error_code == 0){
+            that.select_city = res.data.bizobj.data.location_city;
+            that.getWorkList(sess_key,that.select_city.areano);
+            that.$apply();
+            tip.loaded();
+        }else{
+            tip.error(res.data.error_msg);
 
-          }
-      }
+        }
+    }
     onLoad(option){
        var _this = this;
         onfire.on('search', function (args) {
@@ -295,23 +292,10 @@
             }
         });
     }
-    methods = {
-      detailTap(){
-        wx.navigateTo({
-          url: '/pages/work/workDetails'
-        })
-      },
-      inputTap(){
-        wx.navigateTo({
-          url: '/pages/index/search'
-        })
-      },
-      locationTap(){
-        wx.navigateTo({
-          url: '/pages/index/location'
-        })
-      },
-        lower(){
+      onPullDownRefresh(){
+          wx.stopPullDownRefresh();
+      }
+      onReachBottom(){
           var _this = this;
           if(_this.page_info.cur_page == _this.page_info.total_pages){
               wx.showToast({ //如果全部加载完成了也弹一个框
@@ -327,8 +311,29 @@
                   }
               });
           }
+      }
+    methods = {
+      detailTap(v){
+          wx.getStorage({
+              key: 'sess_key',
+              success: function(res){
+                  wx.navigateTo({
+                      url: '/pages/work/workDetails?secc_key=' + res.data + '&id=' + v.id
+                  })
+              }
+          });
 
-        }
+      },
+      inputTap(){
+        wx.navigateTo({
+          url: '/pages/index/search'
+        })
+      },
+      locationTap(){
+        wx.navigateTo({
+          url: '/pages/index/location'
+        })
+      }
     }
   }
 </script>

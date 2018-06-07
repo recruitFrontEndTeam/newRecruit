@@ -64,12 +64,12 @@
 <template>
     <view class="m-skillDetails">
         <view class="m-skill-info">
-            <view class="m-tr m-title">技能提升</view>
-            <view class="m-tr">培训时间：周一至周六</view>
-            <view class="m-tr">培训地点：北部软件园创意园B5栋2楼</view>
+            <view class="m-tr m-title">{{all_data.name}}</view>
+            <view class="m-tr">培训时间：{{all_data.train_time}}</view>
+            <view class="m-tr">培训地点：{{all_data.address}}</view>
             <view class="m-tr m-tr-two">
-                <p class="m-left">更新时间：2018-05-16 10:10:54</p>
-                <p class="m-right">已报名：143人</p>
+                <p class="m-left">更新时间：{{all_data.update_at}}</p>
+                <p class="m-right">已报名：{{all_data.num}}人</p>
             </view>
         </view>
         <view class="m-back"></view>
@@ -95,6 +95,8 @@
 </template>
 <script>
     import wepy from 'wepy';
+    import tip from '../../utils/tip';
+    import api from '../../api/api';
     export default class SkillDetails extends wepy.page{
         config = {
             navigationBarTitleText: '培训详情',
@@ -102,14 +104,26 @@
             navigationBarTextStyle: 'black',
 //            backgroundTextStyle:"dark"
         }
-        props = {
-
-        }
         data = {
-
+            all_data:{}
         }
-        onLoad(){
-
+        async getSkillDetails(sess_key,id) {
+            let that = this;
+            tip.loading();
+            let res = await api.trainDetail({method:'POST',query:{
+                sess_key: sess_key,
+                id:id
+            }});
+            if(res.data.error_code == 0 ){
+                that.all_data = res.data.bizobj.data;
+                that.$apply();
+                tip.loaded();
+            }else{
+                tip.error(res.data.error_msg);
+            }
+        }
+        onLoad(options){
+            this.getSkillDetails(options.ress_key,options.id);
         }
         methods = {
 

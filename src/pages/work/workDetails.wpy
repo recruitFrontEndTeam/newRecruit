@@ -183,7 +183,7 @@
     <view class="m-workDetails">
         <swiper indicator-dots="{{swiper.indicatorDots}}"
                 autoplay="{{swiper.autoplay}}" interval="{{swiper.interval}}" duration="{{swiper.duration}}" style="height:370rpx;width: 750rpx;">
-            <block wx:for="{{swiper.imgUrls}}" wx:key="{{swiper.imgUrls}}">
+            <block wx:for="{{all_data.pic_swap}}" wx:key="{{index}}">
                 <swiper-item>
                     <image src="{{item}}" class="slide-image" style="height:370rpx;width: 750rpx;"/>
                 </swiper-item>
@@ -191,18 +191,18 @@
         </swiper>
         <view class="m-post-main">
             <view class="m-tr1">
-                <p class="m-left"><span class="m-title">普工</span>（招聘<span class="m-red">2</span>人）</p>
-                <p class="m-price m-red">¥3500-4500</p>
+                <p class="m-left"><span class="m-title">{{all_data.name}}</span>（招聘<span class="m-red">{{all_data.num}}</span>人）</p>
+                <p class="m-price m-red">¥{{all_data.mini_salary}}-{{all_data.max_salary}}</p>
             </view>
-            <view class="m-tr2">嘉兴闻泰集团</view>
+            <view class="m-tr2">{{all_data.company_name}}</view>
             <view class="m-tr3">
-                <p class="m-tab">18-45岁</p>
-                <p class="m-tab">18-45岁</p>
-                <p class="m-tab">18-45岁</p>
+                <p class="m-tab">{{all_data.mini_age}} - {{all_data.max_age}}</p>
+                <p class="m-tab">{{all_data.keyword1}}</p>
+                <p class="m-tab">{{all_data.keyword2}}</p>
             </view>
             <view class="m-tr4">
-                <view class="m-left">嘉兴省 嘉兴市 平湖市</view>
-                <view class="m-right">更新时间：2018-05-16 10:10:54</view>
+                <view class="m-left">{{all_data.prov_name}} {{all_data.city_name}} {{all_data.district_name}}</view>
+                <view class="m-right">更新时间：{{all_data.uodate_at}}</view>
             </view>
         </view>
         <view class="m-reward" style="padding-bottom: 20rpx;">
@@ -211,19 +211,17 @@
                 <tr>
                     <td>1</td>
                     <td>入职奖励</td>
-                    <td>通过链匠招聘小程序入职本公司，首
-                        月工作满30天，可领取入职奖励60元</td>
+                    <td>{{all_data.reward_condition.reward_condition_recruit}}</td>
                 </tr>
                 <tr>
                     <td>2</td>
                     <td>分享奖励</td>
-                    <td>通过分享，推荐他人入职本公司，可
-                        获取奖励300元</td>
+                    <td>{{all_data.reward_condition.reward_condition_share}}</td>
                 </tr>
                 <tr>
                     <td>3</td>
                     <td>其  他</td>
-                    <td></td>
+                    <td>{{all_data.reward_condition.reward_condition_other}}</td>
                 </tr>
             </table>
         </view>
@@ -240,32 +238,32 @@
                         <tr>
                             <td>1</td>
                             <td>综合薪资</td>
-                            <td>3700-4500元</td>
+                            <td>{{all_data.salary.salary_major}}</td>
                         </tr>
                         <tr>
                             <td>2</td>
                             <td>底  薪</td>
-                            <td>2030元/月</td>
+                            <td>{{all_data.salary.salary_mini}}</td>
                         </tr>
                         <tr>
                             <td>3</td>
                             <td>加  班</td>
-                            <td>按1950元计算，平时1.5倍，双休2倍，</td>
+                            <td>{{all_data.salary.salary_plus}}</td>
                         </tr>
                         <tr>
                             <td>4</td>
                             <td>补  贴</td>
-                            <td>1、夜班补贴260-300元/月；</td>
+                            <td>{{all_data.salary.salary_extra}}</td>
                         </tr>
                         <tr>
                             <td>5</td>
                             <td>发  薪  日</td>
-                            <td>每月5日（发26-25日）</td>
+                            <td>{{all_data.salary.salary_day}}</td>
                         </tr>
                         <tr>
                             <td>6</td>
                             <td>其  他</td>
-                            <td></td>
+                            <td>{{all_data.salary.salary_other}}</td>
                         </tr>
                     </table>
                 </view>
@@ -275,21 +273,17 @@
                         <tr>
                             <td>1</td>
                             <td>伙  食</td>
-                            <td>免费提供工作餐及加班餐，员工可自
-                                由选择餐点及菜色</td>
+                            <td>{{all_data.ef.ef_food}}</td>
                         </tr>
                         <tr>
                             <td>2</td>
                             <td>住  宿</td>
-                            <td>公司提供住宿，8人间，住宿费60元/
-                                月，房间有空调、卫生间、淋浴等设
-                                施；面试当天安排临时住宿（20元），
-                                次日体检</td>
+                            <td>{{all_data.ef.ef_live}}</td>
                         </tr>
                         <tr>
                             <td>3</td>
                             <td>其他</td>
-                            <td></td>
+                            <td>{{all_data.ef.ef_other}}</td>
                         </tr>
                     </table>
                 </view>
@@ -301,23 +295,22 @@
                         <tr>
                             <td>1</td>
                             <td>岗位说明</td>
-                            <td>主要生产的是手机外壳、注塑模、冷冲</td>
+                            <td>{{all_data.brief.brief_instruction}}</td>
                         </tr>
                         <tr>
                             <td>2</td>
                             <td>工作时间</td>
-                            <td>两班倒，每周5天8小时工作制，假日
-                                及平时视生产任务安排加班</td>
+                            <td>{{all_data.brief.brief_worktime}}</td>
                         </tr>
                         <tr>
                             <td>3</td>
                             <td>工作环境</td>
-                            <td>站着工作、无流水线、不穿无尘服</td>
+                            <td>{{all_data.brief.brief_environment}}</td>
                         </tr>
                         <tr>
                             <td>4</td>
                             <td>其  他</td>
-                            <td>站着工作、无流水线、不穿无尘服</td>
+                            <td>{{all_data.brief.brief_other}}</td>
                         </tr>
                     </table>
                 </view>
@@ -327,17 +320,17 @@
                         <tr>
                             <td>1</td>
                             <td>年  龄</td>
-                            <td>18-50</td>
+                            <td>{{all_data.requirement.requirement_age}}</td>
                         </tr>
                         <tr>
                             <td>2</td>
                             <td>学历</td>
-                            <td>初中及以上</td>
+                            <td>{{all_data.requirement.requirement_record}}</td>
                         </tr>
                         <tr>
                             <td>3</td>
                             <td>其他</td>
-                            <td>3</td>
+                            <td>{{all_data.requirement.requirement_other}}</td>
                         </tr>
                     </table>
                 </view>
@@ -347,18 +340,17 @@
                         <tr>
                             <td>1</td>
                             <td>体检说明</td>
-                            <td>体检费75元自理</td>
+                            <td>{{all_data.other.other_check}}</td>
                         </tr>
                         <tr>
                             <td>2</td>
                             <td>个人材料</td>
-                            <td>1、身份证
-                                2、一寸照</td>
+                            <td>{{all_data.other.other_person}}</td>
                         </tr>
                         <tr>
                             <td>3</td>
                             <td>其  他</td>
-                            <td>3</td>
+                            <td>{{all_data.other.other_other}}</td>
                         </tr>
                     </table>
                 </view>
@@ -370,27 +362,26 @@
                         <tr>
                             <td>1</td>
                             <td>合同说明</td>
-                            <td>与企业签订</td>
+                            <td>{{all_data.contract.contract_instruction}}</td>
                         </tr>
                         <tr>
                             <td>2</td>
                             <td>保险说明</td>
-                            <td>入职缴纳社保</td>
+                            <td>{{all_data.contract.contract_insurance}}</td>
                         </tr>
                         <tr>
                             <td>3</td>
                             <td>其他说明</td>
-                            <td>3</td>
+                            <td>{{all_data.contract.contract_other}}</td>
                         </tr>
                     </table>
                 </view>
                 <view class="m-company-intro">
                     <p class="m-title">公司简介</p>
-                    <view class="m-company-info">可胜科技（泰州）有限公司于2012年06月12日在泰州医药高新技
-                        术产业开发区市场监督管理局登记成立。法定代表人杨义文，公司经营范围包括研发、生产和加工铝、镁和锌等各式新型合金材料及制品等。</view>
+                    <view class="m-company-info">{{all_data.company_instruction}}</view>
                     <view class="m-add">
                         <p class="m-title">企业地址</p>
-                        <p class="m-company-add">泰州市经济开发区祥泰路227号</p>
+                        <p class="m-company-add">{{all_data.company_address}}</p>
                     </view>
                 </view>
             </view>
@@ -422,16 +413,15 @@
 </template>
 <script>
     import wepy from 'wepy';
+    import api from '../../api/api';
+    import tip from '../../utils/tip';
     export default class WorkDetails extends wepy.page{
         config = {
             navigationBarTitleText: '职位详情',
             navigationBarBackgroundColor: '#fff',
-            navigationBarTextStyle: 'black',
-//            backgroundTextStyle:"dark"
+            navigationBarTextStyle: 'black'
         }
-        props = {
 
-        }
         data = {
             swiper:{
                 imgUrls: [
@@ -447,30 +437,31 @@
             order:['wages','work','contract'],
             show_a:'wages',
             toView: 'wages',
-            scrollTop: 0
+            scrollTop: 0,
+            all_data:{}
         }
-        onLoad(){
+        async getWorkDetails(sess_key,id) {
+            let that = this;
+            tip.loading();
+            let res = await api.workDetail({method:'POST',query:{
+                sess_key: sess_key,
+                id:id
+            }});
+            if(res.data.error_code == 0 ){
+                that.all_data = res.data.bizobj.data;
+                that.$apply();
+                tip.loaded();
+            }else{
+                tip.error(res.data.error_msg);
+            }
+        }
+        onLoad(options){
+             this.getWorkDetails(options.ress_key,options.id);
         }
         methods = {
-            upper: function(e) {
-//                console.log(e)
-            },
-            lower: function(e) {
-//                console.log(e)
 
-            },
             scroll: function(e) {
                 console.log(e)
-//                if(e.detail.scrollTop < 448){
-//                    this.show_a = 'wages';
-//                    this.$apply();
-//                }else if(e.detail.scrollTop < 1049 && e.detail.scrollTop >=448){
-//                    this.show_a = 'work';
-//                    this.$apply();
-//                }else{
-//                    this.show_a = 'contract';
-//                    this.$apply();
-//                }
             },
             tap: function(e) {
                 this.toView = e;

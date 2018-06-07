@@ -24,13 +24,15 @@
         <view class="m-search-top">
             <view class="m-search-box">
                 <image class="m-icon-search" style="width: 30rpx;height:30rpx;margin: 0 20rpx;" src="../../images/icon_search.png" />
-                <input type="text" placeholder="搜索公司/职位" />
+                <input type="text" placeholder="搜索公司/职位" bindblur="inputBlur" />
             </view>
-            <view>取消</view>
+            <view @tap="cancelTap">取消</view>
         </view>
-        <repeat for="{{work_list}}" key="index" index="index" item="item">
-            <info :list.sync="item" @infoTap.user="detailTap" ></info>
-        </repeat>
+        <scroll-view scroll-y='true' style="height:100%;" bindscrolltolower='lower' wx:if="{{work_list.length >0}}">
+            <repeat for="{{work_list}}" key="index" index="index" item="item" >
+                <info :list.sync="item" @infoTap.user="detailTap" ></info>
+            </repeat>
+        </scroll-view>
     </view>
 </template>
 <script>
@@ -50,15 +52,62 @@
             info: info
         }
         data = {
-            work_list:[]
+            work_list:[],
+            select_city:{}
+        }
+        async getWorkList(sess_key,key) {
+            let that = this;
+            tip.loading();
+            let res = await api.recWorkList({method:'POST',query:{
+                sess_key: sess_key,
+                is_rec:2,
+                search_name:key,
+//                page:Number(that.page_info.cur_page) +1 || 1,
+//                page_size:that.page_info.page_size
+            }});
+            if(res.data.error_code == 0 ){
+                if(res.data.bizobj.data == null){
+                    that.work_list = [];
+                    that.page_info = {cur_page:0, page_size: 5, total_items: 2, total_pages: 1};
+                }else{
+//                    if(res.data.bizobj.page_info.cur_page != 1 && res.data.bizobj.page_info.cur_page <= res.data.bizobj.page_info.total_pages ){
+//                        that.work_list =that.work_list.concat(res.data.bizobj.data) ;
+//                    }else{
+                        that.work_list = res.data.bizobj.data;
+//                    }
+                    that.height = (that.work_list.length + 1) * 160;
+                    that.page_info = res.data.bizobj.page_info;
+                }
+
+                that.$apply();
+                tip.loaded();
+            }else{
+                tip.error(res.data.error_msg);
+            }
         }
         onLoad(){
 
         }
         onUnload(){
-            onfire.fire('search', { inputVal: this.select_city });
+
+//            onfire.fire('search', { inputVal: this.select_city });
         }
         methods = {
+            inputBlur(e){
+                var _this = this;
+                wx.getStorage({
+                    key: 'sess_key',
+                    success: function(res){
+                         _this.getWorkList(res.data,e.detail.value);
+                    }
+                });
+            },
+            cancelTap(){
+                wx.navigateBack()
+            },
+            detailTap(v){
+                console.log(v)
+            }
 
         }
 

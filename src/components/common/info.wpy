@@ -19,7 +19,7 @@
             .m-info-tr1{
                 .flex-row(space-between);
                 .m-info-td1{
-                    width: 378rpx;
+                    /*width: 378rpx;*/
                     display: flex;
                     flex-flow: row;
                     align-items: center;
@@ -91,19 +91,19 @@
 </style>
 
 <template>
-    <view class="m-info-box" @tap="tap">
+    <view class="m-info-box" @tap="tap({{list}})">
         <image class="m-info-img" src="{{list.pic_env}}"/>
         <view class="m-info-right">
             <view class="m-info-tr1">
                 <view class="m-info-td1">
                     <p class="m-name">{{list.name}}</p>
                     <view class="m-tabs">
-                        <view class="m-tab">入职奖{{list.reward}}</view>
-                        <view class="m-tab">推荐奖{{list.reward_up}}</view>
+                        <view class="m-tab" wx:if="{{list.reward}}">入职奖{{list.reward}}</view>
+                        <view class="m-tab" wx:if="{{list.reward_up}}">推荐奖{{list.reward_up}}</view>
                     </view>
                 </view>
                 <view class="m-info-td2">
-                    <p class="m-price">¥{{list.mini_salary}}-{{list.max_salary}}</p>
+                    <p class="m-price" wx:if="{{list.mini_salary}}">¥{{list.mini_salary}}-{{list.max_salary}}</p>
                 </view>
             </view>
             <view class="m-info-tr2">
@@ -113,12 +113,14 @@
             </view>
             <view class="m-info-tr3">
                 <view class="m-info-td1">
-                    <p class="m-name m-name-first">{{list.city_name}}</p>
-                    <p class="m-name">{{list.keyword1}}</p>
-                    <p class="m-name">{{list.keyword2}}</p>
+                    <p class="m-name m-name-first" wx:if="{{list.city_name}}">{{list.city_name}}</p>
+                    <p class="m-name" wx:if="{{list.keyword1}}">{{list.keyword1}}</p>
+                    <p class="m-name" wx:if="{{list.keyword2}}">{{list.keyword2}}</p>
+                    <p class="m-name" wx:if="{{list.address}}">北部软件园创意园B5栋2楼</p>
                 </view>
                 <view class="m-info-td2">
-                    <p class="m-time">{{list.update_at}}</p>
+                    <p class="m-time" wx:if="{{list.update_at}}">{{list.update_at}}</p>
+                    <p class="m-time" wx:if="{{list.train_time}}">{{list.train_time}}</p>
                     <!--<p class="m-link">取消收藏</p>-->
                     <!--<view class="m-btn">面试</view>-->
                 </view>
