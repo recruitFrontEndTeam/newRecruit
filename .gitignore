@@ -6,6 +6,6 @@ dist/
 
 .idea
 .vscode
-
+.wepycache
 
 package-lock.json
