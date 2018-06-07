@@ -102,6 +102,15 @@
                     }
                 }
             }
+            &.m-bottom-border{
+                tr{
+                    &:last-child{
+                        td{
+                            border-bottom: 1px solid #DBDBDB;
+                        }
+                    }
+                }
+            }
         }
         .m-box{
             margin-top: 20rpx;
@@ -233,8 +242,8 @@
         <scroll-view scroll-y  style="height: 1000rpx;" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
             <view id="wages" class="m-wages m-box" >
                 <view class="m-reward">
-                    <p class="m-title">薪资待遇</p>
-                    <table width="100%" class="m-table">
+                    <p class="m-title ">薪资待遇</p>
+                    <table width="100%" class="m-table m-bottom-border">
                         <tr>
                             <td>1</td>
                             <td>综合薪资</td>
@@ -290,8 +299,8 @@
             </view>
             <view id="work" class="m-work m-box">
                 <view class="m-reward">
-                    <p class="m-title">工作简介</p>
-                    <table width="100%" class="m-table">
+                    <p class="m-title ">工作简介</p>
+                    <table width="100%" class="m-table m-bottom-border">
                         <tr>
                             <td>1</td>
                             <td>岗位说明</td>
