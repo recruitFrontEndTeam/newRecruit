@@ -470,7 +470,7 @@
         methods = {
 
             scroll: function(e) {
-                console.log(e)
+                
             },
             tap: function(e) {
                 this.toView = e;

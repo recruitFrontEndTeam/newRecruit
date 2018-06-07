@@ -62,6 +62,12 @@
                 </view>
             </view>
         </view>
+        <view >
+            <repeat for="{{all_list}}" key="index" index="index" item="item" >
+                <info :list.sync="item" @infoTap.user="detailTap" ></info>
+            </repeat>
+        </view>
+
     </view>
 </template>
 <script >
@@ -76,7 +82,7 @@
             navigationBarTitleText: '工作',
             navigationBarBackgroundColor: '#fff',
             navigationBarTextStyle: 'black',
-//            backgroundTextStyle:"dark"
+            enablePullDownRefresh:true
         }
         components = {
             nav: nav,
@@ -163,10 +169,63 @@
                 name:''
             }],
             now_data:null,
-            now_nav:''
+            now_nav:'',
+            page_info:{cur_page:0, page_size: 5, total_items: 2, total_pages: 1},
+            all_list:[]
+        }
+        async getWorkList(sess_key,areano) {
+            let that = this;
+            tip.loading();
+            let res = await api.workList({method:'POST',query:{
+                sess_key: sess_key,
+                is_rec:2,
+                page:Number(that.page_info.cur_page) +1 || 1,
+                page_size:that.page_info.page_size
+            }});
+            if(res.data.error_code == 0 ){
+                if(res.data.bizobj.data == null){
+                    that.all_list = [];
+                    that.page_info = {cur_page:0, page_size: 5, total_items: 2, total_pages: 1};
+                }else{
+                    that.all_list =that.all_list.concat(res.data.bizobj.data) ;
+                    that.height = (that.all_list.length + 1) * 160;
+                    that.page_info = res.data.bizobj.page_info;
+                }
+
+                that.$apply();
+                tip.loaded();
+            }else{
+                tip.error(res.data.error_msg);
+            }
         }
         onLoad(){
-
+            var _this = this;
+            wx.getStorage({
+                key: 'sess_key',
+                success: function(res){
+                    _this.getWorkList(res.data);
+                }
+            });
+        }
+        onPullDownRefresh(){
+            wx.stopPullDownRefresh();
+        }
+        onReachBottom(){
+            var _this = this;
+            if(_this.page_info.cur_page == _this.page_info.total_pages){
+                wx.showToast({ //如果全部加载完成了也弹一个框
+                    title: '我也是有底线的',
+                    icon: 'success',
+                    duration: 300
+                });
+            }else{
+                wx.getStorage({
+                    key: 'sess_key',
+                    success: function(res){
+                        _this.getWorkList(res.data);
+                    }
+                });
+            }
         }
         methods = {
             navTap(v){
@@ -192,10 +251,16 @@
                 this.data_list[this.now_nav][v].click = !this.data_list[this.now_nav][v].click;
                 this.$apply();
             },
-            detailTap(){
-                wx.navigateTo({
-                    url: '/pages/work/workDetails'
-                })
+            detailTap(v){
+                wx.getStorage({
+                    key: 'sess_key',
+                    success: function(res){
+                        wx.navigateTo({
+                            url: '/pages/work/workDetails?secc_key=' + res.data + '&id=' + v.id
+                        })
+                    }
+                });
+
             },
         }
 
