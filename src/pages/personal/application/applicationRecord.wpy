@@ -4,6 +4,10 @@
         .tab-main{
             .flex-row(space-between);
             border-bottom: 2rpx solid #eee;
+            position: fixed;
+            z-index: 100;
+            background: #fff;
+            width: 100%;
             .tab-view{
                 width: 50%;
                 height: 80rpx;
@@ -28,6 +32,9 @@
                 }
              }
              
+         }
+         .tab-content{
+             padding-top: 82rpx;
          }
          .no-tab-content{
              padding: 100rpx 0;
@@ -104,12 +111,12 @@
         </view>
     </view>
 </template>
-<script >
+<script>
     import wepy from 'wepy';
     import tip from '../../../utils/tip';
     import api from '../../../api/api';
     import Info from '../../../components/common/info';
-    export default class MyTeam extends wepy.page{
+    export default class applicationRecord extends wepy.page{
         config = {
             navigationBarTitleText: '申请记录'
         }
@@ -120,9 +127,8 @@
             list1: [],
             height0: 0,
             height1: 0,
-            page_info:{cur_page:0, page_size: 5, total_items: 2, total_pages: 1},
+            page_info:{cur_page:0, page_size: 8, total_items: 2, total_pages: 1},
         }
-
         components = {
             Info: Info
         }
@@ -138,10 +144,11 @@
                 if(res.data.error_code == '0'){
                     if(res.data.bizobj.data == null){
                         that.list0 = [];
-                        that.page_info = {cur_page:0, page_size: 5, total_items: 2, total_pages: 1};
+                        that.page_info = {cur_page:0, page_size: 8, total_items: 2, total_pages: 1};
                     }else{
                         if(res.data.bizobj.page_info.cur_page != 1 && res.data.bizobj.page_info.cur_page <= res.data.bizobj.page_info.total_pages ){
-                            that.list0 =that.list0.concat(res.data.bizobj.data) ;
+                            that.list0 =that.list0.concat(res.data.bizobj.data);
+
                         }else{
                             that.list0 = res.data.bizobj.data;
                         }
@@ -166,7 +173,7 @@
                 if(res.data.error_code == '0'){
                     if(res.data.bizobj.data == null){
                         that.list1 = [];
-                        that.page_info = {cur_page:0, page_size: 5, total_items: 2, total_pages: 1};
+                        that.page_info = {cur_page:0, page_size: 8, total_items: 2, total_pages: 1};
                     }else{
                         if(res.data.bizobj.page_info.cur_page != 1 && res.data.bizobj.page_info.cur_page <= res.data.bizobj.page_info.total_pages ){
                             that.list1 =that.list1.concat(res.data.bizobj.data) ;
@@ -196,11 +203,11 @@
             tab(index){
                 if(index == 0){
                     this.list0 = [];
-                    this.page_info = {cur_page:0, page_size: 5, total_items: 2, total_pages: 1};
+                    this.page_info = {cur_page:0, page_size: 8, total_items: 2, total_pages: 1};
                     this.getapplyWorkList(this.sess_key);
                 }else{
                     this.list1 = [];
-                    this.page_info = {cur_page:0, page_size: 5, total_items: 2, total_pages: 1};
+                    this.page_info = {cur_page:0, page_size: 8, total_items: 2, total_pages: 1};
                     this.getcollectWorkList(this.sess_key);
                 }
                 this.index = index;
@@ -245,4 +252,5 @@
                 }
             }
         }
+    }
 </script>

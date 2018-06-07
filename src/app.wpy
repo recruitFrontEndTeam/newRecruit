@@ -29,12 +29,11 @@ page{
   export default class extends wepy.app {
     config = {
       pages: [
-
         'pages/index/index',
         'pages/index/bole',
         'pages/index/search',
         'pages/index/location',
-          'pages/personal/login',
+        'pages/personal/login',
         'pages/personal/profile/index',
         'pages/personal/wallet/index',
         'pages/personal/wallet/cash',
