@@ -293,7 +293,7 @@
         });
     }
       onPullDownRefresh(){
-          wx.stopPullDownRefresh();
+          wx.stopPullDownRefresh(); 
       }
       onReachBottom(){
           var _this = this;

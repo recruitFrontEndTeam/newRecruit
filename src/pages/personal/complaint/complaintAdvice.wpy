@@ -85,7 +85,7 @@
                 <view class="main">
                     <view class="form-item name-view">
                         <view class="section__title">您的手机</view>
-                        <input name="mobile" placeholder="请输入手机号" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
+                        <input name="mobile" type="number" placeholder="请输入手机号" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
                     </view>
                     <view class="form-item tel-view">
                         <view class="section__title">所在城市</view>

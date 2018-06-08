@@ -28,10 +28,10 @@
 <template>
     <view class="cash-item">
         <view class="top">
-            <view class="top-left">红包收入</view>
-            <view class="top-right">{{item.time}}</view>
+            <view class="top-left">{{item.method}}</view>
+            <view class="top-right">{{item.update_at}}</view>
         </view>
-        <view class="bottom">{{item.count}}</view>
+        <view class="bottom">{{item.cash}}</view>
     </view>
 </template>
 <script >
