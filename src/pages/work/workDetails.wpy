@@ -167,7 +167,14 @@
                 p{
                     margin-top: 10rpx;
                 }
-
+                &.m-btn-share{
+                    padding: 0 10rpx;
+                    border: none;
+                    background-color: #fff;
+                    line-height: normal;
+                    border-radius: 0;
+                    position: static;
+                }
             }
             .m-btn{
                 width: 440rpx;
@@ -398,12 +405,12 @@
 
         <view class="m-back"></view>
         <foot class="m-foot">
-            <view class="m-link">
+            <button class="m-link m-btn-share" open-type="share">
                 <view>
                     <image src="../../images/icon_fx.png" style="width:40rpx;height:40rpx;"/>
                 </view>
                 <p>分享</p>
-            </view>
+            </button>
             <!--<view class="m-link">-->
                 <!--<view>-->
                     <!--<image src="../../images/icon_sc.png" style="width:40rpx;height:40rpx;"/>-->
@@ -466,6 +473,46 @@
         }
         onLoad(options){
              this.getWorkDetails(options.sess_key,options.id);
+            //            分享
+            wx.showShareMenu({
+                withShareTicket: true,
+                success: function (res) {
+                    // 分享成功
+                    console.log('shareMenu share success')
+                    console.log('分享'+res)
+                },
+                fail: function (res) {
+                    // 分享失败
+                    console.log(res)
+                }
+            })
+        }
+        onShareAppMessag(res) {
+            var _this = this;
+            wx.getStorage({
+                key: 'sess_key',
+                success: function(res){
+                    return {
+                        title: '这里是机智life小程序',
+                        path: '/page/index/bole?sess_key=' + res.data,
+                        success: function (res) {
+                            console.log(res.shareTickets[0])
+                            // console.log
+                            wx.getShareInfo({
+                                shareTicket: res.shareTickets[0],
+                                success: function (res) { console.log(res) },
+                                fail: function (res) { console.log(res) },
+                                complete: function (res) { console.log(res) }
+                            })
+                        },
+                        fail: function (res) {
+                            // 分享失败
+                            console.log(res)
+                        }
+                    }
+                }
+            });
+
         }
         methods = {
 

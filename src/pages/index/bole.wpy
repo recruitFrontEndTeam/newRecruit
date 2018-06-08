@@ -63,7 +63,7 @@
         <view class="m-top">
             <image class="m-image" style="width: 442rpx;height: 342rpx;" src="../../images/pic_blph.png"/>
             <p class="m-introduce">推荐好友入职可领取会员费哦</p>
-            <view class="m-btn">立即推荐</view>
+            <button class="m-btn" open-type="share">立即推荐</button>
         </view>
         <view class="m-ranking-list">
             <view class="m-ranking-box">
@@ -144,6 +144,46 @@
                     _this.getblList(res.data);
                 }
             });
+//            分享
+            wx.showShareMenu({
+                withShareTicket: true,
+                success: function (res) {
+                    // 分享成功
+                    console.log('shareMenu share success')
+                    console.log('分享'+res)
+                },
+                fail: function (res) {
+                    // 分享失败
+                    console.log(res)
+                }
+            })
+        }
+        onShareAppMessag(res) {
+            var _this = this;
+            wx.getStorage({
+                key: 'sess_key',
+                success: function(res){
+                    return {
+                        title: '这里是机智life小程序',
+                        path: '/page/index/bole?sess_key=' + res.data,
+                        success: function (res) {
+                            console.log(res.shareTickets[0])
+                            // console.log
+                            wx.getShareInfo({
+                                shareTicket: res.shareTickets[0],
+                                success: function (res) { console.log(res) },
+                                fail: function (res) { console.log(res) },
+                                complete: function (res) { console.log(res) }
+                            })
+                        },
+                        fail: function (res) {
+                            // 分享失败
+                            console.log(res)
+                        }
+                    }
+                }
+            });
+
         }
         methods = {
         }
