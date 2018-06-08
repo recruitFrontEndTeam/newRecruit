@@ -190,7 +190,6 @@
       nav: nav
     }
     data = {
-        height:0,
       nav_list:[
         {
           name:'技能培训',
@@ -240,10 +239,8 @@
                 }else{
                     that.work_list = res.data.bizobj.data;
                 }
-                that.height = (that.work_list.length + 1) * 160;
                 that.page_info = res.data.bizobj.page_info;
             }
-
             that.$apply();
             tip.loaded();
         }else{
@@ -287,8 +284,7 @@
                     success: function(data) {
                         _this.getLocation(res.data,data.latitude,data.longitude)
                     }
-                })
-                  // _this.getWorkList(res.data,_this.select_city.areano);
+                });
             }
         });
     }
@@ -317,23 +313,21 @@
           wx.getStorage({
               key: 'sess_key',
               success: function(res){
-                  console.log(res)
                   wx.navigateTo({
                       url: '/pages/work/workDetails?sess_key=' + res.data + '&id=' + v.id
-                  })
+                  });
               }
           });
-
       },
       inputTap(){
         wx.navigateTo({
           url: '/pages/index/search'
-        })
+        });
       },
       locationTap(){
         wx.navigateTo({
           url: '/pages/index/location'
-        })
+        });
       }
     }
   }

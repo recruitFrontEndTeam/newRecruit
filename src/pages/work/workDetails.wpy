@@ -164,6 +164,7 @@
                 font-size: 24rpx;
                 color: @common-color;
                 margin: 0 20rpx;
+                z-index: 100;
                 p{
                     margin-top: 10rpx;
                 }
@@ -174,6 +175,10 @@
                     line-height: normal;
                     border-radius: 0;
                     position: static;
+                    z-index: 0;
+                }
+                &.m-no-lick{
+                    color: #868E9E;
                 }
             }
             .m-btn{
@@ -187,6 +192,7 @@
                 font-size: 28rpx;
                 background-color: @common-color;
                 color: #fff;
+                z-index: 100;
                 &.m-active{
                     background-color: #CDD7EC ;
                     color: #ffffff;
@@ -411,19 +417,20 @@
                 </view>
                 <p>分享</p>
             </button>
-            <!--<view class="m-link">-->
-                <!--<view>-->
-                    <!--<image src="../../images/icon_sc.png" style="width:40rpx;height:40rpx;"/>-->
-                <!--</view>-->
-                <!--<p>收藏</p>-->
-            <!--</view>-->
-            <view class="m-link">
+            <view class="m-link m-no-lick" @tap="collectTap" wx:if="{{!is_collect}}">
+                <view>
+                    <image src="../../images/icon_sc.png" style="width:40rpx;height:40rpx;"/>
+                </view>
+                <p>收藏</p>
+            </view>
+            <view class="m-link" wx:if="{{is_collect}}">
                 <view>
                     <image src="../../images/icon_sc_onselected.png" style="width:40rpx;height:40rpx;"/>
                 </view>
                 <p>收藏</p>
             </view>
-            <view class="m-btn" >立即申请</view>
+            <view class="m-btn" @tap="applyTap" wx:if="{{!is_apply}}">立即申请</view>
+            <view class="m-btn m-active" wx:if="{{is_apply}}">已申请</view>
         </foot>
     </view>
 </template>
@@ -454,7 +461,11 @@
             show_a:'wages',
             toView: 'wages',
             scrollTop: 0,
-            all_data:{}
+            all_data:{},
+            is_collect:false,
+            sess_key:'',
+            id:'',
+            is_apply:false
         }
         async getWorkDetails(sess_key,id) {
             let that = this;
@@ -471,8 +482,48 @@
                 tip.error(res.data.error_msg);
             }
         }
+        async collectWork(sess_key,id) {
+            let that = this;
+            tip.loading();
+            let res = await api.collectWork({method:'POST',query:{
+                    sess_key: sess_key,
+                    id:id
+                }});
+            if(res.data.error_code == 0 ){
+                wx.showToast({
+                    title: '收藏成功',
+                    icon: 'success',
+                    duration: 600
+                });
+                that.$apply();
+                tip.loaded();
+            }else{
+                tip.error(res.data.error_msg);
+            }
+        }
+        async applyWork(sess_key,id) {
+            let that = this;
+            tip.loading();
+            let res = await api.applyWork({method:'POST',query:{
+                    sess_key: sess_key,
+                    id:id
+                }});
+            if(res.data.error_code == 0 ){
+                wx.showToast({
+                    title: '申请成功',
+                    icon: 'success',
+                    duration: 600
+                });
+                that.$apply();
+                tip.loaded();
+            }else{
+                tip.error(res.data.error_msg);
+            }
+        }
         onLoad(options){
              this.getWorkDetails(options.sess_key,options.id);
+             this.sess_key = options.sess_key;
+             this.id = options.id;
             //            分享
             wx.showShareMenu({
                 withShareTicket: true,
@@ -488,6 +539,7 @@
             })
         }
         onShareAppMessag(res) {
+            console.log('ssss')
             var _this = this;
             wx.getStorage({
                 key: 'sess_key',
@@ -515,7 +567,6 @@
 
         }
         methods = {
-
             scroll: function(e) {
 
             },
@@ -535,7 +586,15 @@
                 this.setData({
                     scrollTop: this.scrollTop - 10
                 })
-            }
+            },
+            collectTap(){
+                this.is_collect = true;
+                this.collectWork(this.sess_key,this.id);
+            },
+            applyTap(){
+                this.is_apply = true;
+                this.applyWork(this.sess_key,this.id);
+            },
         }
 
     }

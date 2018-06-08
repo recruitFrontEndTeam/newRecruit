@@ -1,5 +1,5 @@
 <style scoped lang="less" rel="stylesheet/less">
-
+    @import "../../styles/common.less";
 </style>
 <template>
     <import src="../../wxParse/wxParse.wxml"/>
