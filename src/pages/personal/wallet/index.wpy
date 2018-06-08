@@ -131,35 +131,7 @@
         data = {
             userData: {},
             sess_key:'',
-            list: [
-                {
-                    time: '2018-05-30 11:30:30',
-                    count: '+8.80'
-                },
-                {
-                    time: '2018-05-30 11:30:30',
-                    count: '+8.80'
-                },
-                {
-                    time: '2018-05-30 11:30:30',
-                    count: '+8.80'
-                },
-                {
-                    time: '2018-05-30 11:30:30',
-                    count: '+8.80'
-                },{
-                    time: '2018-05-30 11:30:30',
-                    count: '+8.80'
-                }
-                ,{
-                    time: '2018-05-30 11:30:30',
-                    count: '+8.80'
-                },
-                {
-                    time: '2018-05-30 11:30:30',
-                    count: '+8.80'
-                }
-            ]
+            list: []
         }
         components = {
             CashRecord: CashRecord
@@ -169,7 +141,9 @@
             let that = this;
             tip.loading();
                 let res = await api.Cashdetail({method:'POST', query:{
-                        sess_key:sess_key
+                        sess_key:sess_key,
+                        page: 1,
+                        page_size:5
                     }})
                 if(res.data.error_code == '0'){
                     that.list = res.data.bizobj.data;

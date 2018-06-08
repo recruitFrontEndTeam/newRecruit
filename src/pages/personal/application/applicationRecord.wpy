@@ -207,7 +207,7 @@
                 wx.getStorage({
                     key: 'sess_key',
                     success: function(res){
-                        if(this.index == 0){
+                        if(_this.index == 0){
                             _this.getapplyWorkList(res.data);
                         }else{
                             _this.getcollectWorkList(res.data);
