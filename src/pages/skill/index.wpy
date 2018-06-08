@@ -171,7 +171,6 @@
         }
         onReachBottom(){
             var _this = this;
-
             if(_this.page_info.cur_page == _this.page_info.total_pages){
                 wx.showToast({ //如果全部加载完成了也弹一个框
                     title: '我也是有底线的',
@@ -189,7 +188,6 @@
         }
         methods = {
             detailTap(v){
-                console.log(v)
                 wx.getStorage({
                     key: 'sess_key',
                     success: function(res){

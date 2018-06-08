@@ -75,7 +75,10 @@
         <view class="m-back"></view>
         <view class="m-skill-detail">
             <p class="m-title">培训详情</p>
+
             <view class="m-info">
+                <htmlParser :parserName="name1" :parserContent.sync="content1"/>
+                <template is="wxParse" data="{{wxParseData:htmlParserName.nodes}}"></template>
                 <view>(1）驾驶技术：驾驶装置的认识和运用技巧，驾驶前
                     的准备工作，驾驶姿势，目标选择，点火，平度起步，
                     卜杜起步，换挡与行进，倒库，转向，载货上下坡的
@@ -98,6 +101,8 @@
     import wepy from 'wepy';
     import tip from '../../utils/tip';
     import api from '../../api/api';
+    import htmlParser from '../../components/common/htmlParser';
+    import WxParse from '../../wxParse/wxParse.js';
     export default class SkillDetails extends wepy.page{
         config = {
             navigationBarTitleText: '培训详情',
@@ -107,8 +112,12 @@
         }
         data = {
             all_data:{},
-            nodes:'<p>q121e323e2e</p>'
+            name1: "myHtmlParserKiner1",
+            content1: "<text style='color: red;'>新1</text>"
         }
+        components = {
+            htmlParser: htmlParser
+        };
         async getSkillDetails(sess_key,id) {
             let that = this;
             tip.loading();
@@ -118,7 +127,7 @@
             }});
             if(res.data.error_code == 0 ){
                 that.all_data = res.data.bizobj.data;
-
+                WxParse.wxParse('htmlParserName' , "html", res.data.bizobj.data.content, this,0);
                 that.$apply();
                 tip.loaded();
             }else{
@@ -126,6 +135,7 @@
             }
         }
         onLoad(options){
+            WxParse.wxParse('htmlParserName' , "html", "<p style='font-size: 32rpx; padding: 30rpx 0; text-align: center;'>没有任何内容</p>", this,0);
             this.getSkillDetails(options.ress_key,options.id);
         }
         methods = {

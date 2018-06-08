@@ -317,8 +317,9 @@
           wx.getStorage({
               key: 'sess_key',
               success: function(res){
+                  console.log(res)
                   wx.navigateTo({
-                      url: '/pages/work/workDetails?secc_key=' + res.data + '&id=' + v.id
+                      url: '/pages/work/workDetails?sess_key=' + res.data + '&id=' + v.id
                   })
               }
           });

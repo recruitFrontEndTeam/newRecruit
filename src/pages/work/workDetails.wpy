@@ -465,12 +465,12 @@
             }
         }
         onLoad(options){
-             this.getWorkDetails(options.ress_key,options.id);
+             this.getWorkDetails(options.sess_key,options.id);
         }
         methods = {
 
             scroll: function(e) {
-                
+
             },
             tap: function(e) {
                 this.toView = e;
