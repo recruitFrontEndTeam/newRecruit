@@ -167,7 +167,6 @@
                 let json = e.detail.value;
                 json['sess_key'] = this.sess_key;
                 json['city'] = this.city.join('').replace(/全部/g,'');
-                console.log(json)
                 this.postcomplain(json);
             },
             goUrl(){

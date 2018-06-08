@@ -79,10 +79,10 @@
                         <view class="section__title">
                             <text class="icon-tx">¥</text>
                         </view>
-                        <input name="count" placeholder="最低可提现金额10元" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
-                        <view class="cash-more">全部提现</view>
+                        <input type="number" name="cash" value="{{cash}}" placeholder="最低可提现金额10元" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
+                        <view class="cash-more" @tap="cashAll">全部提现</view>
                     </view>
-                    <view class="can-count">可提现金额¥ 800</view>
+                    <view class="can-count">可提现金额¥ {{canCash}}</view>
                     <view class="btn-area">
                         <button class="confirm-btn" formType="submit">下一步</button>
                     </view>
@@ -104,21 +104,56 @@
             navigationBarTitleText: '提现申请'
         }
         data = {
-            
+            canCash: 0,
+            cash: 10,
+            sess_key: ''
         }
         components = {
             
         }
-
-        onLoad(){
-
-        }
-        methods = {
-            formSubmit: function(e) {
-                console.log('form发生了submit事件，携带数据为：', e.detail.value)
+        async postwithdraw(data) {
+            let that = this;
+            let res = await api.withdraw({method:'POST',query:data})
+            if(res.data.error_code == '0'){
+                tip.success('提交成功');
                 wx.navigateTo({
                     url: '/pages/personal/wallet/cashSuccess'
                 })
+            }else{
+                tip.error(res.data.msg);
+            }
+        }
+        onLoad(o){
+            this.canCash = o.amount;
+            var _this = this;
+            wx.getStorage({
+                key: 'sess_key',
+                success: function(res){
+                    _this.sess_key = res.data;
+                }
+            });
+        }
+        methods = {
+            cashAll(){
+                this.cash = this.canCash;
+            },
+            formSubmit: function(e) {
+                if(!e.detail.value.cash){
+                    tip.error('请输入金额');
+                    return;
+                }
+                if(parseFloat(e.detail.value.cash) < 10){
+                    tip.error('需大于10元');
+                    return;
+                }
+                if(parseFloat(e.detail.value.cash) > parseFloat(this.canCash)){
+                    tip.error('不能大于总额');
+                    return;
+                }
+                let json = e.detail.value;
+                json.cash = parseFloat(json.cash).toFixed(2);
+                json['sess_key'] = this.sess_key;
+                this.postwithdraw(json);
             },
             goUrl(){
                 wx.navigateTo({

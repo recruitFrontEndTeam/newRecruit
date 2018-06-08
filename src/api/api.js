@@ -30,15 +30,17 @@ const CashnewIn = (params) => wxRequest(params, api2 + 'api/Cash/newIn.html');//
 const complain = (params) => wxRequest(params, api2 + 'api/User/complain.html');//投诉建议
 
 const CashWillIn = (params) => wxRequest(params, api2 + 'api/Cash/WillIn.html');//带入款项
-const teamUserList = (params) => wxRequest(params, api2 + 'api/User/teamUserList.html');//我的团队
+const teamUserList = (params) => wxRequest(params, api2 + 'api/User/teamUserList.html');//我的邀请
 const UserTeamPrizeList = (params) => wxRequest(params, api2 + 'api/User/teamPrizeList.html');//我的奖励
 const SalaryTeamPrizeList = (params) => wxRequest(params, api2 + 'api/Salary/teamPrizeList.html');//薪资组成
 const salaryList = (params) => wxRequest(params, api2 + 'api/Salary/salaryList.html');//薪资列表
+const withdraw = (params) => wxRequest(params, api2 + 'api/User/withdraw.html');//申请提现
+const withdrawList = (params) => wxRequest(params, api2 + 'api/User/withdrawList.html');//提现记录
 //评价
 module.exports = {
   login,getUserInfo,workList,workTypeList,disttrictList,blList,workDetail,userInfo,
     updateUserInfo,sendProfileSms,advance,applyWork,applyWorkList,collectWorkList,trainList,
     trainDetail,addArainWill,Cashdetail,CashnewIn,CashWillIn,teamUserList,
-    UserTeamPrizeList,SalaryTeamPrizeList,salaryList,complain,recWorkList
+    UserTeamPrizeList,SalaryTeamPrizeList,salaryList,complain,recWorkList,withdraw,withdrawList
 
 }

@@ -181,9 +181,16 @@
         }
         methods = {
             goUrl(url){
-                wx.navigateTo({
-                    url: '/pages/personal/wallet/'+url
-                })
+                if(url == 'cash'){
+                    wx.navigateTo({
+                        url: '/pages/personal/wallet/'+url+'?amount='+this.userData.amount
+                    })
+                }else{
+                    wx.navigateTo({
+                        url: '/pages/personal/wallet/'+url
+                    })
+                }
+                
             }
         }
 

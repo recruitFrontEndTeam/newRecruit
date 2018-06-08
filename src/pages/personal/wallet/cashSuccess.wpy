@@ -44,7 +44,7 @@
                 <view class="success-text">提现申请已提交，请等待人工审核</view>
             </view>
             <view class="btn-area">
-                <button class="confirm-btn" formType="submit">确认</button>
+                <button class="confirm-btn" @tap="goUrl">确认</button>
             </view>
         </view>
     </view>
@@ -68,9 +68,11 @@
 
         }
         methods = {
-            formSubmit: function(e) {
-                console.log('form发生了submit事件，携带数据为：', e.detail.value)
-            },
+            goUrl(){
+                wx.navigateTo({
+                    url: '/pages/personal/wallet/cashRecord'
+                })
+            }
         }
 
     }

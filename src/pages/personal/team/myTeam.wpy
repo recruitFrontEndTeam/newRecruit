@@ -96,10 +96,10 @@
             <repeat for="{{list0}}" key="index" index="index" item="item">
                 <view class="invite-item">
                     <view class="avatar-view">
-                        <image class="avatar" src="http://120.76.230.93:8063/Upload/2017/1123/20171123115952981_img.png" />
-                        <text class="name">{{item.name}}</text>
+                        <image class="avatar" src="{{item.avatar}}" />
+                        <text class="name">{{item.nickname}}</text>
                     </view>
-                    <view class="time">{{item.time}}</view>
+                    <view class="time">{{item.update_at}}</view>
                 </view>
             </repeat>
         </view>
@@ -107,13 +107,13 @@
             <repeat for="{{list1}}" key="index" index="index" item="item">
                 <view class="reward-item">
                     <view class="avatar-view">
-                        <image class="avatar" src="http://120.76.230.93:8063/Upload/2017/1123/20171123115952981_img.png" />
+                        <image class="avatar" src="{{item.avatar}}" />
                         <view class="detail">
-                            <view class="name">{{item.name}}</view>
-                            <view class="address">{{item.address}}</view>
+                            <view class="name">{{item.nickname}}</view>
+                            <view class="address">{{item.re_company_name}}</view>
                         </view>
                     </view>
-                    <view class="money">{{item.money}}</view>
+                    <view class="money">{{item.cash}}</view>
                 </view>
             </repeat>
         </view>
@@ -125,45 +125,122 @@
     import api from '../../../api/api';
     export default class MyTeam extends wepy.page{
         config = {
-            navigationBarTitleText: '我的团队'
+            navigationBarTitleText: '我的团队',
+             enablePullDownRefresh:true
         }
         data = {
             index: 0,
-            list0: [
-                {
-                    name: 'aaa',
-                    time: '2018-05-30',
-                },
-                {
-                    name: 'bbb',
-                    time: '2018-05-30'
-                }
-            ],
-            list1: [
-                {
-                    time: '2018-05-30',
-                    money: '+6.60',
-                    name: 'aaa',
-                    address: '浙江嘉善'
-                },
-                {
-                    time: '2018-05-30',
-                    money: '+6.60',
-                    name: 'bbb',
-                    address: '浙江嘉善'
-                }
-            ]
+            sess_key: '',
+            list0: [],
+            list1: [],
+            page_info:{cur_page:0, page_size: 10, total_items: 2, total_pages: 1},
         }
 
         components = {
             
         }
 
-        onLoad(){
+        // 获取我的邀请
+        async getteamUserList(sess_key) {
+            let that = this;
+            tip.loading();
+                let res = await api.teamUserList({method:'POST', query:{
+                        sess_key:sess_key,
+                        page:Number(that.page_info.cur_page) +1 || 1,
+                        page_size:that.page_info.page_size
+                    }})
+                if(res.data.error_code == '0'){
+                    if(res.data.bizobj.data == null){
+                        that.list0 = [];
+                        that.page_info = {cur_page:0, page_size: 10, total_items: 2, total_pages: 1};
+                    }else{
+                        if(res.data.bizobj.page_info.cur_page != 1 && res.data.bizobj.page_info.cur_page <= res.data.bizobj.page_info.total_pages ){
+                            that.list0 =that.list0.concat(res.data.bizobj.data);
 
+                        }else{
+                            that.list0 = res.data.bizobj.data;
+                        }
+                        that.page_info = res.data.bizobj.page_info;
+                    }
+                    that.$apply()
+                    tip.loaded()
+                }else{
+                    tip.error(res.data.message)
+                }
+        }
+        // 获取我的奖励
+        async getUserTeamPrizeList(sess_key) {
+            let that = this;
+            tip.loading();
+                let res = await api.UserTeamPrizeList({method:'POST', query:{
+                        sess_key:sess_key,
+                        page:Number(that.page_info.cur_page) +1 || 1,
+                        page_size:that.page_info.page_size
+                    }})
+                if(res.data.error_code == '0'){
+                    if(res.data.bizobj.data == null){
+                        that.list1 = [];
+                        that.page_info = {cur_page:0, page_size: 10, total_items: 2, total_pages: 1};
+                    }else{
+                        if(res.data.bizobj.page_info.cur_page != 1 && res.data.bizobj.page_info.cur_page <= res.data.bizobj.page_info.total_pages ){
+                            that.list1 =that.list1.concat(res.data.bizobj.data) ;
+                        }else{
+                            that.list1 = res.data.bizobj.data;
+                        }
+                        that.page_info = res.data.bizobj.page_info;
+                    }
+                    that.$apply()
+                    tip.loaded()
+                }else{
+                    tip.error(res.data.message)
+                }
+        }
+        onLoad(){
+            var _this = this;
+            wx.getStorage({
+                key: 'sess_key',
+                success: function(res){
+                    _this.sess_key = res.data;
+                    _this.getteamUserList(res.data);
+                }
+            });
+        }
+        onPullDownRefresh(){
+          wx.stopPullDownRefresh(); 
+        }
+        onReachBottom(){
+            var _this = this;
+            if(_this.page_info.cur_page == _this.page_info.total_pages){
+                wx.showToast({ //如果全部加载完成了也弹一个框
+                    title: '我也是有底线的',
+                    icon: 'success',
+                    duration: 300
+                });
+            }else{
+                wx.getStorage({
+                    key: 'sess_key',
+                    success: function(res){
+                        if(_this.index == 0){
+                            _this.getteamUserList(res.data);
+                        }else{
+                            _this.getUserTeamPrizeList(res.data);
+                        }
+                        
+                    }
+                });
+            }
         }
         methods = {
             tab(index){
+                if(index == 0){
+                    this.list0 = [];
+                    this.page_info = {cur_page:0, page_size: 10, total_items: 2, total_pages: 1};
+                    this.getteamUserList(this.sess_key);
+                }else{
+                    this.list1 = [];
+                    this.page_info = {cur_page:0, page_size: 10, total_items: 2, total_pages: 1};
+                    this.getUserTeamPrizeList(this.sess_key);
+                }
                 this.index = index;
             }
         }
