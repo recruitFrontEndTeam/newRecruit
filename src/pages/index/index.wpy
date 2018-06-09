@@ -280,7 +280,9 @@
       }
     onLoad(options){
        var _this = this;
-       var sence = decodeURIComponent(options.scene);
+       if(options.scene){
+           var sence = decodeURIComponent(options.scene);
+       }
         onfire.on('search', function (args) {
             _this.select_city =  args.inputVal ;
             wx.getStorage({
