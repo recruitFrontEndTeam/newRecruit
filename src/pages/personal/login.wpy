@@ -48,9 +48,7 @@
     }
 </style>
 <template>
-  <view class="container">
-    <button open-type="getUserInfo"></button>
-  </view>
+    <button open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"> 登录</button>
 </template>
 <script >
   import wepy from 'wepy';
@@ -141,10 +139,12 @@
           }
       }
       onLoad(){
-        var that = this;
-          wx.getSetting({
-              success:function(res) {
-                  console.log(res,'1')
+      }
+    methods = {
+        onGotUserInfo: function (e) {
+            var that = this;
+            wx.getSetting({
+                success:function(res) {
                     if (!res.authSetting['scope.userInfo']) {
                         wx.authorize({
                             scope: 'scope.userInfo',
@@ -154,21 +154,6 @@
                                     success:function(resLogin){
                                         var code = resLogin.code;
                                         that.getLogin({method:'POST',query:{code:code}});
-                                        // wx.getUserInfo({
-                                        //     success:function(res){
-                                        //         that.getSess(sess_key,res.encryptedData,res.iv);
-                                        //         if(_res.data.error_code == 0){
-                                        //             // wx.setStorage({
-                                        //             //     'key':'sess_key',
-                                        //             //     'data':_res.data.bizobj.data.sess_key
-                                        //             // })
-                                        //         }else{
-                                        //         }
-                                        //     },
-                                        //     fail:function (res) {
-                                        //         console.log(res)
-                                        //     }
-                                        // })
                                     }
                                 });
                             },fail:function (res_info) {
@@ -181,36 +166,15 @@
                             success:function(resLogin){
                                 var code = resLogin.code;
                                 that.getLogin({method:'POST',query:{code:code}});
-                                wx.getUserInfo({
-                                    success:function(res){
-                                        that.getSess(sess_key,res.encryptedData,res.iv);
-                                        if(_res.data.error_code == 0){
-                                            // wx.setStorage({
-                                            //     'key':'sess_key',
-                                            //     'data':_res.data.bizobj.data.sess_key
-                                            // })
-                                        }else{
-                                        }
-                                    },
-                                    fail:function (res) {
-
-                                    }
-                                })
                             }
                         });
                     }
-              },
-              fail:function (res) {
-                  console.log(res)
-              }
-          });
-
-
-      }
-    methods = {
-        tap(){
-
-        }
+                },
+                fail:function (res) {
+                    console.log(res)
+                }
+            });
+        },
       }
   }
 </script>
