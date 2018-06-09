@@ -262,7 +262,6 @@
             tip.loaded();
         }else{
             tip.error(res.data.error_msg);
-
         }
     }
       async geter(sess_key,latitude,longitude) {

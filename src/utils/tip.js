@@ -87,7 +87,7 @@ export default class Tips {
     static error(title, onHide) {
         wx.showToast({
             title: title,
-            image: "none",
+            icon: "none",
             mask: true,
             duration: 500
         });
