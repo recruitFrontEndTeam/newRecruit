@@ -53,11 +53,29 @@
             </repeat>
         </view>
 
-        <view class="m-cover" wx:if="{{now_nav != ''}}">
+        <view class="m-cover" wx:if="{{nav_list[0].up}}" @tap="coverTap(0)">
             <view class="m-modal" >
                 <view class="m-btn-box">
-                    <repeat for="{{now_data}}" key="index" index="index" item="item" >
-                        <btn :info.sync="item" :index.sync="index" @btnTap.user="btnTap" ></btn>
+                    <repeat for="{{data_list.area_data}}" key="index" index="index" item="item" >
+                        <btn :info.sync="item" :select="select_list.area_data" :index.sync="index" @btnTap.user="btnTap" ></btn>
+                    </repeat>
+                </view>
+            </view>
+        </view>
+        <view class="m-cover" wx:if="{{nav_list[1].up}}" @tap="coverTap(1)">
+            <view class="m-modal" >
+                <view class="m-btn-box">
+                    <repeat for="{{data_list.job_data}}" key="index" index="index" item="item" >
+                        <btn :info.sync="item" :select="select_list.job_data" :index.sync="index" @btnTap.user="btnTap" ></btn>
+                    </repeat>
+                </view>
+            </view>
+        </view>
+        <view class="m-cover" wx:if="{{nav_list[2].up}}" @tap="coverTap(2)">
+            <view class="m-modal" >
+                <view class="m-btn-box">
+                    <repeat for="{{data_list.sort_data}}" key="index" index="index" item="item" >
+                        <btn :info.sync="item" :select="select_list.sort_data" :index.sync="index" @btnTap.user="btnTap" ></btn>
                     </repeat>
                 </view>
             </view>
@@ -108,77 +126,38 @@
                 }
             ],
             data_list:{
-                area_data:[
-                    {
-                        "areano":330100,
-                        "area_name":"杭州市",
-                        click:true
-                    },
-                    {
-                        "areano":330200,
-                        "area_name":"宁波市",
-                        click:false
-                    },
-                    {
-                        "areano":330400,
-                        "area_name":"嘉兴市",
-                        click:false
-                    },
-                    {
-                        "areano":330500,
-                        "area_name":"湖州市",
-                        click:false
-                    }
-                ],
-                job_data:[
-                    {
-                        "areano":330200,
-                        "area_name":"宁波市",
-                        click:false
-                    },
-                    {
-                        "areano":330400,
-                        "area_name":"嘉兴市",
-                        click:false
-                    },
-                    {
-                        "areano":330500,
-                        "area_name":"湖州市",
-                        click:false
-                    }
-                ],
-                sort_data:[
-                    {
-                        "areano":330200,
-                        "area_name":"重庆市",
-                        click:false
-                    },
-                    {
-                        "areano":330400,
-                        "area_name":"嘉兴市",
-                        click:false
-                    },
-                    {
-                        "areano":330500,
-                        "area_name":"湖州市",
-                        click:false
-                    }
+                area_data:[],
+                job_data:[],
+                sort_data:[{
+                    sort_way:1,
+                    name:'最新排序'
+                },{
+                    sort_way:2,
+                    name:'工资最高'
+                },{
+                    sort_way:3,
+                    name:'奖励金最高'
+                }
                 ]
             },
-            work_lis:[{
-                name:''
-            }],
-            now_data:null,
-            now_nav:'',
+            work_list:[],
+            select_list:{
+                area_data:{},
+                job_data:{},
+                sort_data:{}
+            },
             page_info:{cur_page:0, page_size: 5, total_items: 2, total_pages: 1},
             all_list:[]
         }
-        async getWorkList(sess_key,areano) {
+        async getWorkList(sess_key) {
             let that = this;
             tip.loading();
             let res = await api.workList({method:'POST',query:{
                 sess_key: sess_key,
                 is_rec:2,
+                areano:that.select_list.area_data.areano || '',
+                job_type:that.select_list.job_data.id || '',
+                sort_way:that.select_list.sort_data.sort_way || '',
                 page:Number(that.page_info.cur_page) +1 || 1,
                 page_size:that.page_info.page_size
             }});
@@ -191,7 +170,34 @@
                     that.height = (that.all_list.length + 1) * 160;
                     that.page_info = res.data.bizobj.page_info;
                 }
-
+                that.$apply();
+                tip.loaded();
+            }else{
+                tip.error(res.data.error_msg);
+            }
+        }
+        async cityList(sess_key) {
+            let that = this;
+            tip.loading();
+            let res = await api.cityList({method:'POST',query:{
+                    sess_key: sess_key
+                }});
+            if(res.data.error_code == 0 ){
+                that.data_list.area_data =res.data.bizobj.data.recruit_citys;
+                that.$apply();
+                tip.loaded();
+            }else{
+                tip.error(res.data.error_msg);
+            }
+        }
+        async workTypeList(sess_key) {
+            let that = this;
+            tip.loading();
+            let res = await api.workTypeList({method:'POST',query:{
+                    sess_key: sess_key
+                }});
+            if(res.data.error_code == 0 ){
+                that.data_list.job_data =res.data.bizobj.data;
                 that.$apply();
                 tip.loaded();
             }else{
@@ -204,6 +210,8 @@
                 key: 'sess_key',
                 success: function(res){
                     _this.getWorkList(res.data);
+                    _this.cityList(res.data);
+                    _this.workTypeList(res.data);
                 }
             });
         }
@@ -229,26 +237,27 @@
         }
         methods = {
             navTap(v){
-                if(this.nav_list[v].up == false){
-                    this.nav_list.map(function (item) {
-                        item.up = false;
-                    });
-                    this.now_nav = this.nav_list[v].data;
-                    this.now_data = this.data_list[this.nav_list[v].data];
-                }else{
-                    this.now_nav = '';
-//                    this.now_data = null;
+                for(var i = 0;i<this.nav_list.length;i++){
+                    this.nav_list[i].up = false;
                 }
                 this.nav_list[v].up = !this.nav_list[v].up;
                 this.$apply();
             },
             btnTap(v){
-                if(this.data_list[this.now_nav][v].click == false){
-                    this.data_list[this.now_nav].map(function (item) {
-                        item.click = false;
-                    })
+                if(v.areano){
+                    this.select_list.area_data = v;
+                }else if(v.id){
+                    this.select_list.job_data = v;
+                }else{
+                    this.select_list.sort_data = v;
                 }
-                this.data_list[this.now_nav][v].click = !this.data_list[this.now_nav][v].click;
+                var _this = this;
+                wx.getStorage({
+                    key: 'sess_key',
+                    success: function(res){
+                        _this.getWorkList(res.data);
+                    }
+                });
                 this.$apply();
             },
             detailTap(v){
@@ -262,6 +271,9 @@
                 });
 
             },
+            coverTap(v){
+                this.nav_list[v].up = false
+            }
         }
 
     }

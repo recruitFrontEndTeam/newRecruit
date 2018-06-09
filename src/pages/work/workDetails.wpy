@@ -444,7 +444,6 @@
             navigationBarBackgroundColor: '#fff',
             navigationBarTextStyle: 'black'
         }
-
         data = {
             swiper:{
                 imgUrls: [
