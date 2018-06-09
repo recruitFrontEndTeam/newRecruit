@@ -1,0 +1,177 @@
+<style scoped lang="less" rel="stylesheet/less">
+    @import "../../../styles/common.less";
+    .salary-search-container{
+        background: @score-grey;
+        height: 100%;
+        width: 100%;
+        padding-top: 20rpx;
+        .form-view{
+            position: fixed;
+            width: 100%;
+            .main{
+                padding-left: 40rpx;
+                background: #fff;
+            }
+            .form-item{
+                .flex-row(flex-start);
+                height: 100rpx;
+                border-bottom: 1rpx solid #e6e6e6;
+                .section__title{
+                    width: 180rpx;
+                    font-size: 28rpx;
+                    color: @main-font-color;
+                    margin-right: 10rpx;
+                    text-align: left;
+                }
+                .sex-text{
+                    color: #bebebe;
+                    font-size: 24rpx;
+                    margin-right: 15rpx;
+                }
+                .tel-view{
+                    border:0;
+                }
+            }
+            .btn-area{
+                margin-top: 120rpx;
+                .confirm-btn{
+                    width: 440rpx;
+                    border: 0;
+                    height: 80rpx;
+                    line-height: 80rpx;
+                    background: #4C80F5;
+                    border-radius: 40rpx;
+                    font-size: 28rpx;
+                    color: #fff;
+                }
+            }
+            .upload-img{
+                .title{
+                    font-size: 28rpx;
+                    text-align: center;
+                    margin: 50rpx 0;
+                }
+                .img{
+                    display: block;
+                    margin: 0 auto;
+                    width:590rpx;
+                    height: 340rpx;
+                }
+            }
+        } 
+    }
+</style>
+
+<template>
+    <view class="salary-search-container">
+        <view class="form-view">
+            <form bindsubmit="formSubmit" bindreset="formReset">
+                <view class="main">
+                    <view class="form-item name-view">
+                        <view class="section__title">真实姓名</view>
+                        <input name="name" placeholder="请拍照识别姓名" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
+                    </view>
+                    <view class="form-item tel-view">
+                        <view class="section__title">身份证号</view>
+                        <input name="tel" placeholder="请拍照身份证号" placeholder-style="color: #bebebe;font-size: 24rpx;"/>
+                    </view>
+                </view>
+                <view class="upload-img">
+                    <view class="title">请上传身份证正面照</view>
+                    <image class="img" src="../../../images/icon_smrz.png" @tap="bindChooiceProduct" />
+                </view>
+                <view class="btn-area">
+                    <button class="confirm-btn" formType="submit">认证并继续</button>
+                </view>
+            </form>
+        </View>
+    </view>
+</template>
+<script >
+    import wepy from 'wepy';
+    import tip from '../../../utils/tip';
+    import api from '../../../api/api';
+    export default class certification extends wepy.page{
+        config = {
+            navigationBarTitleText: '实名认证'
+        }
+        data = {
+            sess_key: '',
+        }
+
+        onLoad(){
+            var _this = this;
+            wx.getStorage({
+                key: 'sess_key',
+                success: function(res){
+                    _this.sess_key = res.data;
+                }
+            });
+        }
+        methods = {
+            formSubmit: function(e) {
+                console.log('form发生了submit事件，携带数据为：', e.detail.value)
+            },
+            goUrl(){
+                wx.navigateTo({
+                    url: '/pages/personal/salary/salaryDetail'
+                })
+            },
+            bindChooiceProduct(){  
+                var that = this;
+                wx.chooseImage({  
+                    count: 1,  //最多可以选择的图片总数  
+                    sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有  
+                    sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有  
+                    success: function (res) {  
+                        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片  
+                        var tempFilePaths = res.tempFilePaths;
+                        console.log(tempFilePaths);
+                        //启动上传等待中...  
+                        wx.showToast({  
+                            title: '正在上传...',  
+                            icon: 'loading',  
+                            mask: true,  
+                            duration: 10000  
+                        })  
+                        var uploadImgCount = 0;  
+                        for (var i = 0, h = tempFilePaths.length; i < h; i++) {  
+                            wx.uploadFile({  
+                                url: 'https://mini3.pinecc.cn/api/User/pic2UserInfo.html',  
+                                filePath: tempFilePaths[i],//临时地址路径
+                                name: 'uploadfile',  
+                                formData: {  
+                                    'sess_key': that.sess_key,
+                                    //'pic_info': tempFilePaths[i]  
+                                },  
+                                // header: {
+                                //     "Content-Type": "multipart/form-data",
+                                //     "content-type": "application/x-www-form-urlencoded"   
+                                // },  
+                                success: function (res) {  
+                                    uploadImgCount++;  
+                                    var data = JSON.parse(res.data);  
+                                    //服务器返回格式: { "Catalog": "testFolder", "FileName": "1.jpg", "Url": "https://test.com/1.jpg" }  
+                                    var productInfo = that.data.productInfo;
+                                    //如果是最后一张,则隐藏等待中  
+                                    if (uploadImgCount == tempFilePaths.length) {  
+                                        wx.hideToast();  
+                                    }  
+                                },  
+                                fail: function (res) {  
+                                    wx.hideToast();  
+                                    wx.showModal({  
+                                    title: '错误提示',  
+                                    content: '上传图片失败',  
+                                    showCancel: false,  
+                                    success: function (res) { }  
+                                    })  
+                                }
+                            });  
+                        }  
+                    }  
+                });  
+            }
+        }
+    }
+</script>

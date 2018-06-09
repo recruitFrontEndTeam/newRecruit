@@ -143,11 +143,11 @@
                     return;
                 }
                 if(parseFloat(e.detail.value.cash) < 10){
-                    tip.error('需大于10元');
+                    tip.error('提现金额需大于10元');
                     return;
                 }
                 if(parseFloat(e.detail.value.cash) > parseFloat(this.canCash)){
-                    tip.error('不能大于总额');
+                    tip.error('提现金额不能大于可提现额度');
                     return;
                 }
                 let json = e.detail.value;

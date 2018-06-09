@@ -52,7 +52,8 @@ page{
         'pages/work/index',
         'pages/work/workDetails',
         'pages/skill/index',
-        'pages/skill/skillDetails'
+        'pages/skill/skillDetails',
+        'pages/personal/profile/certification',
       ],
       window: {
         backgroundTextStyle: 'light',
