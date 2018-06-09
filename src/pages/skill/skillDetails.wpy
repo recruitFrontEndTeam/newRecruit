@@ -79,21 +79,11 @@
             <view class="m-info">
                 <htmlParser :parserName="name1" :parserContent.sync="content1"/>
                 <template is="wxParse" data="{{wxParseData:htmlParserName.nodes}}"></template>
-                <view>(1）驾驶技术：驾驶装置的认识和运用技巧，驾驶前
-                    的准备工作，驾驶姿势，目标选择，点火，平度起步，
-                    卜杜起步，换挡与行进，倒库，转向，载货上下坡的
-                    操作等。</view>
-                <view>
-                    （2）操作技巧：叉车工作装置的认识和运用方法，货物
-                    装运安全知识，货物的叉取，起升，降落，堆码和搬运
-                    作业等。
-                </view>
-                <image src="../../images/icon_ewm.png" style="width: 690rpx;height: 334rpx;"/>
             </view>
 
         </view>
         <view class="foot">
-            <view class="m-btn m-active">立即报名</view>
+            <view class="m-btn {{all_data.has_apply? 'm-active':''}}" @tap="applyTrain">立即报名</view>
         </view>
     </view>
 </template>
@@ -111,7 +101,9 @@
 //            backgroundTextStyle:"dark"
         }
         data = {
-            all_data:{},
+            all_data:{
+                has_apply:0
+            },
             name1: "myHtmlParserKiner1",
             content1: "<text style='color: red;'>新1</text>"
         }
@@ -134,12 +126,36 @@
                 tip.error(res.data.error_msg);
             }
         }
+        async applyTrain(sess_key,id) {
+            let that = this;
+            tip.loading();
+            let res = await api.applyTrain({method:'POST',query:{
+                    sess_key: sess_key,
+                    id:id
+                }});
+            if(res.data.error_code == 0 ){
+                that.all_data.has_apply = 1;
+                that.$apply();
+                tip.loaded();
+            }else{
+                tip.error(res.data.error_msg);
+            }
+        }
         onLoad(options){
             WxParse.wxParse('htmlParserName' , "html", "<p style='font-size: 32rpx; padding: 30rpx 0; text-align: center;'>没有任何内容</p>", this,0);
-            this.getSkillDetails(options.ress_key,options.id);
+            this.getSkillDetails(options.sess_key,options.id);
         }
         methods = {
+            applyTrain(){
+                var that = this;
+                wx.getStorage({
+                    key: 'sess_key',
+                    success: function(res){
+                        that.applyTrain(res.data,that.all_data.id);
+                    }
+                });
 
+            }
         }
 
     }

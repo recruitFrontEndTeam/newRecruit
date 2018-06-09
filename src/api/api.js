@@ -25,6 +25,7 @@ const applyWorkList = (params) => wxRequest(params, api2 + 'api/Work/applyWorkLi
 const collectWorkList = (params) => wxRequest(params, api2 + 'api/Work/collectWorkList.html');//收藏的工作记录
 const trainList = (params) => wxRequest(params, api2 + 'api/Train/trainList.html');//培训列表
 const trainDetail = (params) => wxRequest(params, api2 + 'api/Train/trainDetail.html');//培训详情
+const applyTrain = (params) => wxRequest(params,api2 +'api/Train/applyTrain.html');//报名培训
 const addArainWill = (params) => wxRequest(params, api2 + 'api/Train/addArainWill.html');//培训需求申请
 const Cashdetail = (params) => wxRequest(params, api2 + 'api/Cash/detail.html');//资金明细
 const CashnewIn = (params) => wxRequest(params, api2 + 'api/Cash/newIn.html');//新进款项
@@ -44,6 +45,6 @@ module.exports = {
     updateUserInfo,sendProfileSms,advance,applyWork,applyWorkList,collectWorkList,trainList,
     trainDetail,addArainWill,Cashdetail,CashnewIn,CashWillIn,teamUserList,
     UserTeamPrizeList,SalaryTeamPrizeList,salaryList,complain,recWorkList,withdraw,withdrawList,
-    collectWork,cityList
+    collectWork,cityList,applyTrain
 
 }

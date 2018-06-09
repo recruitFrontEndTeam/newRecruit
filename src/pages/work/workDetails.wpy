@@ -219,8 +219,7 @@
             <view class="m-tr2">{{all_data.company_name}}</view>
             <view class="m-tr3">
                 <p class="m-tab">{{all_data.mini_age}} - {{all_data.max_age}}</p>
-                <p class="m-tab">{{all_data.keyword1}}</p>
-                <p class="m-tab">{{all_data.keyword2}}</p>
+                <p class="m-tab" wx:for="{{all_data.keyword_arr}}">{{item}}</p>
             </view>
             <view class="m-tr4">
                 <view class="m-left">{{all_data.prov_name}} {{all_data.city_name}} {{all_data.district_name}}</view>
