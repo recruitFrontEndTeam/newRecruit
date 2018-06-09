@@ -265,8 +265,22 @@
 
         }
     }
-    onLoad(option){
+      async geter(sess_key,latitude,longitude) {
+          let that = this;
+          tip.loading();
+          let res = await api.disttrictList(c);
+          if(res.data.error_code == 0){
+              that.select_city = res.data.bizobj.data.location_city;
+              that.getWorkList(sess_key,that.select_city.areano);
+              that.$apply();
+              tip.loaded();
+          }else{
+              tip.error(res.data.error_msg);
+          }
+      }
+    onLoad(options){
        var _this = this;
+       var sence = decodeURIComponent(options.scene);
         onfire.on('search', function (args) {
             _this.select_city =  args.inputVal ;
             wx.getStorage({
@@ -287,6 +301,7 @@
                 });
             }
         });
+
     }
       onPullDownRefresh(){
           wx.stopPullDownRefresh(); 

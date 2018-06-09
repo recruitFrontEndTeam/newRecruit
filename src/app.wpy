@@ -20,11 +20,11 @@ page{
 
 <script>
   import wepy from 'wepy'
-  import 'wepy-async-function'
+  import 'wepy-async-function';
+  import api from './api/api';
+  import tip from './utils/tip';
 
   import { setStore } from 'wepy-redux'
-
-
 
   export default class extends wepy.app {
     config = {
@@ -95,10 +95,87 @@ page{
       this.use('requestfix')
       this.use('promisify')
     }
-
+      async getLogin(params){
+          let that = this;
+          let res = await api.login(params);
+          if(res.data.error_code == 0){
+              wx.setStorage({
+                  'key':'sess_key',
+                  'data':res.data.bizobj.data.sess_key
+              });
+              wx.getUserInfo({
+                  success:function(_res){
+                      that.getSess(res.data.bizobj.data.sess_key,_res.encryptedData,_res.iv);
+                  },
+                  fail:function (res) {
+                  }
+              })
+          }else{
+              tip.error(res.data.message)
+          }
+      }
+      async getSess(sess_key,encryptedData,iv){
+          let that = this;
+          let res = await api.getUserInfo({method:'POST',query:{
+                  sess_key: sess_key,
+                  encrypteData:encryptedData,
+                  iv:iv
+              }})
+          if(res.data.error_code == 0){
+              wx.navigateTo({
+                  url:'/pages/index/index'
+              });
+          }else{
+              tip.error(res.data.message)
+          }
+      }
     onLaunch() {
       this.testAsync();
-        wx.setStorage({key:'sess_key',data: '12212'})
+      var that = this;
+        wx.checkSession({
+            success:function(res){
+                wx.navigateTo({
+                    url:'/pages/index/index'
+                    })
+            },
+            fail:function (res) {
+                // session_key已过期
+                // 进行登录操作
+                wx.getSetting({
+                    success:function(res) {
+                        console.log(res,'1')
+                        if (!res.authSetting['scope.userInfo']) {
+                            wx.authorize({
+                                scope: 'scope.userInfo',
+                                success:function (res_info){
+                                    console.log(res_info)
+                                    wx.login({
+                                        success:function(resLogin){
+                                            var code = resLogin.code;
+                                            that.getLogin({method:'POST',query:{code:code}});
+                                        }
+                                    });
+                                },fail:function (res_info) {
+                                    console.log(res_info)
+                                }
+                            })
+                        }else{
+                            console.log(res,'2')
+                            wx.login({
+                                success:function(resLogin){
+                                    var code = resLogin.code;
+                                    that.getLogin({method:'POST',query:{code:code}});
+                                }
+                            });
+                        }
+                    },
+                    fail:function (res) {
+                        console.log(res)
+                    }
+                });
+            }
+        })
+        // wx.setStorage({key:'sess_key',data: '12212'})
     }
 
     sleep (s) {
