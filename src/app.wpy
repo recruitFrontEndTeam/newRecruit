@@ -101,50 +101,6 @@ page{
     onLaunch() {
       this.testAsync();
       var that = this;
-        // wx.checkSession({
-        //     success:function(res){
-        //         wx.navigateTo({
-        //             url:'/pages/index/index'
-        //             })
-        //     },
-        //     fail:function (res) {
-        //         // session_key已过期
-        //         // 进行登录操作
-        //         wx.getSetting({
-        //             success:function(res) {
-        //                 console.log(res,'1')
-        //                 if (!res.authSetting['scope.userInfo']) {
-        //                     wx.authorize({
-        //                         scope: 'scope.userInfo',
-        //                         success:function (res_info){
-        //                             console.log(res_info)
-        //                             wx.login({
-        //                                 success:function(resLogin){
-        //                                     var code = resLogin.code;
-        //                                     that.getLogin({method:'POST',query:{code:code}});
-        //                                 }
-        //                             });
-        //                         },fail:function (res_info) {
-        //                             console.log(res_info)
-        //                         }
-        //                     })
-        //                 }else{
-        //                     console.log(res,'2')
-        //                     wx.login({
-        //                         success:function(resLogin){
-        //                             var code = resLogin.code;
-        //                             that.getLogin({method:'POST',query:{code:code}});
-        //                         }
-        //                     });
-        //                 }
-        //             },
-        //             fail:function (res) {
-        //                 console.log(res)
-        //             }
-        //         });
-        //     }
-        // })
-        wx.setStorage({key:'sess_key',data: '12212'})
     }
 
 

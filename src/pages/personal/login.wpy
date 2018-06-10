@@ -70,61 +70,63 @@
                   'key':'sess_key',
                   'data':res.data.bizobj.data.sess_key
               });
-              // wx.getUserInfo({
-              //     success:function(res){
-              //         that.getSess(res.data.bizobj.data.sess_key,res.encryptedData,res.iv);
-              //         if(_res.data.error_code == 0){
-              //             // wx.setStorage({
-              //             //     'key':'sess_key',
-              //             //     'data':_res.data.bizobj.data.sess_key
-              //             // })
-              //         }else{
-              //         }
-              //     },
-              //     fail:function (res) {
-              //         wx.showModal({
-              //             title: '警告',
-              //             cancelText: '不授权',
-              //             confirmText: '授权',
-              //             confirmColor: '#37C31A',
-              //             content: '若不授权微信登录，则无法使用该程序；点击重新获取授权，则可重新使用；' +
-              //             '若点击不授权，将无法使用便捷服务。',
-              //             success: function (res) {
-              //                 if (res.confirm) {
-              //                     console.log('用户点击确定')
-              //                     wx.openSetting({
-              //                         success: (res) => {
-              //                             if (res.authSetting['scope.userInfo']) {
-              //                                 wx.login({
-              //                                     success:function(resLogin){
-              //                                         var code = resLogin.code;
-              //                                         that.getLogin({method:'POST',query:{code:code}});
-              //                                     }
-              //                                 });
-              //                             } else {
-              //                                 console.info("再次不允许");
-              //                                 wx.redirectTo({
-              //                                     url: 'home',
-              //                                 })
-              //                             }
-              //                         }
-              //                     });
-              //                 } else if (res.cancel) {
-              //                     console.log('弹出框用户点击取消')
-              //                     wx.redirectTo({
-              //                         url: 'home',
-              //                     })
-              //
-              //                 }
-              //             }
-              //         })
-              //     }
-              // })
+              wx.getUserInfo({
+                  success:function(_res){
+                      that.getSess(res.data.bizobj.data.sess_key,_res.encryptedData,_res.iv);
+                      if(_res.data.error_code == 0){
+
+
+                          // wx.setStorage({
+                          //     'key':'sess_key',
+                          //     'data':_res.data.bizobj.data.sess_key
+                          // })
+                      }else{
+                      }
+                  },
+                  fail:function (res) {
+                      wx.showModal({
+                          title: '警告',
+                          cancelText: '不授权',
+                          confirmText: '授权',
+                          confirmColor: '#37C31A',
+                          content: '若不授权微信登录，则无法使用该程序；点击重新获取授权，则可重新使用；' +
+                          '若点击不授权，将无法使用便捷服务。',
+                          success: function (res) {
+                              if (res.confirm) {
+                                  console.log('用户点击确定')
+                                  wx.openSetting({
+                                      success: (res) => {
+                                          if (res.authSetting['scope.userInfo']) {
+                                              wx.login({
+                                                  success:function(resLogin){
+                                                      var code = resLogin.code;
+                                                      that.getLogin({method:'POST',query:{code:code}});
+                                                  }
+                                              });
+                                          } else {
+                                              console.info("再次不允许");
+                                              wx.redirectTo({
+                                                  url: 'home',
+                                              })
+                                          }
+                                      }
+                                  });
+                              } else if (res.cancel) {
+                                  console.log('弹出框用户点击取消')
+                                  wx.redirectTo({
+                                      url: 'home',
+                                  })
+
+                              }
+                          }
+                      })
+                  }
+              })
           }else{
               tip.error(res.data.msg);
-              wx.switchTab({
-                  url: '/pages/index/index'
-              });
+              // wx.switchTab({
+              //     url: '/pages/index/index'
+              // });
           }
           }
       async getSess(sess_key,encryptedData,iv){
